@@ -1,3 +1,9 @@
+ input::-webkit-input-placeholder {       
+    color: #aab2bd;        
+    font-size: 12px;       
+    text-align: center;
+}
+
 .page{
     width:100%;
     height:100vh;
@@ -22,13 +28,36 @@
         flex:1
     }
     .titleBar_middle{
-        flex:2
+        flex:2;
+        display: flex;
+        justify-content: flex-start;
+        // text-align: left;s
+        .titleBar_input{
+            height:30px;
+            width:40%;
+            border-radius:20px 0 0 20px;
+            border:none;
+            padding:0 20px
+        }
+        .titleBar_search{
+            height:30px;
+            width:60px;
+            border-radius:0 20px 20px 0;
+            background-color: #fff;
+            line-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
     }
     .titleBar_right{
-        flex:1
+        flex:1;
+        display:flex;
+        justify-content:flex-end;
+        text-align: right
     }
     .titleBar_left, .titleBar_middle, .titleBar_right{
-        border:solid red 1px;
+        // border:solid red 1px;
         height:100%;
         display:flex;
         align-items:center;
