@@ -13,7 +13,7 @@
 .container{
     width:70%;
     height:1000px;
-    background-color: #fff;
+    background-color: #f2f2f2;
     margin:0 auto;
     box-shadow: 0 0 50px 1px #999999
 }
@@ -79,4 +79,31 @@
         justify-content: center
     }
 
+}
+.signature{
+    display: flex;
+    flex-direction: column;
+    height:100px;
+    background-color: #fff;
+    padding:0 10px;
+    justify-content: center;
+    .signText{
+        font-size: 14px;
+        color:#AAAAAA
+    }
+
+}
+.articalList{
+    padding:20px;
+    .artical{
+        height:150px;
+        background-color: #fff;
+        margin-bottom: 20px;
+    }
+    .artical_image{
+        height:150px;
+        width:100%;
+        background-image: url(http://www.sunxiaoning.com/usr/themes/handsome/usr/img/sj/7.jpg)
+        
+    }
 }

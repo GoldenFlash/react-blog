@@ -46,8 +46,18 @@ export default class Index extends Component{
                             </div>
                         </div>
                     </nav>
+                    <section>
+                        <div className="signature" >
+                            <div><span>标题</span></div>
+                            <div className="signText"><span>若多年后无所作为，韶华青春何止辜负丶</span></div>
+                        </div>
+                    </section>
                     <artical>
-                        <div>文章</div>
+                        <div className="articalList">
+                            <div className="artical">
+                                <div className="artical_image"></div>
+                            </div>
+                        </div>
                     </artical>
                 </div>
             </div> 
