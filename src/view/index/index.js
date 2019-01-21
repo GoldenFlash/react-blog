@@ -1,6 +1,6 @@
 import React, { Component} from "react"
-
-import {Button} from 'antd';
+import { Link} from "react-router-dom";
+// import {Button} from 'antd';
 
 
 import './index.scss'
@@ -17,6 +17,11 @@ export default class Index extends Component{
     }
     navigate=(value)=>{
         console.log("navigate",value)
+        
+    }
+    toArticle=()=>{
+        console.log(this.props)
+        this.props.history.push("/article")
     }
     render(){
         return(
@@ -46,9 +51,11 @@ export default class Index extends Component{
                                     </div>
                                 </Dropdown_menu>
                             </div>
-                            <div className="editeArtical">
+                            <div className="editeArtical" onClick={this.toArticle}>
                                 <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
-                                <span> 写文章</span>
+                                    {/* <Link to="article"> */}
+                                        <span> 写文章</span>
+                                    {/* </Link>     */}
                             </div>
                         </div>
                     </header>
