@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
+import 'antd/dist/antd.css';
 import Index from './view/index/index.js'
 class App extends Component {
   render() {

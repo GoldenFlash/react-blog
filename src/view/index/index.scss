@@ -10,6 +10,9 @@
     background-color: #72a3c0;
     overflow:scroll
 }
+.menu_hover:hover{
+    background-color:rgba(0,0,0,0.3);
+}
 .container{
     width:70%;
     height:1000px;
@@ -24,6 +27,13 @@
     display: flex;
     align-items: center;
     color:#FFF;
+    .titleBar_left, .titleBar_middle, .titleBar_login, .editeArtical{
+        // border:solid red 1px;
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content: center
+    }
     .titleBar_left{
         flex:1
     }
@@ -50,19 +60,27 @@
             justify-content: center
         }
     }
-    .titleBar_right{
+    .titleBar_login{
         flex:1;
         display:flex;
         justify-content:flex-end;
-        text-align: right
+        text-align: right;
+        .menu_container{
+            height:100%;
+            width:80px;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
-    .titleBar_left, .titleBar_middle, .titleBar_right{
-        // border:solid red 1px;
-        height:100%;
+    .editeArtical{
+        flex:1;
         display:flex;
-        align-items:center;
-        justify-content: center
+        cursor:pointer
+        // justify-content:flex-end;
+        // text-align: right
     }
+   
 }
 .navBar{
     height:50px;

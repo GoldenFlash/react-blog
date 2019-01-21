@@ -1,14 +1,22 @@
 import React, { Component} from "react"
+
+import {Button} from 'antd';
+
+
 import './index.scss'
 import home_img from '../../assets/home.svg'
 import lingdang_img from '../../assets/lingdang.svg'
 import search_img from '../../assets/search.svg'
+import Dropdown_menu from '../../components/Dropdown_menu'
 export default class Index extends Component{
     constructor(props){
         super(props)
     }
     componentDidMount(){
         console.log("componentDidMount")
+    }
+    navigate=(value)=>{
+        console.log("navigate",value)
     }
     render(){
         return(
@@ -27,9 +35,20 @@ export default class Index extends Component{
                                     <img src={search_img} style={{ width: "20px", height: "20px"}}/>
                                 </div>
                             </div>
-                            <div className="titleBar_right">
+                            {/* <div className="titleBar_login">
                                 <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
                                 <spam> 登录</spam>
+                            </div> */}
+                            <div className="titleBar_login">
+                                <Dropdown_menu style={{height:"100%"}} onClick={this.navigate} menu={["我的主页","设置","退出"]} placement="bottomLeft">
+                                    <div className="menu_container menu_hover">
+                                        <span>菜单</span>
+                                    </div>
+                                </Dropdown_menu>
+                            </div>
+                            <div className="editeArtical">
+                                <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
+                                <span> 写文章</span>
                             </div>
                         </div>
                     </header>
@@ -52,13 +71,13 @@ export default class Index extends Component{
                             <div className="signText"><span>若多年后无所作为，韶华青春何止辜负丶</span></div>
                         </div>
                     </section>
-                    <artical>
+                    <article>
                         <div className="articalList">
                             <div className="artical">
                                 <div className="artical_image"></div>
                             </div>
                         </div>
-                    </artical>
+                    </article>
                 </div>
             </div> 
         )
