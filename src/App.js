@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 
 import Index from './view/index/index.js'
 import Article from './view/article/article'
-
+import Register from './view/register/register'
 class App extends Component {
   render() {
     return (
@@ -15,6 +15,7 @@ class App extends Component {
           <Switch>
               <Route exact  path="/" component={Index}></Route>
               <Route path="/article" component={Article}/>
+              <Route path="/register" component={Register}/>
           </Switch> 
         </Router> 
       </div>

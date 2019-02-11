@@ -23,6 +23,9 @@ export default class Index extends Component{
         console.log(this.props)
         this.props.history.push("/article")
     }
+    toRegister=()=>{
+        this.props.history.push("/register")
+    }
     render(){
         return(
             <div className="page">
@@ -40,17 +43,19 @@ export default class Index extends Component{
                                     <img src={search_img} style={{ width: "20px", height: "20px"}}/>
                                 </div>
                             </div>
-                            {/* <div className="titleBar_login">
-                                <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
-                                <spam> 登录</spam>
-                            </div> */}
                             <div className="titleBar_login">
+                                <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
+                                <span style={{cursor:"pointer"}}> 登录</span>
+                                <span onClick={this.toRegister} style={{marginLeft:"10px",cursor:"pointer"}}> 注册</span>
+                            </div>
+                           
+                            {/* <div className="titleBar_login">
                                 <Dropdown_menu style={{height:"100%"}} onClick={this.navigate} menu={["我的主页","设置","退出"]} placement="bottomLeft">
                                     <div className="menu_container menu_hover">
                                         <span>菜单</span>
                                     </div>
                                 </Dropdown_menu>
-                            </div>
+                            </div> */}
                             <div className="editeArtical" onClick={this.toArticle}>
                                 <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
                                     {/* <Link to="article"> */}
