@@ -12,10 +12,10 @@ function faceBook(){
     return request("https://facebook.github.io/react-native/movies.json",data,"GET",key,time)
 }
 function post(url, data, key, time) {
-    return request(`${config.host}${url}`, data, "POST", key ? key : "", time ? time : "")
+    return request(`${url}`, data, "POST", key ? key : "", time ? time : "")
 }
 function get(url, data, key, time) {
-    return request(`${config.host}${url}`, data, "GET", key ? key : "", time ? time : "")
+    return request(`${url}`, data, "GET", key ? key : "", time ? time : "")
 }
 export default{
     faceBook,

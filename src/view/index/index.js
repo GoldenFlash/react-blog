@@ -24,7 +24,14 @@ export default class Index extends Component{
         this.props.history.push("/article")
     }
     toRegister=()=>{
-        this.props.history.push("/register")
+        this.props.history.push("/register",{
+            type:"register"
+        })
+    }
+    toLogin=()=>{
+        this.props.history.push("/register",{
+            type:"login"
+        })
     }
     render(){
         return(
@@ -45,7 +52,7 @@ export default class Index extends Component{
                             </div>
                             <div className="titleBar_login">
                                 <img src={lingdang_img} style={{ width: "20px", height: "20px", marginRight: "10px" }}/>
-                                <span style={{cursor:"pointer"}}> 登录</span>
+                                <span onClick={this.toLogin} style={{cursor:"pointer"}}> 登录</span>
                                 <span onClick={this.toRegister} style={{marginLeft:"10px",cursor:"pointer"}}> 注册</span>
                             </div>
                            

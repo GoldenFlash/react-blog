@@ -64,14 +64,6 @@ export default class article extends Component {
     });
   }
   addNewCollectedWorks() {
-    //  var collectedWorks = this.state.collectedWorks
-    //  collectedWorks.push({
-    //      title:this.state.collectionTitle
-    //  })
-    //  console.log("collectedWorks",collectedWorks)
-    //  this.setState({
-    //      collectedWorks:collectedWorks
-    //  })
     this.toggleCollectedWorks();
     api
       .post("/addCollections", { id: "1", title: this.state.collectionTitle })
