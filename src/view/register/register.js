@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Popover, Button } from "antd";
+import { Popover, Button,Modal} from "antd";
+// const confirm = Modal.confirm;
 
 import "./register.scss";
 import api from "../../api/api";
@@ -29,6 +30,18 @@ export default class article extends Component {
   componentDidMount() {
    console.log( this.props.location.state.type)
   }
+  // showConfirm() {
+  //   confirm({
+  //     title: 'Do you Want to delete these items?',
+  //     content: 'Some descriptions',
+  //     onOk() {
+  //       console.log('OK');
+  //     },
+  //     onCancel() {
+  //       console.log('Cancel');
+  //     },
+  //   });
+  // }
   register = () => {
     api.post("/users/register", {
       nickName: this.state.nickName,
@@ -39,12 +52,26 @@ export default class article extends Component {
     })
   };
   login = () => {
+    var that = this
     api.post("/users/login", {
       account: this.state.account,
       passWord: this.state.passWord
     }).then(res=>{
-        console.log(res)
+        console.log(this.props)
         console.log("cookie",document.cookie)
+        if(res.data!=null){
+          Modal.confirm({
+            title: '登录成功',
+            content: '是否跳转到首页',
+            onOk() {
+              that.props.history.replace("/")
+            },
+            onCancel() {
+              console.log('Cancel');
+            },
+          });
+          
+        }
     })
   };
   textInput=(e,type)=>{

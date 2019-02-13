@@ -13,17 +13,11 @@ export default class article extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      checkedCollection:"",
       PopoverShow: true,
       addNewCollectedWorks: false,
       collectionTitle: "",
-      collectedWorks: [
-        {
-          title: "日记本"
-        },
-        {
-          title: "随笔"
-        }
-      ],
+      collectedWorks: [],
       articleList: [
         {
           title: "2019-1-28"
@@ -81,7 +75,7 @@ export default class article extends Component {
   }
   getCollectedWorks() {
     api
-      .post("/getCollections", { id: "1" })
+      .get("/getCollections")
       .then(res => {
         console.log("res", res);
         this.setState({
@@ -117,18 +111,29 @@ export default class article extends Component {
   }
   deleteCollection() {
     api
-      .post("/deleteCollections", {
-        id: "1",
-        title: this.state.editeCollection.title
+      .post("/deleteCollection", {
+        id:this.state.editeCollection._id
       })
       .then(res => {
-        console.log(res);
-        var index = this.state.editeCollection_index;
-        this.setState({
-          collectedWorks: res.data,
-          ["showEditeMenu" + index]: false
-        });
+        if(res.err=="offLine"){
+          this.props.history.push("/register",{type:"login"})
+        }else if(res.data){
+          console.log(res);
+          var index = this.state.editeCollection_index;
+          this.setState({
+            collectedWorks: res.data,
+            ["showEditeMenu" + index]: false
+          });
+        }
       });
+  }
+  checkeCollection(collection){
+    this.setState({
+      checkedCollection:collection
+    })
+    api.post("/getArticleList",{id:collection._id}).then(res=>{
+      console.log(res)
+    })
   }
   renderPopoverContent() {
     return (
@@ -224,7 +229,7 @@ export default class article extends Component {
             <div className="item_c">
               {this.state.collectedWorks.map((item, index) => {
                 return (
-                  <div key={index} className="item">
+                  <div onClick={this.checkeCollection.bind(this,item)} key={index} className="item" style={this.state.checkedCollection._id===item._id?{backgroundColor:"rgba(255,255,255,0.5)"}:null}>
                     <span>{item.title}</span>
                     <div
                       style={{

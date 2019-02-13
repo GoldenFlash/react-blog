@@ -59,9 +59,15 @@
         }
         .item_c{
             .item{
-                margin:20px 10%;
+                margin-top: 10px;
+                padding:10px 10%;
                 display:flex;
-                
+                flex:1;
+                overflow: hidden;
+                cursor: pointer;
+                &:hover{
+                    background-color:rgba($color: #FFFFFF, $alpha: 0.5);
+                }
                 
             }
         }
