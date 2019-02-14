@@ -9,6 +9,9 @@ import page_img from "../../assets/page.svg";
 import set_img from "../../assets/set.svg";
 import edite_img from "../../assets/edite.svg";
 import delete_img from "../../assets/delete.svg";
+
+
+
 export default class article extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +29,18 @@ export default class article extends Component {
     };
   }
   componentDidMount() {
-    window.$("#summernote").summernote();
+    console.log("231231",window.editormd)
+    // window.$("#summernote").summernote();
+    var editor = window.editormd("editormd_container", {
+        path: '../../lib/editor.md-master/lib/',
+        width   : "100%",
+        height  :"100%",
+        syncScrolling : "single",
+        saveHTMLToTextarea : true,
+        // imageUpload : true,
+        // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        // imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
+    });
     this.getCollectedWorks();
   }
   cancel() {
@@ -298,7 +312,9 @@ export default class article extends Component {
           </div>
         </div>
         <div className="summernote">
-          <div id="summernote" />
+          <div id="editormd_container">
+            <textarea style={{display:"none"}}>### Hello Editor.md !</textarea>
+          </div>
         </div>
       </div>
     );
