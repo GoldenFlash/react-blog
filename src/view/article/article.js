@@ -149,6 +149,9 @@ export default class article extends Component {
       console.log(res)
     })
   }
+  getHTML(){
+    testEditor.getHTML()
+  }
   renderPopoverContent() {
     return (
       <div>
