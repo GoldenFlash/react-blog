@@ -21,6 +21,7 @@ export default class article extends Component {
       addNewCollectedWorks: false,
       collectionTitle: "",
       collectedWorks: [],
+      checkedArticle:{},
       articleList: [
         {
           title: "2019-1-28"
@@ -41,7 +42,13 @@ export default class article extends Component {
         // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         // imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
     });
-    this.getCollectedWorks();
+    this.getCollectedWorks().then(res=>{
+        this.setState({
+          collectedWorks: res.data,
+          checkedCollection:res.data[0]
+        });
+        this.getArticleList(res.data[0]._id)
+    });
   }
   cancel() {
     var index = this.state.editeCollection_index;
@@ -63,13 +70,17 @@ export default class article extends Component {
     var date = new Date();
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
-    console.log("date", date);
-    articleList.push({
-      title: today
-    });
-    this.setState({
-      articleList: articleList
-    });
+      api.post("/addNewArticle",{
+        collectionId:this.state.checkedCollection._id,
+        title:today,
+        content:""
+      }).then(res=>{
+        console.log(res)
+        this.setState({
+          articleList: res.data,
+          checkedArticle:articleList[0]
+        });
+      })
   }
   addNewCollectedWorks() {
     this.toggleCollectedWorks();
@@ -88,13 +99,12 @@ export default class article extends Component {
       });
   }
   getCollectedWorks() {
-    api
+    return api
       .get("/getCollections")
       .then(res => {
         console.log("res", res);
-        this.setState({
-          collectedWorks: res.data
-        });
+        return res
+        
       })
       .catch(err => {
         console.log(err);
@@ -145,12 +155,19 @@ export default class article extends Component {
     this.setState({
       checkedCollection:collection
     })
-    api.post("/getArticleList",{id:collection._id}).then(res=>{
+    this.getArticleList(collection._id)
+  }
+  getArticleList(collectionId){
+    api.post("/getArticleList",{id:collectionId}).then(res=>{
       console.log(res)
+      this.setState({
+        checkedArticle:res.data[0],
+        articleList:res.data
+      })
     })
   }
   getHTML(){
-    testEditor.getHTML()
+    // testEditor.getHTML()
   }
   renderPopoverContent() {
     return (
@@ -298,7 +315,7 @@ export default class article extends Component {
             </div>
             <div className="article_list">
               {this.state.articleList.map((item, index) => (
-                <div key={index} className="article_item">
+                <div key={index} className="article_item"  style={this.state.checkedArticle._id===item._id?{backgroundColor:"rgba(0,0,0,0.1)"}:null}>
                   <img
                     style={{
                       width: "20px",
@@ -315,6 +332,10 @@ export default class article extends Component {
           </div>
         </div>
         <div className="summernote">
+          <div className="title">
+            <input className="title_input" type="text"/>
+            <div className="publish"><Button>发布文章</Button></div>
+          </div>
           <div id="editormd_container">
             <textarea style={{display:"none"}}>### Hello Editor.md !</textarea>
           </div>
