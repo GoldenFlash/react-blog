@@ -10,18 +10,16 @@ import set_img from "../../assets/set.svg";
 import edite_img from "../../assets/edite.svg";
 import delete_img from "../../assets/delete.svg";
 
-
-
 export default class article extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      checkedCollection:"",
+      checkedCollection: "",
       PopoverShow: true,
       addNewCollectedWorks: false,
       collectionTitle: "",
       collectedWorks: [],
-      checkedArticle:{},
+      checkedArticle: {},
       articleList: [
         {
           title: "2019-1-28"
@@ -30,25 +28,27 @@ export default class article extends Component {
     };
   }
   componentDidMount() {
-    console.log("231231",window.editormd)
-    // window.$("#summernote").summernote();
-    var editor = window.editormd("editormd_container", {
-        path: '../../lib/editor.md-master/lib/',
-        width   : "100%",
-        height  :"100%",
-        syncScrolling : "single",
-        saveHTMLToTextarea : true,
+    // this.initEditor()
+    console.log("231231", window.editormd);
+    this.getCollectedWorks().then(res => {
+      this.setState({
+        collectedWorks: res.data,
+        checkedCollection: res.data[0]
+      });
+      this.getArticleList(res.data[0]._id);
+    });
+  }
+  initEditor(){
+      this.testEditor = window.editormd("editormd_container", {
+        path: "../../lib/editor.md-master/lib/",
+        width: "100%",
+        height: "100%",
+        syncScrolling: "single",
+        saveHTMLToTextarea: true
         // imageUpload : true,
         // imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         // imageUploadURL : "/smart-api/upload/editormdPic/",//注意你后端的上传图片服务地址
-    });
-    this.getCollectedWorks().then(res=>{
-        this.setState({
-          collectedWorks: res.data,
-          checkedCollection:res.data[0]
-        });
-        this.getArticleList(res.data[0]._id)
-    });
+      });
   }
   cancel() {
     var index = this.state.editeCollection_index;
@@ -65,22 +65,23 @@ export default class article extends Component {
       addNewCollectedWorks: !this.state.addNewCollectedWorks
     });
   }
-  addNewArticle() {
-    var articleList = this.state.articleList;
-    var date = new Date();
-    var today = `${date.getFullYear()}-${date.getMonth() +
-      1}-${date.getDate()}`;
-      api.post("/addNewArticle",{
-        collectionId:this.state.checkedCollection._id,
-        title:today,
-        content:""
-      }).then(res=>{
-        console.log(res)
-        this.setState({
-          articleList: res.data,
-          checkedArticle:articleList[0]
-        });
-      })
+  toHome(){
+    console.log( this.props.history)
+    this.props.history.replace("/")
+  }
+  checkeCollection(collection) {
+    this.setState({
+      checkedCollection: collection
+    });
+    this.getArticleList(collection._id);
+  }
+  checkArticle(checkedArticle){
+    console.log("checkedArticle",checkedArticle)
+    this.setState({
+      checkedArticle:checkedArticle
+    },()=>{
+      this.initEditor()
+    })
   }
   addNewCollectedWorks() {
     this.toggleCollectedWorks();
@@ -103,8 +104,7 @@ export default class article extends Component {
       .get("/getCollections")
       .then(res => {
         console.log("res", res);
-        return res
-        
+        return res;
       })
       .catch(err => {
         console.log(err);
@@ -115,33 +115,29 @@ export default class article extends Component {
     console.log(index);
     var oldIndex = this.state.editeCollection_index;
     if (oldIndex !== index) {
-      this.setState(
-        {
-          ["showEditeMenu" + index]: true,
-          ["showEditeMenu" + oldIndex]: false,
-          editeCollection: item,
-          editeCollection_index: index
-        }
-      );
-    }else{
-        this.setState(
-        {
-          ["showEditeMenu" + index]: true,
-          editeCollection: item,
-          editeCollection_index: index
-        }
-      );
+      this.setState({
+        ["showEditeMenu" + index]: true,
+        ["showEditeMenu" + oldIndex]: false,
+        editeCollection: item,
+        editeCollection_index: index
+      });
+    } else {
+      this.setState({
+        ["showEditeMenu" + index]: true,
+        editeCollection: item,
+        editeCollection_index: index
+      });
     }
   }
   deleteCollection() {
     api
       .post("/deleteCollection", {
-        id:this.state.editeCollection._id
+        id: this.state.editeCollection._id
       })
       .then(res => {
-        if(res.err=="offLine"){
-          this.props.history.push("/register",{type:"login"})
-        }else if(res.data){
+        if (res.err == "offLine") {
+          this.props.history.push("/register", { type: "login" });
+        } else if (res.data) {
           console.log(res);
           var index = this.state.editeCollection_index;
           this.setState({
@@ -151,23 +147,51 @@ export default class article extends Component {
         }
       });
   }
-  checkeCollection(collection){
-    this.setState({
-      checkedCollection:collection
-    })
-    this.getArticleList(collection._id)
-  }
-  getArticleList(collectionId){
-    api.post("/getArticleList",{id:collectionId}).then(res=>{
-      console.log(res)
+ 
+  getArticleList(collectionId) {
+    api.post("/getArticleList", { collectionId: collectionId }).then(res => {
+      console.log(11111, res);
       this.setState({
-        checkedArticle:res.data[0],
-        articleList:res.data
-      })
-    })
+        checkedArticle: res.data[0],
+        articleList: res.data
+      },()=>{
+        this.initEditor()
+      });
+    });
   }
-  getHTML(){
-    // testEditor.getHTML()
+  addNewArticle() {
+    var articleList = this.state.articleList;
+    var date = new Date();
+    var today = `${date.getFullYear()}-${date.getMonth() +
+      1}-${date.getDate()}`;
+    api
+      .post("/addNewArticle", {
+        collectionId: this.state.checkedCollection._id,
+        title: today,
+        content: "",
+        isPublish:false
+      })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          articleList: res.data,
+          checkedArticle: articleList[0]
+        });
+      });
+  }
+  saveArticle(){
+    var article=this.state.checkedArticle
+    var content = this.testEditor.getMarkdown()
+    // var content = this.testEditor.getHTML()
+    // article.content=content
+    api.post("/saveArticle",{
+      id:article._id,
+      collectionId:article.collectionId,
+      title:article.title,
+      content:content
+    }).then((res)=>{
+        console.log("res",res)
+    })
   }
   renderPopoverContent() {
     return (
@@ -206,12 +230,38 @@ export default class article extends Component {
       </div>
     );
   }
+  renderEditor(){
+    return(
+       <div className="summernote">
+          <div className="title">
+            <input  onInput={e => {
+                    console.log(e.target.value);
+                    var checkedArticle = this.state.checkedArticle
+                    checkedArticle.title=e.target.value
+                    this.setState({
+                        checkedArticle:checkedArticle
+                      })
+                   
+                  }}  className="title_input" value={this.state.checkedArticle?this.state.checkedArticle.title:""} type="text" />
+            <div className="publish">
+              <Button onClick={this.saveArticle.bind(this)}>保存</Button>
+              <Button style={{marginLeft:10}}>发布</Button>
+            </div>
+          </div>
+          <div style={{flex:1}} id="editormd_container">
+            <textarea value={this.state.checkedArticle?this.state.checkedArticle.content:""}>
+              
+            </textarea>
+          </div>
+        </div>
+    )
+  }
   render() {
     return (
       <div className="container_article" onClick={this.cancel.bind(this)}>
         <div className="article">
           <div className="sideNav">
-            <div className="toHome">
+            <div className="toHome" onClick={this.toHome.bind(this)}>
               <span>回首页</span>
             </div>
             <div className="new" onClick={this.toggleCollectedWorks.bind(this)}>
@@ -263,7 +313,16 @@ export default class article extends Component {
             <div className="item_c">
               {this.state.collectedWorks.map((item, index) => {
                 return (
-                  <div onClick={this.checkeCollection.bind(this,item)} key={index} className="item" style={this.state.checkedCollection._id===item._id?{backgroundColor:"rgba(255,255,255,0.5)"}:null}>
+                  <div
+                    onClick={this.checkeCollection.bind(this, item)}
+                    key={index}
+                    className="item"
+                    style={
+                      this.state.checkedCollection&&this.state.checkedCollection._id === item._id
+                        ? { backgroundColor: "rgba(255,255,255,0.5)" }
+                        : null
+                    }
+                  >
                     <span>{item.title}</span>
                     <div
                       style={{
@@ -315,7 +374,16 @@ export default class article extends Component {
             </div>
             <div className="article_list">
               {this.state.articleList.map((item, index) => (
-                <div key={index} className="article_item"  style={this.state.checkedArticle._id===item._id?{backgroundColor:"rgba(0,0,0,0.1)"}:null}>
+                <div
+                  key={index}
+                  className="article_item"
+                  onClick={this.checkArticle.bind(this,item)}
+                  style={
+                    this.state.checkedArticle._id === item._id
+                      ? { backgroundColor: "rgba(0,0,0,0.1)" }
+                      : null
+                  }
+                >
                   <img
                     style={{
                       width: "20px",
@@ -331,14 +399,8 @@ export default class article extends Component {
             </div>
           </div>
         </div>
-        <div className="summernote">
-          <div className="title">
-            <input className="title_input" type="text"/>
-            <div className="publish"><Button>发布文章</Button></div>
-          </div>
-          <div id="editormd_container">
-            <textarea style={{display:"none"}}>### Hello Editor.md !</textarea>
-          </div>
+        <div className="editor">
+          {this.state.checkedArticle&&this.renderEditor()}
         </div>
       </div>
     );
