@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 // import {Button} from 'antd';
-
+// var marked = require('marked');
+import marked from 'marked'
 import "./index.scss";
 import home_img from "../../assets/home.svg";
 import lingdang_img from "../../assets/lingdang.svg";
@@ -11,7 +12,9 @@ import api from "../../api/api";
 export default class Index extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      articleList: []
+    };
   }
   componentDidMount() {
     if (document.cookie) {
@@ -19,26 +22,27 @@ export default class Index extends Component {
         login: true
       });
     }
+    this.getArticlesList();
     console.log("componentDidMount");
   }
   handerMenuClick = value => {
     console.log("navigate", value);
-    if(value==="退出"){
-        api.get("/users/logout").then((res)=>{
-            console.log(res)
-            this.props.history.replace("/register",{
-                type:"login"
-            })
-        })
+    if (value === "退出") {
+      api.get("/users/logout").then(res => {
+        console.log(res);
+        this.props.history.replace("/register", {
+          type: "login"
+        });
+      });
     }
   };
   toArticle = () => {
-    if(this.state.login){
-        this.props.history.push("/article");
-    }else{
-        this.props.history.push("/register",{
-            type:"login"
-        });
+    if (this.state.login) {
+      this.props.history.push("/article");
+    } else {
+      this.props.history.push("/register", {
+        type: "login"
+      });
     }
   };
   toRegister = () => {
@@ -51,6 +55,37 @@ export default class Index extends Component {
       type: "login"
     });
   };
+  getArticlesList() {
+    api.post("/index/allArticles").then(res => {
+      console.log("getArticlesList",res);
+      if(res.data){
+        this.setState({
+        articleList: res.data
+      });
+      }
+    })
+  }
+  renderArticleList() {
+    var HTMLtag = new RegExp("<.+?>","g");
+    return (
+      <div className="articalList">
+        {this.state.articleList.map(item => {
+          return (
+            <div className="artical">
+              <p style={{fontSize:"26px",fontWeight:"bold"}}>{item.title}</p>
+              <div style={{flex:1,overflow:"hidden"}}>
+                <span>{marked(item.content).replace(HTMLtag,"")}</span>
+              </div>
+              {/* <div className="artical_image" /> */}
+              {/* <div dangerouslySetInnerHTML={{__html:marked(item.content)}}>
+                
+              </div> */}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
   render() {
     return (
       <div className="page">
@@ -147,13 +182,7 @@ export default class Index extends Component {
               </div>
             </div>
           </section>
-          <article>
-            <div className="articalList">
-              <div className="artical">
-                <div className="artical_image" />
-              </div>
-            </div>
-          </article>
+          <article>{this.renderArticleList()}</article>
         </div>
       </div>
     );

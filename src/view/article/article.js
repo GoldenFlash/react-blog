@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Popover, Button } from "antd";
+import { Popover, Button,message } from "antd";
 
 import "./article.scss";
 import api from "../../api/api";
@@ -69,47 +69,6 @@ export default class article extends Component {
     console.log( this.props.history)
     this.props.history.replace("/")
   }
-  checkeCollection(collection) {
-    this.setState({
-      checkedCollection: collection
-    });
-    this.getArticleList(collection._id);
-  }
-  checkArticle(checkedArticle){
-    console.log("checkedArticle",checkedArticle)
-    this.setState({
-      checkedArticle:checkedArticle
-    },()=>{
-      this.initEditor()
-    })
-  }
-  addNewCollectedWorks() {
-    this.toggleCollectedWorks();
-    api
-      .post("/addCollections", { id: "1", title: this.state.collectionTitle })
-      .then(res => {
-        console.log(res);
-        if (!res.err) {
-          this.setState({
-            collectedWorks: res.data
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  getCollectedWorks() {
-    return api
-      .get("/getCollections")
-      .then(res => {
-        console.log("res", res);
-        return res;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
   showEditeMenu(e, item, index) {
     e.stopPropagation();
     console.log(index);
@@ -129,9 +88,51 @@ export default class article extends Component {
       });
     }
   }
+  checkeCollection(collection) {
+    this.setState({
+      checkedCollection: collection
+    });
+    this.getArticleList(collection._id);
+  }
+  checkArticle(checkedArticle){
+    console.log("checkedArticle",checkedArticle)
+    this.setState({
+      checkedArticle:checkedArticle
+    },()=>{
+      this.initEditor()
+    })
+  }
+  addNewCollectedWorks() {
+    this.toggleCollectedWorks();
+    api
+      .post("/article/addCollections", { id: "1", title: this.state.collectionTitle })
+      .then(res => {
+        console.log(res);
+        if (!res.err) {
+          this.setState({
+            collectedWorks: res.data
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  getCollectedWorks() {
+    return api
+      .get("/article/getCollections")
+      .then(res => {
+        console.log("res", res);
+        return res;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   deleteCollection() {
     api
-      .post("/deleteCollection", {
+      .post("/article/deleteCollection", {
         id: this.state.editeCollection._id
       })
       .then(res => {
@@ -149,7 +150,7 @@ export default class article extends Component {
   }
  
   getArticleList(collectionId) {
-    api.post("/getArticleList", { collectionId: collectionId }).then(res => {
+    api.post("/article/getArticleList", { collectionId: collectionId }).then(res => {
       console.log(11111, res);
       this.setState({
         checkedArticle: res.data[0],
@@ -165,7 +166,7 @@ export default class article extends Component {
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
     api
-      .post("/addNewArticle", {
+      .post("/article/addNewArticle", {
         collectionId: this.state.checkedCollection._id,
         title: today,
         content: "",
@@ -191,6 +192,27 @@ export default class article extends Component {
       content:content
     }).then((res)=>{
         console.log("res",res)
+        if(res.err){
+          message.error('保存失败');
+        }else{
+          message.success('保存成功');
+        }
+    })
+  }
+  publishArticle(){
+    var article=this.state.checkedArticle
+    var content = this.testEditor.getMarkdown()
+    api.post("/publishArticle",{
+      id:article._id,
+      collectionId:article.collectionId,
+      title:article.title,
+      content:content
+    }).then((res)=>{
+        if(res.err){
+          message.error('发布失败');
+        }else{
+          message.success('发布成功');
+        }
     })
   }
   renderPopoverContent() {
@@ -245,7 +267,7 @@ export default class article extends Component {
                   }}  className="title_input" value={this.state.checkedArticle?this.state.checkedArticle.title:""} type="text" />
             <div className="publish">
               <Button onClick={this.saveArticle.bind(this)}>保存</Button>
-              <Button style={{marginLeft:10}}>发布</Button>
+              <Button onClick={this.publishArticle.bind(this)} style={{marginLeft:10}}>发布</Button>
             </div>
           </div>
           <div style={{flex:1}} id="editormd_container">
