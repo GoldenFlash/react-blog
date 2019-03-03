@@ -43,7 +43,7 @@ export default class article extends Component {
   //   });
   // }
   register = () => {
-    api.post("/users/register", {
+    api.post("/blog/users/register", {
       nickName: this.state.nickName,
       account: this.state.account,
       passWord: this.state.passWord
@@ -53,7 +53,7 @@ export default class article extends Component {
   };
   login = () => {
     var that = this
-    api.post("/users/login", {
+    api.post("/blog/users/login", {
       account: this.state.account,
       passWord: this.state.passWord
     }).then(res=>{

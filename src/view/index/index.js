@@ -56,7 +56,7 @@ export default class Index extends Component {
     });
   };
   getArticlesList() {
-    api.post("/index/allArticles").then(res => {
+    api.post("/blog/article/allArticles").then(res => {
       console.log("getArticlesList",res);
       if(res.data){
         this.setState({

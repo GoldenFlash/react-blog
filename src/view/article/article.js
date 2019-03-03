@@ -105,7 +105,7 @@ export default class article extends Component {
   addNewCollectedWorks() {
     this.toggleCollectedWorks();
     api
-      .post("/article/addCollections", { id: "1", title: this.state.collectionTitle })
+      .post("/blog/article/addCollections", { id: "1", title: this.state.collectionTitle })
       .then(res => {
         console.log(res);
         if (!res.err) {
@@ -120,7 +120,7 @@ export default class article extends Component {
   }
   getCollectedWorks() {
     return api
-      .get("/article/getCollections")
+      .post("/blog/article/getCollections")
       .then(res => {
         console.log("res", res);
         return res;
@@ -132,7 +132,7 @@ export default class article extends Component {
 
   deleteCollection() {
     api
-      .post("/article/deleteCollection", {
+      .post("/blog/article/deleteCollection", {
         id: this.state.editeCollection._id
       })
       .then(res => {
@@ -150,7 +150,7 @@ export default class article extends Component {
   }
  
   getArticleList(collectionId) {
-    api.post("/article/getArticleList", { collectionId: collectionId }).then(res => {
+    api.post("/blog/article/getArticleList", { collectionId: collectionId }).then(res => {
       console.log(11111, res);
       this.setState({
         checkedArticle: res.data[0],
@@ -166,7 +166,7 @@ export default class article extends Component {
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
     api
-      .post("/article/addNewArticle", {
+      .post("/blog/article/addNewArticle", {
         collectionId: this.state.checkedCollection._id,
         title: today,
         content: "",
@@ -185,7 +185,7 @@ export default class article extends Component {
     var content = this.testEditor.getMarkdown()
     // var content = this.testEditor.getHTML()
     // article.content=content
-    api.post("/saveArticle",{
+    api.post("/blog/article/saveArticle",{
       id:article._id,
       collectionId:article.collectionId,
       title:article.title,
@@ -202,7 +202,7 @@ export default class article extends Component {
   publishArticle(){
     var article=this.state.checkedArticle
     var content = this.testEditor.getMarkdown()
-    api.post("/publishArticle",{
+    api.post("/blog/article/publishArticle",{
       id:article._id,
       collectionId:article.collectionId,
       title:article.title,
