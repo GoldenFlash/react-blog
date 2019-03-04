@@ -28,7 +28,7 @@ export default class Index extends Component {
   handerMenuClick = value => {
     console.log("navigate", value);
     if (value === "退出") {
-      api.get("/users/logout").then(res => {
+      api.post("/blog/users/logout").then(res => {
         console.log(res);
         this.props.history.replace("/register", {
           type: "login"
