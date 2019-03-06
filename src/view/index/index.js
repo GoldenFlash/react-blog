@@ -72,14 +72,20 @@ export default class Index extends Component {
         {this.state.articleList.map(item => {
           return (
             <div className="artical">
-              <p style={{fontSize:"26px",fontWeight:"bold"}}>{item.title}</p>
-              <div style={{flex:1,overflow:"hidden"}}>
-                <span>{marked(item.content).replace(HTMLtag,"")}</span>
+              <div>
+                <div><span style={{fontSize:"26px",fontWeight:"bold"}}>{item.title}</span></div>
+                <div className="content_wrapper">
+                  {marked(item.content).replace(HTMLtag,"")}
+                </div>
+                {/* <div className="line"></div> */}
+                {/* <div className="artical_image" /> */}
+                {/* <div dangerouslySetInnerHTML={{__html:marked(item.content)}}>
+                  
+                </div> */}
               </div>
-              {/* <div className="artical_image" /> */}
-              {/* <div dangerouslySetInnerHTML={{__html:marked(item.content)}}>
-                
-              </div> */}
+              <div>
+
+              </div>
             </div>
           );
         })}

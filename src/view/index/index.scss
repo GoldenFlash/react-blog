@@ -114,11 +114,34 @@
 .articalList{
     padding:20px;
     .artical{
-        height:150px;
+        // height:150px;
         background-color: #fff;
         margin-bottom: 20px;
-        display: flex;
-        flex-direction: column
+        // display: flex;
+        // flex-direction: column;
+        border-radius:6px;
+        padding: 10px;
+        .content_wrapper{
+            margin-top:10px;
+            height:90px;
+            line-height: 30px;
+            // overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            
+        }
+        .articleContent{
+            
+            
+        }
+
+        .line{
+            flex:1;
+            border:solid #EEEEEE 1px;
+            margin-top: 20px
+        }
     }
     .artical_image{
         height:150px;
