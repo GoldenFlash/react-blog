@@ -59,7 +59,7 @@ export default class Index extends Component {
     });
   };
   getArticlesList() {
-    api.post("/blog/article/allArticles").then(res => {
+    api.post("/blog/article/getHotArticle").then(res => {
       console.log("getArticlesList", res);
       if (res.data) {
         this.setState({
@@ -114,7 +114,7 @@ export default class Index extends Component {
                       style={{ width: 20, height: 20, marginRight: 10 }}
                       src={time_img}
                     />
-                    <span>{item.time.slice(0, 10)}</span>
+                    <span>{item.updateTime.slice(0, 10)}</span>
                   </div>
                   <div className="item">
                     <img

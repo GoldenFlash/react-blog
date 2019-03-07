@@ -16,9 +16,9 @@ export default class article extends Component {
     this.state = {
       checkedCollection: "",
       PopoverShow: true,
-      addNewCollectedWorks: false,
+      addNewCollections: false,
       collectionTitle: "",
-      collectedWorks: [],
+      collections: [],
       checkedArticle: {},
       articleList: [
         {
@@ -30,9 +30,9 @@ export default class article extends Component {
   componentDidMount() {
     // this.initEditor()
     console.log("231231", window.editormd);
-    this.getCollectedWorks().then(res => {
+    this.getCollections().then(res => {
       this.setState({
-        collectedWorks: res.data,
+        collections: res.data,
         checkedCollection: res.data[0]
       });
       this.getArticleList(res.data[0]._id);
@@ -59,10 +59,10 @@ export default class article extends Component {
       });
     }
   }
-  toggleCollectedWorks() {
+  toggleCollections() {
     // var collectedWorks = this.state.collectedWorks
     this.setState({
-      addNewCollectedWorks: !this.state.addNewCollectedWorks
+      addNewCollections: !this.state.addNewCollections
     });
   }
   toHome(){
@@ -102,15 +102,16 @@ export default class article extends Component {
       this.initEditor()
     })
   }
-  addNewCollectedWorks() {
-    this.toggleCollectedWorks();
+  addNewCollections() {
+    this.toggleCollections();
     api
-      .post("/blog/article/addCollections", { id: "1", title: this.state.collectionTitle })
+      .post("/blog/article/addCollections", {title: this.state.collectionTitle })
       .then(res => {
         console.log(res);
         if (!res.err) {
+          var collections =this.state.collections.push(res.data)
           this.setState({
-            collectedWorks: res.data
+            collections: collections
           });
         }
       })
@@ -118,7 +119,7 @@ export default class article extends Component {
         console.log(err);
       });
   }
-  getCollectedWorks() {
+  getCollections() {
     return api
       .post("/blog/article/getCollections")
       .then(res => {
@@ -141,8 +142,9 @@ export default class article extends Component {
         } else if (res.data) {
           console.log(res);
           var index = this.state.editeCollection_index;
+          var collections = this.state.collections.splice(index,1)
           this.setState({
-            collectedWorks: res.data,
+            collections: collections,
             ["showEditeMenu" + index]: false
           });
         }
@@ -286,10 +288,10 @@ export default class article extends Component {
             <div className="toHome" onClick={this.toHome.bind(this)}>
               <span>回首页</span>
             </div>
-            <div className="new" onClick={this.toggleCollectedWorks.bind(this)}>
+            <div className="new" onClick={this.toggleCollections.bind(this)}>
               <span>+新建文集</span>
             </div>
-            {this.state.addNewCollectedWorks && (
+            {this.state.addNewCollections && (
               <div className="editeCollection">
                 <input
                   onInput={e => {
@@ -318,13 +320,13 @@ export default class article extends Component {
                 >
                   <div
                     className="submit"
-                    onClick={this.addNewCollectedWorks.bind(this)}
+                    onClick={this.addNewCollections.bind(this)}
                   >
                     提交
                   </div>
                   <div
                     className="cancel"
-                    onClick={this.toggleCollectedWorks.bind(this)}
+                    onClick={this.toggleCollections.bind(this)}
                   >
                     取消
                   </div>
@@ -333,7 +335,7 @@ export default class article extends Component {
             )}
 
             <div className="item_c">
-              {this.state.collectedWorks.map((item, index) => {
+              {this.state.collections.map((item, index) => {
                 return (
                   <div
                     onClick={this.checkeCollection.bind(this, item)}
