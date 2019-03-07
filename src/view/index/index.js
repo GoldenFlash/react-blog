@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 // import {Button} from 'antd';
 // var marked = require('marked');
-import marked from 'marked'
+import marked from "marked";
 import "./index.scss";
 import home_img from "../../assets/home.svg";
 import lingdang_img from "../../assets/lingdang.svg";
 import search_img from "../../assets/search.svg";
+import author_img from "../../assets/author.svg";
+import time_img from "../../assets/time.svg";
+import comment_img from "../../assets/comment.svg";
 import Dropdown_menu from "../../components/Dropdown_menu";
 import api from "../../api/api";
 export default class Index extends Component {
@@ -57,35 +60,77 @@ export default class Index extends Component {
   };
   getArticlesList() {
     api.post("/blog/article/allArticles").then(res => {
-      console.log("getArticlesList",res);
-      if(res.data){
+      console.log("getArticlesList", res);
+      if (res.data) {
         this.setState({
-        articleList: res.data
-      });
+          articleList: res.data
+        });
       }
-    })
+    });
+  }
+  renderLeftNav(){
+    return(
+      <div>
+          <div ></div>
+      </div>
+    )
+  }
+  renderRightNav(){
+    return(
+      <div>
+
+      </div> 
+    )
   }
   renderArticleList() {
-    var HTMLtag = new RegExp("<.+?>","g");
+    var HTMLtag = new RegExp("<.+?>", "g");
     return (
       <div className="articalList">
         {this.state.articleList.map(item => {
           return (
             <div className="artical">
-              <div>
-                <div><span style={{fontSize:"26px",fontWeight:"bold"}}>{item.title}</span></div>
+              <div style={{ flex: 1 }}>
+                <div>
+                  <span style={{ fontSize: "26px", fontWeight: "bold" }}>
+                    {item.title}
+                  </span>
+                </div>
                 <div className="content_wrapper">
-                  {marked(item.content).replace(HTMLtag,"")}
+                  {marked(item.content).replace(HTMLtag, "")}
+                </div>
+                <div
+                  style={{ borderBottom: "solid #EEEEEE 1px", margin: 10 }}
+                />
+                <div className="articleInfo">
+                  <div className="item">
+                    <img
+                      style={{ width: 20, height: 20, marginRight: 10 }}
+                      src={author_img}
+                    />
+                    <span>{item.author}</span>
+                  </div>
+                  <div className="item">
+                    <img
+                      style={{ width: 20, height: 20, marginRight: 10 }}
+                      src={time_img}
+                    />
+                    <span>{item.time.slice(0, 10)}</span>
+                  </div>
+                  <div className="item">
+                    <img
+                      style={{ width: 20, height: 20, marginRight: 10 }}
+                      src={comment_img}
+                    />
+                    <span>暂无评论</span>
+                  </div>
                 </div>
                 {/* <div className="line"></div> */}
                 {/* <div className="artical_image" /> */}
                 {/* <div dangerouslySetInnerHTML={{__html:marked(item.content)}}>
-                  
-                </div> */}
+                    
+                  </div> */}
               </div>
-              <div>
-
-              </div>
+              <div className="image" />
             </div>
           );
         })}
@@ -165,30 +210,45 @@ export default class Index extends Component {
               </div>
             </div>
           </header>
-          <nav>
-            <div className="navBar">
-              <div className="navBar_home">
-                <span>首页</span>
-              </div>
-              <div className="navBar_classcify">
-                <span>分类</span>
-              </div>
-              <div className="navBar_pages">
-                <span>页面</span>
-              </div>
+          <div style={{flex:1,display:"flex"}}>
+            <div className="leftNav" >
+              {this.renderLeftNav()}
             </div>
-          </nav>
-          <section>
-            <div className="signature">
-              <div>
-                <span>标题</span>
+            <article style={{flex:1, height: "100%"}}>
+              <div style={{ height: "100%", overflowY: "scroll" }}>
+                {this.renderArticleList()}
               </div>
-              <div className="signText">
-                <span>若多年后无所作为，韶华青春何止辜负丶</span>
-              </div>
+            </article>
+            <div className="rightNav" >
+                {this.renderRightNav()}
             </div>
-          </section>
-          <article>{this.renderArticleList()}</article>
+          </div>
+          {/* <div style={{ height: "100%" }}>
+            <nav>
+              <div className="navBar">
+                <div className="navBar_home">
+                  <span>首页</span>
+                </div>
+                <div className="navBar_classcify">
+                  <span>分类</span>
+                </div>
+                <div className="navBar_pages">
+                  <span>页面</span>
+                </div>
+              </div>
+            </nav>
+            <section>
+              <div className="signature">
+                <div>
+                  <span>标题</span>
+                </div>
+                <div className="signText">
+                  <span>若多年后无所作为，韶华青春何止辜负丶</span>
+                </div>
+              </div>
+            </section>
+          </div> */}
+          
         </div>
       </div>
     );
