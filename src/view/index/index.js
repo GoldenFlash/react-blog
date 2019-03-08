@@ -21,9 +21,18 @@ export default class Index extends Component {
   }
   componentDidMount() {
     if (document.cookie) {
+      var userInfo = {}
+      var cookies = document.cookie.split(";")
+      cookies.forEach((item)=>{
+        var arr = item.split("=")
+        userInfo[arr[0].trim() ] = arr[1]
+      })
+      console.log("document.cookie",document.cookie)
+      console.log("userInfo",userInfo)
       this.setState({
-        login: true
-      });
+        userInfo:userInfo,
+         login: true
+      })
     }
     this.getArticlesList();
     console.log("componentDidMount");
@@ -71,7 +80,24 @@ export default class Index extends Component {
   renderLeftNav(){
     return(
       <div>
-          <div ></div>
+          <div style={{display:"flex",justifyContent:"center",marginTop:20}}>
+            <img style={{width:150,height:150,borderRadius:"50%"}} src="https://avatars0.githubusercontent.com/u/26805558?s=460&v=4" alt=""/>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+            <p style={{fontSize:30,fontWeight:"700"}}>{this.state.userInfo&&this.state.userInfo.nickName}</p>
+            <p>前端打杂人员，略微代码洁癖</p>
+          </div>
+          <div>
+            <div style={{fontSize:20,marginLeft:10}}>最近文章</div>
+            <div className="wrapper" style={{color:"#8590a6",marginTop:10,marginLeft:10}}>
+              <p className="latestArticle">koa2-基础知识</p>
+              <p> canvas</p>
+              <p>flex 布局</p>
+              <p>[转] JavaScript深入之继承的多种方式和优缺点</p>
+              <p>[转] JavaScript深入之创建对象的多种方式以及优缺点</p>
+             
+            </div>
+          </div>
       </div>
     )
   }

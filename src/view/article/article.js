@@ -109,7 +109,9 @@ export default class article extends Component {
       .then(res => {
         console.log(res);
         if (!res.err) {
-          var collections =this.state.collections.push(res.data)
+          var collections =this.state.collections?this.state.collections:[]
+          collections.push(res.data)
+          console.log("collections",collections)
           this.setState({
             collections: collections
           });
@@ -132,8 +134,7 @@ export default class article extends Component {
   }
 
   deleteCollection() {
-    api
-      .post("/blog/article/deleteCollection", {
+    api.post("/blog/article/deleteCollection", {
         id: this.state.editeCollection._id
       })
       .then(res => {
@@ -142,7 +143,8 @@ export default class article extends Component {
         } else if (res.data) {
           console.log(res);
           var index = this.state.editeCollection_index;
-          var collections = this.state.collections.splice(index,1)
+          var collections = this.state.collections
+          collections.splice(index,1)
           this.setState({
             collections: collections,
             ["showEditeMenu" + index]: false
@@ -163,7 +165,7 @@ export default class article extends Component {
     });
   }
   addNewArticle() {
-    var articleList = this.state.articleList;
+    var articleList = this.state.articleList?this.state.articleList:[];
     var date = new Date();
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
@@ -176,10 +178,14 @@ export default class article extends Component {
       })
       .then(res => {
         console.log(res);
-        this.setState({
-          articleList: res.data,
-          checkedArticle: articleList[0]
-        });
+        if(res.data){
+           articleList.push(res.data)
+          this.setState({
+            articleList: articleList,
+            checkedArticle: articleList[0]
+          });
+        }
+       
       });
   }
   saveArticle(){
@@ -397,7 +403,7 @@ export default class article extends Component {
               <span>新建文章</span>
             </div>
             <div className="article_list">
-              {this.state.articleList.map((item, index) => (
+              {this.state.articleList&&this.state.articleList.map((item, index) => (
                 <div
                   key={index}
                   className="article_item"

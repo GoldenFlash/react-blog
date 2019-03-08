@@ -170,9 +170,16 @@
     }
 }
 .leftNav{
-    width:300px;
+    width:250px;
     height:100%;
-    background-color:#FFF
+    background-color:#DDE6E9;
+    .wrapper{
+        padding: 10;
+        .latestArticle{
+            
+        }
+    }
+    
 }
 .rightNav{
     width:200px;
