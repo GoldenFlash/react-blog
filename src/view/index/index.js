@@ -23,15 +23,15 @@ export default class Index extends Component {
     if (document.cookie) {
       var userInfo = {}
       var cookies = document.cookie.split(";")
-      cookies.forEach((item)=>{
+      cookies.forEach((item) => {
         var arr = item.split("=")
-        userInfo[arr[0].trim() ] = arr[1]
+        userInfo[arr[0].trim()] = arr[1]
       })
-      console.log("document.cookie",document.cookie)
-      console.log("userInfo",userInfo)
+      console.log("document.cookie", document.cookie)
+      console.log("userInfo", userInfo)
       this.setState({
-        userInfo:userInfo,
-         login: true
+        userInfo: userInfo,
+        login: true
       })
     }
     this.getArticlesList();
@@ -77,35 +77,108 @@ export default class Index extends Component {
       }
     });
   }
-  renderLeftNav(){
-    return(
-      <div>
-          <div style={{display:"flex",justifyContent:"center",marginTop:20}}>
-            <img style={{width:150,height:150,borderRadius:"50%"}} src="https://avatars0.githubusercontent.com/u/26805558?s=460&v=4" alt=""/>
+  renderHeader() {
+    return (
+      <header>
+        <div className="titleBar">
+          <div className="titleBar_left">
+            <img
+              style={{ width: "25px", height: "25px", marginRight: "10px" }}
+              src={home_img}
+            />
+            <span style={{ fontSize: "20px" }}>博客</span>
           </div>
-          <div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
-            <p style={{fontSize:30,fontWeight:"700"}}>{this.state.userInfo&&this.state.userInfo.nickName}</p>
-            <p>前端打杂人员，略微代码洁癖</p>
-          </div>
-          <div>
-            <div style={{fontSize:20,marginLeft:10}}>最近文章</div>
-            <div className="wrapper" style={{color:"#8590a6",marginTop:10,marginLeft:10}}>
-              <p className="latestArticle">koa2-基础知识</p>
-              <p> canvas</p>
-              <p>flex 布局</p>
-              <p>[转] JavaScript深入之继承的多种方式和优缺点</p>
-              <p>[转] JavaScript深入之创建对象的多种方式以及优缺点</p>
-             
+          <div className="titleBar_middle">
+            {/* <span>搜索</span> */}
+            <input
+              className="titleBar_input"
+              type="text"
+              placeholder="输入关键词搜索..."
+            />
+            <div className="titleBar_search">
+              <img
+                src={search_img}
+                style={{ width: "20px", height: "20px" }}
+              />
             </div>
           </div>
+          {this.state.login ? (
+            <div className="titleBar_login">
+              <Dropdown_menu
+                style={{ height: "100%" }}
+                onClick={this.handerMenuClick}
+                menu={["我的主页", "设置", "退出"]}
+                placement="bottomLeft"
+              >
+                <div className="menu_container menu_hover">
+                  <span>菜单</span>
+                </div>
+              </Dropdown_menu>
+            </div>
+          ) : (
+              <div className="titleBar_login">
+                <img
+                  src={lingdang_img}
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    marginRight: "10px"
+                  }}
+                />
+                <span onClick={this.toLogin} style={{ cursor: "pointer" }}>
+                  登录
+          </span>
+                <span
+                  onClick={this.toRegister}
+                  style={{ marginLeft: "10px", cursor: "pointer" }}
+                >
+                  注册
+          </span>
+              </div>
+            )}
+
+          <div className="editeArtical" onClick={this.toArticle}>
+            <img
+              src={lingdang_img}
+              style={{ width: "20px", height: "20px", marginRight: "10px" }}
+            />
+            {/* <Link to="article"> */}
+            <span> 写文章</span>
+            {/* </Link>     */}
+          </div>
+        </div>
+      </header>
+    )
+  }
+  renderLeftNav() {
+    return (
+      <div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+          <img style={{ width: 130, height: 130, borderRadius: "50%" }} src="https://avatars0.githubusercontent.com/u/26805558?s=460&v=4" alt="" />
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ fontSize: 26, fontWeight: "600" }}>{this.state.userInfo && this.state.userInfo.nickName}</div>
+          <div style={{ fontSize: 12,color:"#8590a6",marginTop:10}}>前端打杂人员，略微代码洁癖</div>
+        </div>
+        <div style={{marginTop:10}}>
+          <div style={{ fontSize: 20, marginLeft: 10 }}>最近文章</div>
+          <div className="wrapper" >
+            <div className="latestArticle">koa2-基础知识</div>
+            <div className="latestArticle"> canvas</div>
+            <div className="latestArticle">flex 布局</div>
+            <div className="latestArticle">[转] JavaScript深入之继承的多种方式和优缺点</div>
+            <div className="latestArticle">[转] JavaScript深入之创建对象的多种方式以及优缺点</div>
+
+          </div>
+        </div>
       </div>
     )
   }
-  renderRightNav(){
-    return(
+  renderRightNav() {
+    return (
       <div>
 
-      </div> 
+      </div>
     )
   }
   renderArticleList() {
@@ -117,7 +190,7 @@ export default class Index extends Component {
             <div className="artical">
               <div style={{ flex: 1 }}>
                 <div>
-                  <span style={{ fontSize: "26px", fontWeight: "bold" }}>
+                  <span style={{ fontSize: "22px", fontWeight: "bold" }}>
                     {item.title}
                   </span>
                 </div>
@@ -130,21 +203,18 @@ export default class Index extends Component {
                 <div className="articleInfo">
                   <div className="item">
                     <img
-                      style={{ width: 20, height: 20, marginRight: 10 }}
                       src={author_img}
                     />
                     <span>{item.author}</span>
                   </div>
                   <div className="item">
                     <img
-                      style={{ width: 20, height: 20, marginRight: 10 }}
                       src={time_img}
                     />
                     <span>{item.updateTime.slice(0, 10)}</span>
                   </div>
                   <div className="item">
                     <img
-                      style={{ width: 20, height: 20, marginRight: 10 }}
                       src={comment_img}
                     />
                     <span>暂无评论</span>
@@ -167,114 +237,20 @@ export default class Index extends Component {
     return (
       <div className="page">
         <div className="container">
-          <header>
-            <div className="titleBar">
-              <div className="titleBar_left">
-                <img
-                  style={{ width: "25px", height: "25px", marginRight: "10px" }}
-                  src={home_img}
-                />
-                <span style={{ fontSize: "20px" }}>博客</span>
-              </div>
-              <div className="titleBar_middle">
-                {/* <span>搜索</span> */}
-                <input
-                  className="titleBar_input"
-                  type="text"
-                  placeholder="输入关键词搜索..."
-                />
-                <div className="titleBar_search">
-                  <img
-                    src={search_img}
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                </div>
-              </div>
-              {this.state.login ? (
-                <div className="titleBar_login">
-                  <Dropdown_menu
-                    style={{ height: "100%" }}
-                    onClick={this.handerMenuClick}
-                    menu={["我的主页", "设置", "退出"]}
-                    placement="bottomLeft"
-                  >
-                    <div className="menu_container menu_hover">
-                      <span>菜单</span>
-                    </div>
-                  </Dropdown_menu>
-                </div>
-              ) : (
-                <div className="titleBar_login">
-                  <img
-                    src={lingdang_img}
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "10px"
-                    }}
-                  />
-                  <span onClick={this.toLogin} style={{ cursor: "pointer" }}>
-                    登录
-                  </span>
-                  <span
-                    onClick={this.toRegister}
-                    style={{ marginLeft: "10px", cursor: "pointer" }}
-                  >
-                    注册
-                  </span>
-                </div>
-              )}
-
-              <div className="editeArtical" onClick={this.toArticle}>
-                <img
-                  src={lingdang_img}
-                  style={{ width: "20px", height: "20px", marginRight: "10px" }}
-                />
-                {/* <Link to="article"> */}
-                <span> 写文章</span>
-                {/* </Link>     */}
-              </div>
-            </div>
-          </header>
-          <div style={{flex:1,display:"flex"}}>
+          {this.renderHeader()}
+          <div style={{ flex: 1, display: "flex" }}>
             <div className="leftNav" >
               {this.renderLeftNav()}
             </div>
-            <article style={{flex:1, height: "100%"}}>
+            <article style={{ flex: 1, height: "100%" }}>
               <div style={{ height: "100%", overflowY: "scroll" }}>
                 {this.renderArticleList()}
               </div>
             </article>
-            <div className="rightNav" >
-                {this.renderRightNav()}
-            </div>
+            {/* <div className="rightNav" >
+              {this.renderRightNav()}
+            </div> */}
           </div>
-          {/* <div style={{ height: "100%" }}>
-            <nav>
-              <div className="navBar">
-                <div className="navBar_home">
-                  <span>首页</span>
-                </div>
-                <div className="navBar_classcify">
-                  <span>分类</span>
-                </div>
-                <div className="navBar_pages">
-                  <span>页面</span>
-                </div>
-              </div>
-            </nav>
-            <section>
-              <div className="signature">
-                <div>
-                  <span>标题</span>
-                </div>
-                <div className="signText">
-                  <span>若多年后无所作为，韶华青春何止辜负丶</span>
-                </div>
-              </div>
-            </section>
-          </div> */}
-          
         </div>
       </div>
     );

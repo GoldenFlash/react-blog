@@ -292,7 +292,7 @@ export default class article extends Component {
         <div className="article">
           <div className="sideNav">
             <div className="toHome" onClick={this.toHome.bind(this)}>
-              <span>回首页</span>
+              <span>返回首页</span>
             </div>
             <div className="new" onClick={this.toggleCollections.bind(this)}>
               <span>+新建文集</span>
