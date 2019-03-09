@@ -3,12 +3,10 @@
     font-size: 12px;       
     text-align: center;
 }
-
 .page{
     width:100%;
     height:100vh;
-    background-color: #72a3c0;
-    // overflow: scroll
+    background-color: #bbcebf;
 }
 .menu_hover:hover{
     background-color:rgba(0,0,0,0.3);
@@ -22,6 +20,10 @@
     // overflow:hidden;
     display: flex;
     flex-direction: column
+}
+.content{
+    display: flex;
+    height: 100%
 }
 .titleBar{
     background-color: #0E96C2;
@@ -88,54 +90,27 @@
     }
    
 }
-.navBar{
-    height:50px;
-    width:100%;
-    display:flex;
-    align-items: center;
-    background-color: #DDE6E9;
-    color:#FFF;
-    .navBar_home, .navBar_classcify, .navBar_pages{
-        width:100px;
-        height: 100%;
-        display:flex;
-        align-items: center;
-        justify-content: center
-    }
-
-}
-.signature{
-    display: flex;
-    flex-direction: column;
-    height:100px;
-    background-color: #fff;
-    padding:0 10px;
-    justify-content: center;
-    .signText{
-        font-size: 14px;
-        color:#AAAAAA
-    }
-
+.article-wrapper{
+    flex: 1;
+    overflow-y: scroll
 }
 .articalList{
+    flex: 1;
     padding:20px;
     height:1000px;
-    // width:500px;
     .artical{
         height:180px;
         background-color: #fff;
         margin-bottom: 20px;
         display: flex;
-        // flex-direction: column;
         border-radius:6px;
         padding:10px 15px;
-        transition:linear 0.2s;
+        transition:linear 0.1s;
         &:hover{
-            transition:linear 0.5s;
+            transition:linear 0.1s;
             box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);
             background-color: #f1fbfe;
         }
-        
         .content_wrapper{
             margin-top:10px;
             height:75px;
@@ -170,18 +145,24 @@
             width:150px;
             height:100%;
             margin-left: 10px;
-            background-image:url(http://www.sunxiaoning.com/usr/themes/handsome/usr/img/sj/5.jpg)
+            background-image:url(http://www.sunxiaoning.com/usr/themes/handsome/usr/img/sj/5.jpg);
+            background-size:cover;
         }
         
     }
-    
 }
 .leftNav{
-    width:220px;
-    height:100%;
+    width:250px;
+    padding-bottom: 10px;
     background-color:#DDE6E9;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none; 
+    &::-webkit-scrollbar {  
+        width:0 !important;   /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+    }
     .wrapper{
-        // margin: 10px;
         color: #8590a6;
         margin-top:10px;
         .latestArticle{
@@ -191,15 +172,27 @@
             text-overflow: ellipsis;
             overflow: hidden;
             font-size: 12px;
+            cursor: pointer;
             &:hover {
                 background-color: rgba($color: #ffffff, $alpha: 0.5);
             }
+        }
+    };
+    .lables{
+        color: #8590a6;
+        margin-top:10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        .item{
+            font-size: 12px;
+            margin:2px 5px;
+            cursor: pointer;
         }
     }
     
 }
 .rightNav{
     width:200px;
-    height:100%;
     background-color:#FFF
 }

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import {Button} from 'antd';
-// var marked = require('marked');
 import marked from "marked";
 import "./index.scss";
 import home_img from "../../assets/home.svg";
@@ -12,30 +10,83 @@ import time_img from "../../assets/time.svg";
 import comment_img from "../../assets/comment.svg";
 import Dropdown_menu from "../../components/Dropdown_menu";
 import api from "../../api/api";
+import util from "../../util/util"
 export default class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articleList: []
+      sidebarStyle:{},
+      articleList: [],
+      latest: [
+        { title: "koa2-基础知识" },
+        { title: "canvas" },
+        { title: "flex 布局" },
+        { title: "[转] JavaScript深入之继承的多种方式和优缺点" },
+        { title: "[转] JavaScript深入之创建对象的多种方式以及优缺点" }
+      ],
+      labels: [
+        "canvas", "CSS", "ES6", "flex", "HTTP", "Javascript", "Javascript",
+        "MVVM", "MySQL", "node", "React", "React-Router", "regexp", "Sequelizethistools",
+        "Vue", "webpack", "作用域原型原型链执行上下文"
+      ],
+      labelsClass: [
+        "ant-tag-magenta",
+        "ant-tag-blue",
+        "ant-tag-red",
+        "ant-tag-volcano",
+        "ant-tag-orange",
+        "ant-tag-gold",
+        "ant-tag-lime",
+        "ant-tag-green",
+        "ant-tag-cyan",
+        "ant-tag-geekblue",
+        "ant-tag-purple",
+        "ant-tag-lime"
+      ]
+
     };
   }
   componentDidMount() {
+    // this.sidebarFixed("article-wrapper","rightNav")
     if (document.cookie) {
       var userInfo = {}
       var cookies = document.cookie.split(";")
+
       cookies.forEach((item) => {
         var arr = item.split("=")
         userInfo[arr[0].trim()] = arr[1]
       })
-      console.log("document.cookie", document.cookie)
-      console.log("userInfo", userInfo)
+
       this.setState({
         userInfo: userInfo,
         login: true
       })
+
     }
     this.getArticlesList();
     console.log("componentDidMount");
+  }
+  sidebarFixed(parent,el){
+    var parentel = document.getElementsByClassName(parent)[0];
+    var sidebar = document.getElementsByClassName(el)[0];
+    var parentelheight = parentel.offsetHeight;
+    var sidebarheight = sidebar.offsetHeight;
+    
+    parentel.addEventListener('scroll',()=>{
+      var scolltop = parentel.scrollTop;
+      var positionTop = parentelheight+scolltop-sidebarheight
+      console.log('positionTop',positionTop)
+      console.log('scolltop',scolltop)
+      if((sidebarheight-parentelheight)<=scolltop){
+        this.setState({
+          sidebarStyle:{
+            position:"absolute",
+            right:0,
+            top:positionTop+'px'
+          }
+        })
+      }
+    });
   }
   handerMenuClick = value => {
     console.log("navigate", value);
@@ -152,23 +203,31 @@ export default class Index extends Component {
   }
   renderLeftNav() {
     return (
-      <div>
+      <div className="leftNav">
         <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
           <img style={{ width: 130, height: 130, borderRadius: "50%" }} src="https://avatars0.githubusercontent.com/u/26805558?s=460&v=4" alt="" />
         </div>
+
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div style={{ fontSize: 26, fontWeight: "600" }}>{this.state.userInfo && this.state.userInfo.nickName}</div>
-          <div style={{ fontSize: 12,color:"#8590a6",marginTop:10}}>前端打杂人员，略微代码洁癖</div>
+          <div style={{ fontSize: 12, color: "#8590a6", marginTop: 10 }}>前端打杂人员，略微代码洁癖</div>
         </div>
-        <div style={{marginTop:10}}>
-          <div style={{ fontSize: 20, marginLeft: 10 }}>最近文章</div>
-          <div className="wrapper" >
-            <div className="latestArticle">koa2-基础知识</div>
-            <div className="latestArticle"> canvas</div>
-            <div className="latestArticle">flex 布局</div>
-            <div className="latestArticle">[转] JavaScript深入之继承的多种方式和优缺点</div>
-            <div className="latestArticle">[转] JavaScript深入之创建对象的多种方式以及优缺点</div>
 
+        <div style={{ marginTop: 10 }}>
+          <div style={{ fontSize: 16, marginLeft: 10, fontWeight: "bold" }}>最近文章</div>
+          <div className="wrapper">
+            {this.state.latest && this.state.latest.map((item) => {
+              return <div className="latestArticle">{item.title}</div>
+            })}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 10 }}>
+          <div style={{ fontSize: 16, marginLeft: 10, fontWeight: "bold" }}>标签</div>
+          <div className="lables ">
+            {this.state.labels && this.state.labels.map((item) => {
+              return <div className={`item ant-tag ${this.state.labelsClass[Math.ceil(Math.random() * 12)]}`}>{item}</div>
+            })}
           </div>
         </div>
       </div>
@@ -176,7 +235,7 @@ export default class Index extends Component {
   }
   renderRightNav() {
     return (
-      <div>
+      <div style={this.state.sidebarStyle} className="rightNav">
 
       </div>
     )
@@ -238,18 +297,14 @@ export default class Index extends Component {
       <div className="page">
         <div className="container">
           {this.renderHeader()}
-          <div style={{ flex: 1, display: "flex" }}>
-            <div className="leftNav" >
-              {this.renderLeftNav()}
-            </div>
-            <article style={{ flex: 1, height: "100%" }}>
-              <div style={{ height: "100%", overflowY: "scroll" }}>
-                {this.renderArticleList()}
+          <div className="content">
+            {this.renderLeftNav()}
+            <article className="article-wrapper">
+              <div style={{display: "flex"}}>
+              {this.renderArticleList()}
+              {this.renderRightNav()}
               </div>
             </article>
-            {/* <div className="rightNav" >
-              {this.renderRightNav()}
-            </div> */}
           </div>
         </div>
       </div>
