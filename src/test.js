@@ -1,79 +1,57 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-function App() {
+function ParamsExample() {
     return (
         <Router>
-            {/* <Link to="/">Home</Link>  */}
-            <Route path="/" component={Home}></Route>
+            <div>
+                <h2>Accounts</h2>
+                <ul>
+                    <li>
+                        <Link to="/netflix">Netflix</Link>
+                    </li>
+                    <li>
+                        <Link to="/zillow-group">Zillow Group</Link>
+                    </li>
+                    <li>
+                        <Link to="/yahoo">Yahoo</Link>
+                    </li>
+                    <li>
+                        <Link to="/modus-crea">Modus Create</Link>
+                    </li>
+                </ul>
+
+                <Route path="/:id" component={Child} />
+
+                {/*
+           It's possible to use regular expressions to control what param values should be matched.
+              * "/order/asc"  - matched
+              * "/order/desc" - matched
+              * "/order/foo"  - not matched
+        */}
+                <Route
+                    path="/order/:direction(asc|desc)"
+                    component={ComponentWithRegex}
+                />
+            </div>
         </Router>
     );
 }
 
-function Home(props) {
-    console.log("Home",props)
+function Child({ match }) {
     return (
         <div>
-            <div>
-                <ul>
-                    
-                    <li>
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li>
-                        <Link to="/topics">Topics</Link>
-                    </li>
-                </ul>
-
-                <hr />
-
-                {/* <Route exact path="/" component={Home} /> */}
-                <Route path="/about" component={About} />
-                <Route path="/topics" component={Topics} />
-            </div>
+            <h3>ID: {match.params.id}</h3>
         </div>
     );
 }
 
-function About() {
+function ComponentWithRegex({ match }) {
     return (
         <div>
-            <h2>About</h2>
+            <h3>Only asc/desc are allowed: {match.params.direction}</h3>
         </div>
     );
 }
 
-function Topics({ match }) {
-    return (
-        <div>
-            <h2>Topics</h2>
-            <ul>
-                <li>
-                    <Link to={`${match.url}/rendering`}>Rendering with React</Link>
-                </li>
-                <li>
-                    <Link to={`${match.url}/components`}>Components</Link>
-                </li>
-                <li>
-                    <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-                </li>
-            </ul>
-
-            <Route path={`${match.path}/:topicId`} component={Topic} />
-            <Route
-                exact
-                path={match.path}
-                render={() => <h3>Please select a topic.</h3>}
-            />
-        </div>
-    );
-}
-
-function Topic({ match }) {
-    return (
-        <div>
-            <h3>{match.params.topicId}</h3>
-        </div>
-    );
-}
-export default App;
+export default ParamsExample;
