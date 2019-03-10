@@ -1,0 +1,61 @@
+.articalList{
+    flex: 1;
+    padding:20px;
+    height:1000px;
+    .artical{
+        height:180px;
+        background-color: #fff;
+        margin-bottom: 20px;
+        display: flex;
+        border-radius:6px;
+        padding:10px 15px;
+        transition:linear 0.1s;
+        &:hover{
+            transition:linear 0.1s;
+            box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);
+            background-color: #f1fbfe;
+        }
+        .content_wrapper{
+            margin-top:10px;
+            height:75px;
+            line-height: 25px;
+            overflow : hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            color:#98a6ad;
+            font-size: 13px
+            
+        }
+        .articleInfo{
+            display: flex;
+            align-items: center;
+            color:#98a6ad;
+            .item{
+                // line-height:1;
+                display:flex;
+                align-items:center;
+                font-size: 12px;
+                margin-left: 15px;
+                img{
+                    width: 15px; 
+                    height: 15px; 
+                    margin-right: 5px;
+                }
+            }
+        }
+        .image{
+            width:150px;
+            height:100%;
+            margin-left: 10px;
+            background-image:url(http://www.sunxiaoning.com/usr/themes/handsome/usr/img/sj/5.jpg);
+            background-size:cover;
+        }
+        
+    }
+}
+.rightNav{
+    width:200px;
+    background-color:#FFF
+}

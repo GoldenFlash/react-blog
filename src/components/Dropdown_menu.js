@@ -1,10 +1,10 @@
 import React,{Component} from 'react'
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown } from 'antd';
 
 export default class Dropdown_menu extends Component{
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
     componentWillMount(){
 
     }

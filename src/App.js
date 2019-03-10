@@ -5,21 +5,28 @@ import './App.css';
 import 'antd/dist/antd.css';
 
 import Index from './view/index/index.js'
-import Article from './view/article/article'
+import Edite from './view/edite/edite'
 import Register from './view/register/register'
+// import Article from './view/article/article'
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Router >
+          <div>
           <Switch>
-              <Route exact  path="/" component={Index}></Route>
-              <Route path="/article" component={Article}/>
+              <Route path="/home" component={Index}>
+                {/* <Route path="/article" component={Article}></Route> */}
+              </Route>
+              <Route path="/edite" component={Edite}/>
               <Route path="/register" component={Register}/>
           </Switch> 
+          </div>
         </Router> 
       </div>
     );
   }
 }
 export default App;
+
+

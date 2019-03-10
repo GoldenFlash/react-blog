@@ -3,7 +3,7 @@
  * @author 王伟
  *time:2018-10-2
  */
-import config from './config'
+// import config from './config'
 import request from "./request";
 function faceBook(){
     let data = {}

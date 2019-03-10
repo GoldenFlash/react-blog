@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Popover, Button,Modal} from "antd";
+// import axios from "axios";
+import { Button,Modal} from "antd";
 // const confirm = Modal.confirm;
 
 import "./register.scss";
 import api from "../../api/api";
-export default class article extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +28,7 @@ export default class article extends Component {
     };
   }
   componentDidMount() {
-   console.log( this.props.location.state.type)
+    console.log("Register", this.props.location.state.type)
   }
   // showConfirm() {
   //   confirm({
