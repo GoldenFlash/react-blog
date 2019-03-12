@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 // import axios from "axios";
 import { Popover, Button,message } from "antd";
-
+import SimpleMDE from "simplemde"
+import 'simplemde/dist/simplemde.min.css'
 import "./edite.scss";
+import {translateMarkdown} from "../../util/util.js"
 import api from "../../api/api";
 import add_img from "../../assets/new.svg";
 import page_img from "../../assets/page.svg";
@@ -37,13 +39,14 @@ export default class Edite extends Component {
     });
   }
   initEditor(){
-      this.testEditor = window.editormd("editormd_container", {
-        path: "../../lib/editor.md-master/lib/",
-        width: "100%",
-        height: "100%",
-        syncScrolling: "single",
-        saveHTMLToTextarea: true
-      });
+    this.simplemde = new SimpleMDE({
+      element: document.getElementById('editormd_container'),
+      autofocus: true,
+      autosave: true,
+      previewRender: translateMarkdown
+    })
+      // var simplemde = new SimpleMDE({ element: document.getElementById("editormd_container") });
+      
   }
   cancel() {
     var index = this.state.editeCollection_index;
@@ -93,7 +96,7 @@ export default class Edite extends Component {
     this.setState({
       checkedArticle:checkedArticle
     },()=>{
-      this.initEditor()
+      // this.initEditor()
     })
   }
   addNewCollections() {
@@ -185,8 +188,8 @@ export default class Edite extends Component {
   saveArticle(){
     var article=this.state.checkedArticle
     // var content = this.testEditor.getHTML()
-    var content = JSON.stringify(this.testEditor.getMarkdown())
-    console.log("content", JSON.parse(content))
+    var content = this.simplemde.value();
+    // console.log("content", JSON.parse(content))
     api.post("/blog/article/saveArticle",{
       id:article._id,
       collectionId:article.collectionId,
@@ -203,7 +206,8 @@ export default class Edite extends Component {
   }
   publishArticle(){
     var article=this.state.checkedArticle
-    var content = this.testEditor.getMarkdown()
+    // var content = this.testEditor.getMarkdown()
+    var content = this.simplemde.value();
     // var content = this.testEditor.getHTML()
     api.post("/blog/article/publishArticle",{
       id:article._id,
@@ -255,6 +259,7 @@ export default class Edite extends Component {
     );
   }
   renderEditor(){
+    // let {}
     return(
        <div className="summernote">
           <div className="title">
@@ -272,8 +277,8 @@ export default class Edite extends Component {
               <Button onClick={this.publishArticle.bind(this)} style={{marginLeft:10}}>发布</Button>
             </div>
           </div>
-          <div style={{flex:1}} id="editormd_container">
-            <textarea value={this.state.checkedArticle?this.state.checkedArticle.content:""}>
+          <div  style={{flex:1,overFlow:"hidden"}} >
+            <textarea id="editormd_container" value={this.state.checkedArticle?this.state.checkedArticle.content:"1111"}>
               
             </textarea>
           </div>
@@ -424,7 +429,7 @@ export default class Edite extends Component {
           </div>
         </div>
         <div className="editor">
-          {this.state.checkedArticle&&this.renderEditor()}
+          {this.renderEditor()}
         </div>
       </div>
     );

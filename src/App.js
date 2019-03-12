@@ -4,9 +4,16 @@ import {BrowserRouter as Router, Route,Switch ,withRouter} from "react-router-do
 import './App.css';
 import 'antd/dist/antd.css';
 
+// import hljs from 'highlight.js'
+// import javascript from 'highlight.js/lib/languages/javascript'
+// import 'highlight.js/styles/atom-one-light.css'
+
+// hljs.registerLanguage('javascript', javascript)
+
 import Index from './view/index/index.js'
 import Edite from './view/edite/edite'
 import Register from './view/register/register'
+
 // import Article from './view/article/article'
 class App extends Component {
   render() {

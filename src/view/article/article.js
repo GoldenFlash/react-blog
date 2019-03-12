@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import marked from "marked";
+import {translateMarkdown} from "../../util/util.js"
 import "./article.scss"
 
 export default class Article extends Component {
@@ -10,12 +11,15 @@ export default class Article extends Component {
         }
     }
     componentDidMount(){
-        console.log("this.props",this.props.location.state.article)
+        // console.log("this.props",this.props.location.state.article)
+
     }
     render() {
+            var content = translateMarkdown(this.props.location.state.article.content)
+            console.log("content",content)
         return (
             <div className="Article">
-                <div dangerouslySetInnerHTML={{ __html: marked(this.props.location.state.article.content)}}> 
+                <div dangerouslySetInnerHTML={{ __html: content}}> 
                 </div>
             </div>
         );
