@@ -18,7 +18,7 @@ export default class Article extends Component {
             var content = translateMarkdown(this.props.location.state.article.content)
             console.log("content",content)
         return (
-            <div className="Article">
+            <div className="article-detail">
                 <div dangerouslySetInnerHTML={{ __html: content}}> 
                 </div>
             </div>
