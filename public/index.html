@@ -27,8 +27,8 @@
 
     <script src="%PUBLIC_URL%/lib/js/jquery.min.js"></script>
     <script src="%PUBLIC_URL%/lib/editor.md-master/editormd.min.js"></script>
-    <script src="%PUBLIC_URL%/lib/editor.md-master/editormd.min.js"></script>
-    <script src="%PUBLIC_URL%/lib/editor.md-master/js/require.min.js"></script>
+    <!-- <script src="%PUBLIC_URL%/lib/editor.md-master/editormd.min.js"></script> -->
+    <script src="%PUBLIC_URL%/lib/js/require.min.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -59,7 +59,8 @@
   <script>
     window.$ = $;
     window.editormd = editormd;
-    window.requirejs = requirejs;
+    // window.requirejs = requirejs;
+    console.log("reuirejs",require)
     window.require = require;
   </script>
 </html>
