@@ -4681,11 +4681,6 @@ highlight.js@^9.15.6:
   resolved "http://registry.npm.taobao.org/highlight.js/download/highlight.js-9.15.6.tgz#72d4d8d779ec066af9a17cb14360c3def0aa57c4"
   integrity sha1-ctTY13nsBmr5oXyxQ2DD3vCqV8Q=
 
-highlight@^0.2.4:
-  version "0.2.4"
-  resolved "http://registry.npm.taobao.org/highlight/download/highlight-0.2.4.tgz#8ac02875b03f5935e0675852b76cfe1fd58e0dff"
-  integrity sha1-isAodbA/WTXgZ1hSt2z+H9WODf8=
-
 history@^4.7.2:
   version "4.7.2"
   resolved "https://registry.npmjs.org/history/-/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"

@@ -247,7 +247,7 @@ export default class Index extends Component {
           <div className="content">
             {this.renderLeftNav()}
             <article className="article-wrapper">
-              <Route   path="/home/articleList" component={ArticleList}></Route>
+              <Route exact path="/home/articleList" component={ArticleList}></Route>
               <Route path="/home/articleContent" component={ArticleContent}></Route>
             </article>
           </div>

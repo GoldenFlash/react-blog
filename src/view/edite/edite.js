@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 // import axios from "axios";
 import { Popover, Button,message } from "antd";
-import SimpleMDE from "simplemde"
-import 'simplemde/dist/simplemde.min.css'
-import "./edite.scss";
-import {translateMarkdown} from "../../util/util.js"
+
+ import "./edite.scss";
 import api from "../../api/api";
 import add_img from "../../assets/new.svg";
 import page_img from "../../assets/page.svg";
@@ -12,7 +10,7 @@ import set_img from "../../assets/set.svg";
 import edite_img from "../../assets/edite.svg";
 import delete_img from "../../assets/delete.svg";
 
-export default class Edite extends Component {
+ export default class Edite extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,14 +37,13 @@ export default class Edite extends Component {
     });
   }
   initEditor(){
-    this.simplemde = new SimpleMDE({
-      element: document.getElementById('editormd_container'),
-      autofocus: true,
-      autosave: true,
-      previewRender: translateMarkdown
-    })
-      // var simplemde = new SimpleMDE({ element: document.getElementById("editormd_container") });
-      
+      this.testEditor = window.editormd("editormd_container", {
+        path: "../../lib/editor.md-master/lib/",
+        width: "100%",
+        height: "100%",
+        syncScrolling: "single",
+        saveHTMLToTextarea: true
+      });
   }
   cancel() {
     var index = this.state.editeCollection_index;
@@ -96,7 +93,7 @@ export default class Edite extends Component {
     this.setState({
       checkedArticle:checkedArticle
     },()=>{
-      // this.initEditor()
+      this.initEditor()
     })
   }
   addNewCollections() {
@@ -130,7 +127,7 @@ export default class Edite extends Component {
       });
   }
 
-  deleteCollection() {
+   deleteCollection() {
     api.post("/blog/article/deleteCollection", {
         id: this.state.editeCollection._id
       })
@@ -149,8 +146,8 @@ export default class Edite extends Component {
         }
       });
   }
- 
-  getArticleList(collectionId) {
+
+   getArticleList(collectionId) {
     api.post("/blog/article/getArticleList", { collectionId: collectionId }).then(res => {
       console.log(11111, res);
       this.setState({
@@ -182,14 +179,14 @@ export default class Edite extends Component {
             checkedArticle: articleList[0]
           });
         }
-       
-      });
+
+       });
   }
   saveArticle(){
     var article=this.state.checkedArticle
     // var content = this.testEditor.getHTML()
-    var content = this.simplemde.value();
-    // console.log("content", JSON.parse(content))
+    var content = JSON.stringify(this.testEditor.getMarkdown())
+    console.log("content", JSON.parse(content))
     api.post("/blog/article/saveArticle",{
       id:article._id,
       collectionId:article.collectionId,
@@ -206,8 +203,7 @@ export default class Edite extends Component {
   }
   publishArticle(){
     var article=this.state.checkedArticle
-    // var content = this.testEditor.getMarkdown()
-    var content = this.simplemde.value();
+    var content = this.testEditor.getMarkdown()
     // var content = this.testEditor.getHTML()
     api.post("/blog/article/publishArticle",{
       id:article._id,
@@ -259,7 +255,6 @@ export default class Edite extends Component {
     );
   }
   renderEditor(){
-    // let {}
     return(
        <div className="summernote">
           <div className="title">
@@ -270,17 +265,17 @@ export default class Edite extends Component {
                     this.setState({
                         checkedArticle:checkedArticle
                       })
-                   
-                  }}  className="title_input" value={this.state.checkedArticle?this.state.checkedArticle.title:""} type="text" />
+
+                   }}  className="title_input" value={this.state.checkedArticle?this.state.checkedArticle.title:""} type="text" />
             <div className="publish">
               <Button onClick={this.saveArticle.bind(this)}>保存</Button>
               <Button onClick={this.publishArticle.bind(this)} style={{marginLeft:10}}>发布</Button>
             </div>
           </div>
-          <div  style={{flex:1,overFlow:"hidden"}} >
-            <textarea id="editormd_container" value={this.state.checkedArticle?this.state.checkedArticle.content:"1111"}>
-              
-            </textarea>
+          <div style={{flex:1}} id="editormd_container">
+            <textarea value={this.state.checkedArticle?this.state.checkedArticle.content:""}>
+
+             </textarea>
           </div>
         </div>
     )
@@ -339,7 +334,7 @@ export default class Edite extends Component {
               </div>
             )}
 
-            <div className="item_c">
+             <div className="item_c">
               {this.state.collections.map((item, index) => {
                 return (
                   <div
@@ -429,7 +424,7 @@ export default class Edite extends Component {
           </div>
         </div>
         <div className="editor">
-          {this.renderEditor()}
+          {this.state.checkedArticle&&this.renderEditor()}
         </div>
       </div>
     );
