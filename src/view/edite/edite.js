@@ -184,9 +184,9 @@ import delete_img from "../../assets/delete.svg";
   }
   saveArticle(){
     var article=this.state.checkedArticle
-    // var content = this.testEditor.getHTML()
-    var content = JSON.stringify(this.testEditor.getMarkdown())
-    console.log("content", JSON.parse(content))
+  
+    var content = this.testEditor.getMarkdown()
+   
     api.post("/blog/article/saveArticle",{
       id:article._id,
       collectionId:article.collectionId,
@@ -202,9 +202,10 @@ import delete_img from "../../assets/delete.svg";
     })
   }
   publishArticle(){
+
     var article=this.state.checkedArticle
     var content = this.testEditor.getMarkdown()
-    // var content = this.testEditor.getHTML()
+    
     api.post("/blog/article/publishArticle",{
       id:article._id,
       collectionId:article.collectionId,

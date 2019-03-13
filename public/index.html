@@ -16,6 +16,8 @@
     -->
 
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- markdown编辑器引入文件 -->
     <link
       rel="stylesheet"
       href="%PUBLIC_URL%/lib/editor.md-master/css/editormd.css"
@@ -24,11 +26,12 @@
       rel="stylesheet"
       href="%PUBLIC_URL%/lib/editor.md-master/css/editormd.preview.min.css"
     />
-
     <script src="%PUBLIC_URL%/lib/js/jquery.min.js"></script>
     <script src="%PUBLIC_URL%/lib/editor.md-master/editormd.min.js"></script>
-    <!-- <script src="%PUBLIC_URL%/lib/editor.md-master/editormd.min.js"></script> -->
-    <script src="%PUBLIC_URL%/lib/js/require.min.js"></script>
+    <script src="%PUBLIC_URL%/lib/editor.md-master/lib/marked.min.js"></script>
+    <script src="%PUBLIC_URL%/lib/editor.md-master/lib/prettify.min.js"></script>
+    <!-- markdown编辑器引入文件 -->
+
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -59,8 +62,6 @@
   <script>
     window.$ = $;
     window.editormd = editormd;
-    // window.requirejs = requirejs;
-    console.log("reuirejs",require)
-    window.require = require;
+   
   </script>
 </html>
