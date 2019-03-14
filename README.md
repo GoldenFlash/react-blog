@@ -1,24 +1,50 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 项目介绍
+- 采用前后端分离的开发方式
+- 样式参考了一些其他博客平台
+- [博客地址](http://101.132.173.11:8080/home/articleList)
+- [项目地址](https://github.com/GoldenFlash/blog)
+- [后台项目地址](https://github.com/GoldenFlash/server)
+### 技术栈
+- 前端
+	- react: "^16.7.0",
+	- react-router": "^4.3.1",
+	- axios 
+	- editor.md
 
-## Available Scripts
+- 后台
+	- express
+	-mongodb+mongose
 
-In the project directory, you can run:
+- 服务器 
+	- 阿里云主机
+	- nginx 正向代理
+	- pm2管理node进程
 
-### `npm start`
+### 博客功能
+ - 博客文章列表 文章搜索 文章增删改查 
+ - 博客标签分类
+ - 文章 评论 
+ - 用户注册 
+ - markdown 语法 
+ - 响应式 （后续实现）
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 本地运行项目
+- 前端
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+ ```
+ 	git clone https://github.com/GoldenFlash/blog.git
 
-此项目是使用 creact react appp 工具进行构建 主要使用了 react-router路由管理 sass webpack代码打包
+	cd blog
 
-支持markdown语法 markdown 编辑器 使用的是 editor.md
-这个编辑器虽然很久老 但是 样式风格比较简洁清爽，缺点是不支持 import引入的方式 需要使用 script标签引入 或者requirejs 和seajs
+	yarn && yarn start
 
-后台部分采用node开发 使用了express框架 数据库使用的是mongodb mongose实现对数据库的操作
 
-服务器是在阿里云买了一台主机 使用nginx做正向带里
+```
 
-后台进程使用 pm2 管理
+- 后端
+
+下载安装mongodb数据库 修改server 连接数据库地址
+git clone https://github.com/GoldenFlash/server.git
+cd server
+
+yarn && yarn start
