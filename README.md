@@ -13,7 +13,7 @@
 
 - 后台
 	- express
-	-mongodb+mongose
+	- mongodb+mongose
 
 - 服务器 
 	- 阿里云主机
