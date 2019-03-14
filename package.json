@@ -79,7 +79,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://101.132.173.11:8080/api/blog",
+  "proxy": "http://101.132.173.11:8080",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",
@@ -125,5 +125,6 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "homepage":"."
 }

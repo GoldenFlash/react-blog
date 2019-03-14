@@ -96,7 +96,7 @@ export default class Index extends Component {
   handerMenuClick = value => {
     console.log("navigate", value);
     if (value === "退出") {
-      api.post("/blog/users/logout").then(res => {
+      api.post("users/logout").then(res => {
         console.log(res);
         this.props.history.replace("/register", {
           type: "login"
@@ -124,7 +124,7 @@ export default class Index extends Component {
     });
   };
   getArticlesList() {
-    api.post("/blog/article/getHotArticle").then(res => {
+    api.post("article/getHotArticle").then(res => {
       console.log("getArticlesList", res);
       if (res.data) {
         this.setState({

@@ -99,7 +99,7 @@ import delete_img from "../../assets/delete.svg";
   addNewCollections() {
     this.toggleCollections();
     api
-      .post("/blog/article/addCollections", {title: this.state.collectionTitle })
+      .post("article/addCollections", {title: this.state.collectionTitle })
       .then(res => {
         console.log(res);
         if (!res.err) {
@@ -148,7 +148,7 @@ import delete_img from "../../assets/delete.svg";
   }
 
    getArticleList(collectionId) {
-    api.post("/blog/article/getArticleList", { collectionId: collectionId }).then(res => {
+    api.post("article/getArticleList", { collectionId: collectionId }).then(res => {
       console.log(11111, res);
       this.setState({
         checkedArticle: res.data[0],
@@ -164,7 +164,7 @@ import delete_img from "../../assets/delete.svg";
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
     api
-      .post("/blog/article/addNewArticle", {
+      .post("article/addNewArticle", {
         collectionId: this.state.checkedCollection._id,
         title: today,
         content: "",
@@ -187,7 +187,7 @@ import delete_img from "../../assets/delete.svg";
   
     var content = this.testEditor.getMarkdown()
    
-    api.post("/blog/article/saveArticle",{
+    api.post("article/saveArticle",{
       id:article._id,
       collectionId:article.collectionId,
       title:article.title,
@@ -206,7 +206,7 @@ import delete_img from "../../assets/delete.svg";
     var article=this.state.checkedArticle
     var content = this.testEditor.getMarkdown()
     
-    api.post("/blog/article/publishArticle",{
+    api.post("article/publishArticle",{
       id:article._id,
       collectionId:article.collectionId,
       title:article.title,

@@ -14,6 +14,7 @@ export default class Article extends Component {
         }
     }
     componentDidMount(){
+        // console.log("this.props",this.props)
         this.initmarkdownView()
 
     }
@@ -33,13 +34,11 @@ export default class Article extends Component {
     render() {
         let {article} = this.props.location.state
            // console.log("title",title)
+        
         return (
             <div className="article-detail">  
-                {/*
-                     <div dangerouslySetInnerHTML={{ __html: content}}> 
-                </div>
-                */}
-                <div className="header">
+                
+                   <div className="header">
                     <div className="">{article.title}</div> 
                     <div className="articleInfo">
                         <div className="item">
@@ -66,7 +65,9 @@ export default class Article extends Component {
                    <textarea style={{display:"none"}}  name="test-editormd-markdown-doc">###Hello world!</textarea>               
                 
                 </div>
-
+                
+                
+                
             </div>
         );
     }

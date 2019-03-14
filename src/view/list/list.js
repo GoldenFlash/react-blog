@@ -22,7 +22,7 @@ export default class ArticalList extends Component {
         });
     }
     getArticlesList() {
-        api.post("/blog/article/getHotArticle").then(res => {
+        api.post("article/getHotArticle").then(res => {
             console.log("getArticlesList", res);
             if (res.data) {
                 this.setState({
