@@ -30,6 +30,7 @@
 
 ### 本地运行项目
 - 前端
+
  	git clone https://github.com/GoldenFlash/blog.git
 
 	cd blog
@@ -38,8 +39,9 @@
 
 
 - 后端
+
 	下载安装mongodb数据库 修改server 连接数据库地址
-	
+
 	git clone https://github.com/GoldenFlash/server.git
 
 	cd server
