@@ -7,34 +7,34 @@ import comment_img from "../../assets/comment.svg";
 import "./article.scss"
 
 export default class Article extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
-            content:""
+        this.state = {
+            content: ""
         }
     }
-    componentDidMount(){
-        // console.log("this.props",this.props)
+    componentDidMount() {
+        console.log("this.props", this.props)
         this.initmarkdownView()
 
     }
-    initmarkdownView(){
+    initmarkdownView() {
 
         var content = this.props.location.state.article.content
 
         var EditormdView = window.editormd.markdownToHTML("editormd-view", {
-            markdown        : content ,//+ "\r\n" + $("#append-test").text(),
+            markdown: content, //+ "\r\n" + $("#append-test").text(),
             //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
             //htmlDecode      : "style,script,iframe",  // you can filter tags decode
-            
+
         });
-   
+
 
     }
     render() {
-        let {article} = this.props.location.state
-           // console.log("title",title)
-        
+        let { article } = this.props.location.state
+        // console.log("title",title)
+
         return (
             <div className="article-detail">  
                 

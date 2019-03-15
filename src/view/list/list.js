@@ -17,7 +17,7 @@ export default class ArticalList extends Component {
         this.getArticlesList()
     }
     viewArticle(item){
-        this.props.history.push("/home/articleContent", {
+        this.props.history.push("/home/content", {
             article:item
         });
     }

@@ -9,10 +9,10 @@ import search_img from "../../assets/search.svg";
 import DropdownMenu from "../../components/Dropdown_menu";
 import api from "../../api/api";
 // import util from "../../util/util"
-import { Route} from "react-router-dom";
+import { Route,Switch,Link} from "react-router-dom";
 import ArticleList from "../list/list"
 import ArticleContent from '../article/article'
-
+import Archive from "../archive/archive.js"
 export default class Index extends Component {
   constructor(props) {
     super(props);
@@ -91,7 +91,7 @@ export default class Index extends Component {
     });
   }
   toHome(){
-    this.props.history.replace("/home/articleList")
+    this.props.history.replace("/home")
   }
   handerMenuClick = value => {
     console.log("navigate", value);
@@ -193,7 +193,9 @@ export default class Index extends Component {
           </span>
               </div>
             )}
-
+          <Link to="/home/archive">
+            <span>归档</span>
+          </Link>
           <div className="editeArtical" onClick={this.toEdite}>
             <img alt=""
               src={lingdang_img}
@@ -247,8 +249,9 @@ export default class Index extends Component {
           <div className="content">
             {this.renderLeftNav()}
             <article className="article-wrapper">
-              <Route exact path="/home/articleList" component={ArticleList}></Route>
-              <Route path="/home/articleContent" component={ArticleContent}></Route>
+              <Route exact path="/home" component={ArticleList}></Route>
+              <Route  path="/home/content" component={ArticleContent}></Route>
+              <Route  path="/home/archive" component={Archive}></Route>
             </article>
           </div>
         </div>

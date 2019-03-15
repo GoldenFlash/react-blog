@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 // import axios from "axios";
-import { Popover, Button,message } from "antd";
-
- import "./edite.scss";
+import { Popover, Button, message,Tag } from "antd";
+import EditableTagGroup from "../../components/editableTags"
+import "./edite.scss";
 import api from "../../api/api";
 import add_img from "../../assets/new.svg";
 import page_img from "../../assets/page.svg";
 import set_img from "../../assets/set.svg";
 import edite_img from "../../assets/edite.svg";
 import delete_img from "../../assets/delete.svg";
+import delete2_img from "../../assets/delete2.svg";
 
- export default class Edite extends Component {
+export default class Edite extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,14 +37,14 @@ import delete_img from "../../assets/delete.svg";
       this.getArticleList(res.data[0]._id);
     });
   }
-  initEditor(){
-      this.testEditor = window.editormd("editormd_container", {
-        path: "../../lib/editor.md-master/lib/",
-        width: "100%",
-        height: "100%",
-        syncScrolling: "single",
-        saveHTMLToTextarea: true
-      });
+  initEditor() {
+    this.testEditor = window.editormd("editormd_container", {
+      path: "/blog/lib/editor.md-master/lib/",
+      width: "100%",
+      height: "100%",
+      syncScrolling: "single",
+      saveHTMLToTextarea: true
+    });
   }
   cancel() {
     var index = this.state.editeCollection_index;
@@ -59,9 +60,9 @@ import delete_img from "../../assets/delete.svg";
       addNewCollections: !this.state.addNewCollections
     });
   }
-  toHome(){
-    console.log( this.props.history)
-    this.props.history.replace("/home/articleList")
+  toHome() {
+    console.log(this.props.history);
+    this.props.history.replace("/home");
   }
   showEditeMenu(e, item, index) {
     e.stopPropagation();
@@ -88,24 +89,29 @@ import delete_img from "../../assets/delete.svg";
     });
     this.getArticleList(collection._id);
   }
-  checkArticle(checkedArticle){
-    console.log("checkedArticle",checkedArticle)
-    this.setState({
-      checkedArticle:checkedArticle
-    },()=>{
-      this.initEditor()
-    })
+  checkArticle(checkedArticle) {
+    console.log("checkedArticle", checkedArticle);
+    this.setState(
+      {
+        checkedArticle: checkedArticle
+      },
+      () => {
+        this.initEditor();
+      }
+    );
   }
   addNewCollections() {
     this.toggleCollections();
     api
-      .post("article/addCollections", {title: this.state.collectionTitle })
+      .post("article/addCollections", { title: this.state.collectionTitle })
       .then(res => {
         console.log(res);
         if (!res.err) {
-          var collections =this.state.collections?this.state.collections:[]
-          collections.push(res.data)
-          console.log("collections",collections)
+          var collections = this.state.collections
+            ? this.state.collections
+            : [];
+          collections.push(res.data);
+          console.log("collections", collections);
           this.setState({
             collections: collections
           });
@@ -117,7 +123,7 @@ import delete_img from "../../assets/delete.svg";
   }
   getCollections() {
     return api
-      .post("/blog/article/getCollections")
+      .post("article/getCollections")
       .then(res => {
         console.log("res", res);
         return res;
@@ -127,8 +133,9 @@ import delete_img from "../../assets/delete.svg";
       });
   }
 
-   deleteCollection() {
-    api.post("/blog/article/deleteCollection", {
+  deleteCollection() {
+    api
+      .post("article/deleteCollection", {
         id: this.state.editeCollection._id
       })
       .then(res => {
@@ -137,8 +144,8 @@ import delete_img from "../../assets/delete.svg";
         } else if (res.data) {
           console.log(res);
           var index = this.state.editeCollection_index;
-          var collections = this.state.collections
-          collections.splice(index,1)
+          var collections = this.state.collections;
+          collections.splice(index, 1);
           this.setState({
             collections: collections,
             ["showEditeMenu" + index]: false
@@ -147,19 +154,24 @@ import delete_img from "../../assets/delete.svg";
       });
   }
 
-   getArticleList(collectionId) {
-    api.post("article/getArticleList", { collectionId: collectionId }).then(res => {
-      console.log(11111, res);
-      this.setState({
-        checkedArticle: res.data[0],
-        articleList: res.data
-      },()=>{
-        this.initEditor()
+  getArticleList(collectionId) {
+    api
+      .post("article/getArticleList", { collectionId: collectionId })
+      .then(res => {
+        console.log(11111, res);
+        this.setState(
+          {
+            checkedArticle: res.data[0],
+            articleList: res.data
+          },
+          () => {
+            this.initEditor();
+          }
+        );
       });
-    });
   }
   addNewArticle() {
-    var articleList = this.state.articleList?this.state.articleList:[];
+    var articleList = this.state.articleList ? this.state.articleList : [];
     var date = new Date();
     var today = `${date.getFullYear()}-${date.getMonth() +
       1}-${date.getDate()}`;
@@ -168,56 +180,71 @@ import delete_img from "../../assets/delete.svg";
         collectionId: this.state.checkedCollection._id,
         title: today,
         content: "",
-        isPublish:false
+        isPublish: false
       })
       .then(res => {
         console.log(res);
-        if(res.data){
-           articleList.push(res.data)
+        if (res.data) {
+          articleList.push(res.data);
           this.setState({
             articleList: articleList,
             checkedArticle: articleList[0]
           });
         }
-
-       });
+      });
   }
-  saveArticle(){
-    var article=this.state.checkedArticle
-  
-    var content = this.testEditor.getMarkdown()
-   
-    api.post("article/saveArticle",{
-      id:article._id,
-      collectionId:article.collectionId,
-      title:article.title,
-      content:content
-    }).then((res)=>{
-        console.log("res",res)
-        if(res.err){
-          message.error('保存失败');
-        }else{
-          message.success('保存成功');
+  saveArticle() {
+    var article = this.state.checkedArticle;
+
+    var content = this.testEditor.getMarkdown();
+
+    api
+      .post("article/saveArticle", {
+        id: article._id,
+        collectionId: article.collectionId,
+        title: article.title,
+        content: content
+      })
+      .then(res => {
+        console.log("res", res);
+        if (res.err) {
+          message.error("保存失败");
+        } else {
+          message.success("保存成功");
         }
+      });
+  }
+  deleteArticle(article,index){
+    // console.log(id,index)
+    api.post("article/deleteArticle",{
+      id:article._id,
+      collectionId:article.collectionId
+    }).then((res)=>{
+        var articleList = this.state.articleList
+        articleList.splice(index,1)
+        this.setState({
+          articleList:articleList
+        })
     })
   }
-  publishArticle(){
+  publishArticle() {
+    var article = this.state.checkedArticle;
+    var content = this.testEditor.getMarkdown();
 
-    var article=this.state.checkedArticle
-    var content = this.testEditor.getMarkdown()
-    
-    api.post("article/publishArticle",{
-      id:article._id,
-      collectionId:article.collectionId,
-      title:article.title,
-      content:content
-    }).then((res)=>{
-        if(res.err){
-          message.error('发布失败');
-        }else{
-          message.success('发布成功');
+    api
+      .post("article/publishArticle", {
+        id: article._id,
+        collectionId: article.collectionId,
+        title: article.title,
+        content: content
+      })
+      .then(res => {
+        if (res.err) {
+          message.error("发布失败");
+        } else {
+          message.success("发布成功");
         }
-    })
+      });
   }
   renderPopoverContent() {
     return (
@@ -255,31 +282,131 @@ import delete_img from "../../assets/delete.svg";
       </div>
     );
   }
-  renderEditor(){
+  renderarticle(item,index){
     return(
-       <div className="summernote">
-          <div className="title">
-            <input  onInput={e => {
-                    console.log(e.target.value);
-                    var checkedArticle = this.state.checkedArticle
-                    checkedArticle.title=e.target.value
-                    this.setState({
-                        checkedArticle:checkedArticle
-                      })
-
-                   }}  className="title_input" value={this.state.checkedArticle?this.state.checkedArticle.title:""} type="text" />
-            <div className="publish">
-              <Button onClick={this.saveArticle.bind(this)}>保存</Button>
-              <Button onClick={this.publishArticle.bind(this)} style={{marginLeft:10}}>发布</Button>
-            </div>
+      <div
+        key={index}
+        className="article_item"
+        style={
+          this.state.checkedArticle._id === item._id
+            ? { backgroundColor: "rgba(0,0,0,0.1)" }
+            : null
+        }
+      >
+        <div style={{display:"flex"}}>
+            <div style={{flex:1}} onClick={this.checkArticle.bind(this, item)}>
+              <img
+              style={{
+                width: "20px",
+                height: "20px",
+                marginRight: "10px"
+              }}
+              src={page_img}
+              alt=""
+            />
+            <span>{item.title}</span>
           </div>
-          <div style={{flex:1}} id="editormd_container">
-            <textarea value={this.state.checkedArticle?this.state.checkedArticle.content:""}>
-
-             </textarea>
+          <div style={{display:"flex"}} onClick={this.deleteArticle.bind(this,item,index)}> 
+            <img style={{
+              width: "20px",
+              height: "20px",
+              marginRight: "10px"
+            }} src={delete2_img} alt=""/>
+          </div>
+        </div>
+        <div className="tags">
+          <span>标签</span>
+          <EditableTagGroup></EditableTagGroup>
+        </div>
+      </div>
+    )
+  }
+  rendercollection(item,index){
+    return(
+      <div
+          onClick={this.checkeCollection.bind(this, item)}
+          key={index}
+          className="item"
+          style={
+            this.state.checkedCollection &&
+            this.state.checkedCollection._id === item._id
+              ? { backgroundColor: "rgba(255,255,255,0.5)" }
+              : null
+          }
+        >
+          <span>{item.title}</span>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end"
+            }}
+          >
+            <Popover
+              placement="bottomRight"
+              content={this.renderPopoverContent()}
+              title="编辑"
+              trigger="click"
+              visible={
+                this.state["showEditeMenu" + index] ? true : false
+              }
+            >
+              <img
+                onClick={e => {
+                  this.showEditeMenu(e, item, index);
+                }}
+                style={{
+                  width: "15px",
+                  height: "15px",
+                  marginRight: "10px"
+                }}
+                src={set_img}
+                alt=""
+              />
+            </Popover>
           </div>
         </div>
     )
+  }
+  renderEditor() {
+    return (
+      <div className="summernote">
+        <div className="title">
+          <input
+            onInput={e => {
+              console.log(e.target.value);
+              var checkedArticle = this.state.checkedArticle;
+              checkedArticle.title = e.target.value;
+              this.setState({
+                checkedArticle: checkedArticle
+              });
+            }}
+            className="title_input"
+            value={
+              this.state.checkedArticle ? this.state.checkedArticle.title : ""
+            }
+            type="text"
+          />
+          <div className="publish">
+            <Button onClick={this.saveArticle.bind(this)}>保存</Button>
+            <Button
+              onClick={this.publishArticle.bind(this)}
+              style={{ marginLeft: 10 }}
+            >
+              发布
+            </Button>
+          </div>
+        </div>
+        <div style={{ flex: 1 }} id="editormd_container">
+          <textarea
+            value={
+              this.state.checkedArticle ? this.state.checkedArticle.content : ""
+            }
+          />
+        </div>
+      </div>
+    );
   }
   render() {
     return (
@@ -334,55 +461,8 @@ import delete_img from "../../assets/delete.svg";
                 </div>
               </div>
             )}
-
-             <div className="item_c">
-              {this.state.collections.map((item, index) => {
-                return (
-                  <div
-                    onClick={this.checkeCollection.bind(this, item)}
-                    key={index}
-                    className="item"
-                    style={
-                      this.state.checkedCollection&&this.state.checkedCollection._id === item._id
-                        ? { backgroundColor: "rgba(255,255,255,0.5)" }
-                        : null
-                    }
-                  >
-                    <span>{item.title}</span>
-                    <div
-                      style={{
-                        flex: 1,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-end"
-                      }}
-                    >
-                      <Popover
-                        placement="bottomRight"
-                        content={this.renderPopoverContent()}
-                        title="编辑"
-                        trigger="click"
-                        visible={
-                          this.state["showEditeMenu" + index] ? true : false
-                        }
-                      >
-                        <img
-                          onClick={e => {
-                            this.showEditeMenu(e, item, index);
-                          }}
-                          style={{
-                            width: "15px",
-                            height: "15px",
-                            marginRight: "10px"
-                          }}
-                          src={set_img}
-                          alt=""
-                        />
-                      </Popover>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="item_c">
+              {this.state.collections.map((item, index) => this.rendercollection(item,index))}
             </div>
           </div>
           <div className="list">
@@ -397,35 +477,15 @@ import delete_img from "../../assets/delete.svg";
               />
               <span>新建文章</span>
             </div>
+
             <div className="article_list">
-              {this.state.articleList&&this.state.articleList.map((item, index) => (
-                <div
-                  key={index}
-                  className="article_item"
-                  onClick={this.checkArticle.bind(this,item)}
-                  style={
-                    this.state.checkedArticle._id === item._id
-                      ? { backgroundColor: "rgba(0,0,0,0.1)" }
-                      : null
-                  }
-                >
-                  <img
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      marginRight: "10px"
-                    }}
-                    src={page_img}
-                    alt=""
-                  />
-                  <span>{item.title}</span>
-                </div>
-              ))}
+              {this.state.articleList &&
+                this.state.articleList.map((item, index) =>this.renderarticle(item,index))}
             </div>
           </div>
         </div>
         <div className="editor">
-          {this.state.checkedArticle&&this.renderEditor()}
+          {this.state.checkedArticle && this.renderEditor()}
         </div>
       </div>
     );

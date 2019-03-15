@@ -43,7 +43,7 @@ export default class Register extends Component {
   //   });
   // }
   register = () => {
-    api.post("/blog/users/register", {
+    api.post("users/register", {
       nickName: this.state.nickName,
       account: this.state.account,
       passWord: this.state.passWord
@@ -53,7 +53,7 @@ export default class Register extends Component {
   };
   login = () => {
     var that = this
-    api.post("/blog/users/login", {
+    api.post("users/login", {
       account: this.state.account,
       passWord: this.state.passWord
     }).then(res=>{
@@ -64,7 +64,7 @@ export default class Register extends Component {
             title: '登录成功',
             content: '是否跳转到首页',
             onOk() {
-              that.props.history.replace("/")
+              that.props.history.replace("/home")
             },
             onCancel() {
               console.log('Cancel');
