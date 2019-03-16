@@ -80,30 +80,33 @@
     overflow: scroll;
     .addNewArticle {
       padding-left: 30px;
-      height: 50px;
+      height: 51px;
       display: flex;
       align-items: center;
-      border-bottom: solid #aaaaaa 1px;
+      border-bottom: solid #dddddd 1px;
       cursor: pointer;
     }
     .article_list {
       width: 100%;
       .article_item {
         display: flex;
-        flex-direction: column;
+        
         padding-left: 30px;
         // height: 60px;
         width: 100%;
         padding: 10px 10px;
         justify-content: center;
-        border-bottom: solid #aaaaaa 1px;
+        border-bottom: solid #dddddd 1px;
         &:hover{
             background-color: rgba($color: #000000, $alpha: 0.1);
         };
         .tags{
-          marginTop:10;
-          fontSize:12;
+          // margin-top:10px;
+          font-size:12px;
           display: flex;
+          // height:22px;
+          line-height: 22px;
+          color:#999999
         }
       }
       
@@ -126,11 +129,13 @@
     display: flex;
     align-items: center;
     .title_input {
-      border: solid #dddddd 1px;
+      border:none;
+      border-left: solid #dddddd 1px;
       flex: 1;
       height: 50px;
       font-size: 28px;
-      padding-left: 30px
+      padding-left: 30px;
+      outline: "none"
     }
     .publish {
       height: 50px;

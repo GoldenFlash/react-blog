@@ -8,7 +8,6 @@ import Index from './view/index/index.js'
 import Edite from './view/edite/edite'
 import Register from './view/register/register'
 
-// import Article from './view/article/article'
 class App extends Component {
   render() {
     return (
@@ -16,9 +15,7 @@ class App extends Component {
         <Router basename="/blog">
           <div>
           <Switch>
-              <Route path="/home" component={Index}>
-                {/* <Route path="/article" component={Article}></Route> */}
-              </Route>
+              <Route  path="/home" component={Index}/>
               <Route  path="/edite" component={Edite}/>
               <Route  path="/register" component={Register}/>
           </Switch> 

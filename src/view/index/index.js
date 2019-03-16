@@ -49,7 +49,8 @@ export default class Index extends Component {
     };
   }
   componentDidMount() {
-    console.log("this.props", this.props.children)
+    this.getTags()
+    this.getArticlesList()
     if (document.cookie) {
       var userInfo = {}
       var cookies = document.cookie.split(";")
@@ -58,37 +59,12 @@ export default class Index extends Component {
         var arr = item.split("=")
         userInfo[arr[0].trim()] = arr[1]
       })
-
       this.setState({
         userInfo: userInfo,
         login: true
       })
-
     }
-    // this.getArticlesList();
     console.log("componentDidMount");
-  }
-  sidebarFixed(parent, el) {
-    var parentel = document.getElementsByClassName(parent)[0];
-    var sidebar = document.getElementsByClassName(el)[0];
-    var parentelheight = parentel.offsetHeight;
-    var sidebarheight = sidebar.offsetHeight;
-
-    parentel.addEventListener('scroll', () => {
-      var scolltop = parentel.scrollTop;
-      var positionTop = parentelheight + scolltop - sidebarheight
-      console.log('positionTop', positionTop)
-      console.log('scolltop', scolltop)
-      if ((sidebarheight - parentelheight) <= scolltop) {
-        this.setState({
-          sidebarStyle: {
-            position: "absolute",
-            right: 0,
-            top: positionTop + 'px'
-          }
-        })
-      }
-    });
   }
   toHome(){
     this.props.history.replace("/home")
@@ -123,6 +99,7 @@ export default class Index extends Component {
       type: "login"
     });
   };
+
   getArticlesList() {
     api.post("article/getHotArticle").then(res => {
       console.log("getArticlesList", res);
@@ -132,6 +109,13 @@ export default class Index extends Component {
         });
       }
     });
+  }
+  getTags(){
+    api.get("tags/getTags").then(res=>{
+      this.setState({
+        tags:res.data
+      })
+    })
   }
   renderHeader() {
     return (
@@ -210,6 +194,7 @@ export default class Index extends Component {
     )
   }
   renderLeftNav() {
+    var latestArticle = this.state.articleList && this.state.articleList.slice(0,3)
     return (
       <div className="leftNav">
         <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
@@ -217,14 +202,14 @@ export default class Index extends Component {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div style={{ fontSize: 26, fontWeight: "600" }}>{this.state.userInfo && this.state.userInfo.nickName}</div>
+          <div style={{ fontSize: 26, fontWeight: "600" }}>wangwei</div>
           <div style={{ fontSize: 12, color: "#8590a6", marginTop: 10 }}>前端打杂人员，略微代码洁癖</div>
         </div>
 
         <div style={{ marginTop: 10 }}>
           <div style={{ fontSize: 16, marginLeft: 10, fontWeight: "bold" }}>最近文章</div>
           <div className="wrapper">
-            {this.state.latest && this.state.latest.map((item, i) => {
+            {latestArticle && latestArticle.map((item, i) => {
               return <div key={i} className="latestArticle">{item.title}</div>
             })}
           </div>
@@ -233,8 +218,8 @@ export default class Index extends Component {
         <div style={{ marginTop: 10 }}>
           <div style={{ fontSize: 16, marginLeft: 10, fontWeight: "bold" }}>标签</div>
           <div className="lables ">
-            {this.state.labels && this.state.labels.map((item, i) => {
-              return <div key={i} className={`item ant-tag ${this.state.labelsClass[Math.ceil(Math.random() * 12)]}`}>{item}</div>
+            {this.state.tags && this.state.tags.map((item, i) => {
+              return <div key={i} className={`item ant-tag ${this.state.labelsClass[Math.ceil(Math.random() * 12)]}`}>{item.title}</div>
             })}
           </div>
         </div>

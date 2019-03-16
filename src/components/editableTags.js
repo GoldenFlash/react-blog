@@ -5,11 +5,16 @@ import {
 } from 'antd';
 
 export default class EditableTagGroup extends React.Component {
-  state = {
-    tags: ['Tag1', 'Tag2'],
-    inputVisible: false,
-    inputValue: '',
-  };
+  constructor(props){
+    super(props)
+    console.log(this.props.tags)
+    this.state = {
+      tags: this.props.tags||[],
+      inputVisible: false,
+      inputValue: '',
+    };
+  }
+  
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
@@ -32,6 +37,7 @@ export default class EditableTagGroup extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue];
     }
+    inputValue&&this.props.onConfirm(inputValue)
     console.log(tags);
     this.setState({
       tags,
@@ -49,7 +55,7 @@ export default class EditableTagGroup extends React.Component {
         {tags.map((tag, index) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
-            <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
+            <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)} style={{ color: "#999", paddingLeft: 3, paddingRight: 3,height:20,lineHeight:"18px"}}>
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </Tag>
           );
@@ -70,8 +76,8 @@ export default class EditableTagGroup extends React.Component {
         {!inputVisible && (
           <Tag
             onClick={this.showInput}
-            style={{ background: '#fff', borderStyle: 'dashed' }}
-          >
+            style={{ background: '#fff', borderStyle: 'dashed', paddingLeft: 3, paddingRight: 3,color:"#999",height:20,lineHeight:"18px"}}
+      >
             <Icon type="plus" /> New Tag
           </Tag>
         )}

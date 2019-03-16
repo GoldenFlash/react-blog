@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import axios from "axios";
-import { Popover, Button, message,Tag } from "antd";
+import { Popover, Button, message, Empty, Popconfirm } from "antd";
 import EditableTagGroup from "../../components/editableTags"
 import "./edite.scss";
 import api from "../../api/api";
@@ -39,7 +38,8 @@ export default class Edite extends Component {
   }
   initEditor() {
     this.testEditor = window.editormd("editormd_container", {
-      path: "/blog/lib/editor.md-master/lib/",
+      // path: "/blog/lib/editor.md-master/lib/",
+      path: "../../lib/editor.md-master/lib/",
       width: "100%",
       height: "100%",
       syncScrolling: "single",
@@ -55,7 +55,6 @@ export default class Edite extends Component {
     }
   }
   toggleCollections() {
-    // var collectedWorks = this.state.collectedWorks
     this.setState({
       addNewCollections: !this.state.addNewCollections
     });
@@ -90,7 +89,11 @@ export default class Edite extends Component {
     this.getArticleList(collection._id);
   }
   checkArticle(checkedArticle) {
-    console.log("checkedArticle", checkedArticle);
+    
+    // console.log("checkedArticle", checkedArticle);
+    if (this.state.checkedArticle._id===checkedArticle._id){
+      return
+    }
     this.setState(
       {
         checkedArticle: checkedArticle
@@ -246,6 +249,14 @@ export default class Edite extends Component {
         }
       });
   }
+  updateTags = (newTags,article)=>{
+    console.log(newTags, article)
+    api.post("tags/updateTags",{
+      id:article._id,
+      collectionId:article.collectionId,
+      title: newTags
+    })
+  }
   renderPopoverContent() {
     return (
       <div>
@@ -283,6 +294,8 @@ export default class Edite extends Component {
     );
   }
   renderarticle(item,index){
+    console.log(item.tags);
+    
     return(
       <div
         key={index}
@@ -293,30 +306,35 @@ export default class Edite extends Component {
             : null
         }
       >
-        <div style={{display:"flex"}}>
-            <div style={{flex:1}} onClick={this.checkArticle.bind(this, item)}>
+        <div onClick={this.checkArticle.bind(this, item)} style={{ display: "flex", flexDirection: "column",flex:1}}>
+            <div style={{flex:1,paddingBottom:10}} >
               <img
               style={{
                 width: "20px",
                 height: "20px",
-                marginRight: "10px"
               }}
               src={page_img}
               alt=""
             />
             <span>{item.title}</span>
           </div>
-          <div style={{display:"flex"}} onClick={this.deleteArticle.bind(this,item,index)}> 
-            <img style={{
+          <div className="tags">
+            <span style={{ marginRight: 3 }}>标签：</span>
+            <div style={{ flex: 1 }}>
+              { item.tags && <EditableTagGroup onConfirm={(newTags) => { this.updateTags(newTags, item) }} tags={item.tags}></EditableTagGroup>}
+            </div>  
+          </div>
+          
+        </div>
+        <div style={{ display: "flex",alignItems:"center" }}>
+          <Popconfirm title="点击确定删除文章.............." onConfirm={this.deleteArticle.bind(this, item, index)}  okText="确定" cancelText="取消">
+              <img style={{
               width: "20px",
               height: "20px",
               marginRight: "10px"
-            }} src={delete2_img} alt=""/>
-          </div>
-        </div>
-        <div className="tags">
-          <span>标签</span>
-          <EditableTagGroup></EditableTagGroup>
+            }} src={delete2_img} alt="" />
+          </Popconfirm>
+          
         </div>
       </div>
     )
@@ -374,6 +392,7 @@ export default class Edite extends Component {
       <div className="summernote">
         <div className="title">
           <input
+
             onInput={e => {
               console.log(e.target.value);
               var checkedArticle = this.state.checkedArticle;
@@ -479,14 +498,25 @@ export default class Edite extends Component {
             </div>
 
             <div className="article_list">
-              {this.state.articleList &&
+              {this.state.articleList.length>0&&
                 this.state.articleList.map((item, index) =>this.renderarticle(item,index))}
             </div>
           </div>
         </div>
         <div className="editor">
-          {this.state.checkedArticle && this.renderEditor()}
+          {this.state.checkedArticle?
+            this.renderEditor():
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center",borderLeft:"solid #dddddd 1px",height:"100%"}}> 
+              <Empty
+                description={
+                  <span>
+                    空空如也
+                  </span>
+                }
+              ></Empty>
+            </div> }
         </div>
+          
       </div>
     );
   }
