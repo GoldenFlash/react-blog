@@ -77,17 +77,21 @@
   }
   .list {
     flex: 4;
-    overflow: scroll;
+    display: flex;
+    flex-direction: column;
     .addNewArticle {
       padding-left: 30px;
       height: 51px;
+      width:100%;
       display: flex;
       align-items: center;
       border-bottom: solid #dddddd 1px;
       cursor: pointer;
     }
+
     .article_list {
-      width: 100%;
+      flex:1;
+      overflow: scroll;
       .article_item {
         display: flex;
         

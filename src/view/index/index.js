@@ -7,7 +7,7 @@ import "./index.scss";
 import Loading from "../../components/Loading"
 import ArticleList from "../list/list"
 import ArticleContent from '../article/article'
-import Archive from "../archive/archive.js"
+import Archive from "../archive/index"
 import SideNav from "./components/sideNav/index"
 import Header from "./components/Header/index"
 
@@ -58,7 +58,6 @@ export default class Index extends Component {
       })
     })
   }
-
 
   render() {
     var latestArticle = this.state.articleList && this.state.articleList.slice(0, 3)

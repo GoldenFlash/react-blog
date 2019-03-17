@@ -39,7 +39,7 @@ export default class Edite extends Component {
   initEditor() {
     this.testEditor = window.editormd("editormd_container", {
       // path: "/blog/lib/editor.md-master/lib/",
-      path: "../../lib/editor.md-master/lib/",
+      path: "/blog/lib/editor.md-master/lib/",
       width: "100%",
       height: "100%",
       syncScrolling: "single",
@@ -501,6 +501,7 @@ export default class Edite extends Component {
               {this.state.articleList.length>0&&
                 this.state.articleList.map((item, index) =>this.renderarticle(item,index))}
             </div>
+
           </div>
         </div>
         <div className="editor">

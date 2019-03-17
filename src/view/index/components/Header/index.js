@@ -57,7 +57,6 @@ export default class Header extends React.Component {
                 })
             }
         });
-        
     }
     render() {
         const menu = (
@@ -95,10 +94,6 @@ export default class Header extends React.Component {
                             />
                         </div>
                     </div>
-                    {/* <Menu theme="dark" style={{backgroundColor:"transparent"}} mode="horizontal">
-                    <Menu.Item key="1">Option 1</Menu.Item>
-                    <Menu.Item key="2">Option 2</Menu.Item>
-                </Menu> */}
 
                     <div style={{fontSize:13,flex: 1, display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                         <div>
@@ -108,7 +103,7 @@ export default class Header extends React.Component {
                             </Link>
                         </div>
                         <div>
-                            <Link className="link" to="/home">
+                            <Link className="link" to="/home/archive">
                                 <img style={{ width: "15px", height: "15px",marginRight:5}} src={archive_img} alt="" />
                                 <span>归档</span>
                             </Link>
@@ -154,13 +149,10 @@ class Login extends React.Component {
         super(props)
         this.state = { 
             loading:false,
-            // username: this.refs.userNameInput.value,
-            // passWord: this.refs.passwordInput.value
+            
         }
     }
-    componentDidMount(){
-        // console.log(1111111111110000, this.userNameInput)
-    }
+  
     login = () => {
         this.setState({
             loading: true
