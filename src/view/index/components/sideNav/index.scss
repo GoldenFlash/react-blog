@@ -1,0 +1,42 @@
+.leftNav{
+    width:280px;
+    padding-bottom: 10px;
+    background-color:#DDE6E9;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none; 
+    &::-webkit-scrollbar {  
+        width:0 !important;   /* remove scrollbar space */
+        background: transparent;  /* optional: just make scrollbar invisible */
+    }
+    .wrapper{
+        color: #8590a6;
+        margin-top:10px;
+        .latestArticle{
+            width:100%;
+            padding: 5px 30px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 12px;
+            cursor: pointer;
+            &:hover {
+                background-color: rgba($color: #ffffff, $alpha: 0.5);
+            }
+        }
+    };
+    .lables{
+        color: #8590a6;
+        margin-top:10px;
+        display: flex;
+        flex-wrap: wrap;
+        padding:0 25px;
+        justify-content: center;
+        .item{
+            font-size: 12px;
+            margin:2px 5px;
+            cursor: pointer;
+        }
+    }
+    
+}

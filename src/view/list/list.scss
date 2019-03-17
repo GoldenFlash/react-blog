@@ -1,9 +1,9 @@
 .articalList{
     flex: 1;
     padding:20px;
-    height:1000px;
+    min-height:1000px;
     .artical{
-        height:180px;
+        height:200px;
         background-color: #fff;
         margin-bottom: 20px;
         display: flex;
@@ -17,8 +17,8 @@
         }
         .content_wrapper{
             margin-top:10px;
-            height:75px;
-            line-height: 25px;
+            height:90px;
+            line-height: 30px;
             overflow : hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -33,7 +33,6 @@
             align-items: center;
             color:#98a6ad;
             .item{
-                // line-height:1;
                 display:flex;
                 align-items:center;
                 font-size: 12px;
@@ -46,16 +45,21 @@
             }
         }
         .image{
-            width:150px;
+            width:200px;
             height:100%;
             margin-left: 10px;
-            background-image:url(http://www.sunxiaoning.com/usr/themes/handsome/usr/img/sj/5.jpg);
             background-size:cover;
         }
         
     }
 }
 .rightNav{
-    width:200px;
-    background-color:#FFF
+    width:300px;
+    background-color:#FFF;
+    // flex:1;
+    .sideTitle{
+        ul>li {
+            margin: 5px 0
+        }
+    }
 }

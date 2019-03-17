@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import hljs from 'highlight.js/lib/highlight';
-// import javascript from 'highlight.js/lib/languages/javascript';
-// import 'highlight.js/styles/github.css';
-// hljs.registerLanguage('javascript', javascript);
+import hljs from 'highlight.js/lib/highlight';
+import javascript from 'highlight.js/lib/languages/javascript';
+import 'highlight.js/styles/github.css';
+
 
 import './index.css';
 import App from './App';
@@ -12,7 +12,7 @@ import App from './App';
 // import App from './test';
 import * as serviceWorker from './serviceWorker';
 
-
+hljs.registerLanguage('javascript', javascript);
 
 
 

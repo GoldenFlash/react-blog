@@ -1,41 +1,35 @@
 import React, { Component } from 'react';
+import {Spin} from "antd"
+// import marked from 'marked'
 import author_img from "../../assets/author.svg";
 import time_img from "../../assets/time.svg";
 import comment_img from "../../assets/comment.svg";
-// import marked from "marked";
-// import {translateMarkdown} from "../../util/util.js"
+import { translateMarkdown} from "../../util/util"
 import "./article.scss"
 
 export default class Article extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            content: ""
+            content: "",
+            loading:false
         }
     }
-    componentDidMount() {
-        console.log("this.props", this.props)
-        this.initmarkdownView()
 
-    }
-    initmarkdownView() {
-
+    initmarkdownView=(props)=>{
         var content = this.props.location.state.article.content
-
-        var EditormdView = window.editormd.markdownToHTML("editormd-view", {
+        this.EditormdView = window.editormd.markdownToHTML("editormd-view", {
             markdown: content, //+ "\r\n" + $("#append-test").text(),
             //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
             //htmlDecode      : "style,script,iframe",  // you can filter tags decode
-
         });
-
-
     }
     render() {
         let { article } = this.props.location.state
-        // console.log("title",title)
-
+        let { loading} = this.state
+        let content = translateMarkdown(article.content)
         return (
+            loading ? <Loading/>  :
             <div className="article-detail">  
                 
                    <div className="header">
@@ -61,15 +55,20 @@ export default class Article extends Component {
                         </div>
                     </div>   
                 </div>
-                 <div id="editormd-view">
-                   <textarea style={{display:"none"}}  name="test-editormd-markdown-doc">###Hello world!</textarea>               
-                
-                </div>
-                
-                
-                
+                    <div className="markdown-body editormd-html-preview"  dangerouslySetInnerHTML={{ __html: content }} />
+
+                    {/* <div id="editormd-view" >
+                        <textarea style={{display:"none"}}  name="test-editormd-markdown-doc">###Hello world!</textarea>   
+                    </div> */}
             </div>
         );
     }
 }
-// export default Article;
+
+function Loading(params) {
+    return (
+        < div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }} >
+            <Spin></Spin>
+        </div >
+    )
+}
