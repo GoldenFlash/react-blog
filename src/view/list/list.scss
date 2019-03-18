@@ -1,8 +1,11 @@
 .articalList{
     flex: 1;
     padding:20px;
+    // margin-right: 300px;
     // min-height:1000px;
     border-right:solid #e8e8e8 1px;
+    // background-color:yellow;
+    // min-width: 500px;
    
     .artical{
         height:200px;
@@ -14,8 +17,8 @@
         transition:linear 0.1s;
         &:hover{
             transition:linear 0.1s;
-            box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);
-            background-color: #f1fbfe;
+            box-shadow: 1px 3px 5px 2px rgba(0,0,0,0.1);
+            background-color: #effbff;
         }
         .content_wrapper{
             margin-top:10px;
@@ -56,10 +59,13 @@
     }
 }
 .rightNav{
-    width:300px;
-    background-color:#FFF;
+    width:280px;
+    border-right:solid #e8e8e8 1px;
     height:100%;
-    
+    // position:absolute;
+    // top:0;
+    // right:0;
+    // padding-top:60px;
     .sideTitle{
         ul>li {
             margin: 5px 0

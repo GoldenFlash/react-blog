@@ -46,7 +46,7 @@ const Navigation = ({ content }) => {
       </Link>
     )
   }
-  return <Anchor affix={true}>{list.map(renderLink)}</Anchor>
+  return <Anchor affix={false}>{list.map(renderLink)}</Anchor>
 }
 
 export default Navigation

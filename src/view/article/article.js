@@ -35,12 +35,9 @@ export default class Article extends Component {
     return loading ? (
       <Loading />
     ) : (
-      <div className="article-detail">
-        <div
-          id="article_scroll_container"
-          style={{ flex: 1, overflowY: "scroll", paddingRight: 260 }}
-        >
-          <div style={{ borderRight: "solid #e8e8e8 1px" }}>
+        <div className="article-detail">
+
+          <div style={{ borderRight: "solid #e8e8e8 1px",flex:1,}}>
             <div className="content_header">
               <div className="">{article.title}</div>
               <div className="articleInfo">
@@ -63,16 +60,16 @@ export default class Article extends Component {
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
+
+          <div className="sider_left">
+            <Anchor
+              getContainer={() =>
+                document.getElementById("article_scroll_container")
+              }
+              content={content}
+            />
+          </div>
         </div>
-        <div className="sider_left">
-          <Anchor
-            getContainer={() =>
-              document.getElementById("article_scroll_container")
-            }
-            content={content}
-          />
-        </div>
-      </div>
-    );
+      );
   }
 }

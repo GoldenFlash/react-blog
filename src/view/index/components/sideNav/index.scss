@@ -1,13 +1,16 @@
 .leftNav{
     width:280px;
-    padding-bottom: 10px;
+    // padding-bottom: 10px;
+    padding-top:60px;
     // background-color:#DDE6E9;
+    height:100vh;
     background-color:#FFF;
     border:solid #e8e8e8 1px;
     border-top:none;
     overflow-y: scroll;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none; 
+    overflow-x: visible;
+    // -ms-overflow-style: none;
+    // overflow: -moz-scrollbars-none; 
     &::-webkit-scrollbar {  
         width:0 !important;   /* remove scrollbar space */
         background: transparent;  /* optional: just make scrollbar invisible */

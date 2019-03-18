@@ -62,17 +62,18 @@ export default class Index extends Component {
   render() {
     var latestArticle = this.state.articleList && this.state.articleList.slice(0, 3)
     return (
-      <div className="page">
-        {this.state.articleList && this.state.tags ?
+        this.state.articleList && this.state.tags ?
           <div className="container">
 
-            <Header></Header>
+            <div style={{height:60,width:"100%",position:"absolute",top:0,zIndex:10,backgroundColor:"#FFF"}}>
+              <Header></Header>
+            </div>
 
-            <div className="content">
-
-              <SideNav latestArticle={latestArticle} tags={this.state.tags}></SideNav>
-
-              <article className="article-wrapper" id="scroll_html">
+            <div className="content" >
+              <div style={{position:"absolute",top:0}} >
+                  <SideNav latestArticle={latestArticle} tags={this.state.tags}></SideNav>
+              </div>
+              <article className="article-wrapper">
                 <Route exact path="/home" component={ArticleList}></Route>
                 <Route path="/home/content" component={ArticleContent}></Route>
                 <Route path="/home/archive" component={Archive}></Route>
@@ -80,8 +81,7 @@ export default class Index extends Component {
               </article>
 
             </div>
-          </div> : <Loading />}
-      </div>
+          </div> : <Loading />
     );
   }
 }

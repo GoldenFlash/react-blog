@@ -3,35 +3,36 @@
     font-size: 12px;       
     text-align: center;
 }
-.page{
-    width:100%;
-    height:100vh;
-    // background-color: #bbcebf;
-}
 .menu_hover:hover{
     background-color:rgba(0,0,0,0.3);
 }
 .container{
     width:100%;
-    
     height:100vh;
-    // background-color: #f2f2f2;
     margin:0 auto;
-    // box-shadow: 0 0 50px 1px #999999;
-    display: flex;
+    // display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: scroll;
+    // position: relative;
 }
 .content{
-    display: flex;
-    height: 100%;
-    width:1500px;
+    // position: relative;
+    // display: flex;
+    width:100%;
+    // padding-top:60px;
+    // min-height: 100vh;
+    margin:0 auto;
+    // flex:1;
+    // height: 100%;
+    max-width:1200px;
+    // overflow-x: hidden
 }
 
 .article-wrapper{
-    flex: 1;
-    // overflow-y: scroll;
-    // display: flex
+    margin-left: 280px;
+    // background-color: aqua;
+    
 }
 
 

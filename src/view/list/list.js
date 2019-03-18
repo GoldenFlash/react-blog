@@ -47,7 +47,7 @@ export default class ArticalList extends Component {
         return (
 
             loading ? <Loading /> :
-                <div style={{ display: "flex",overflow:"scroll",height:"100%"}}>
+                <div style={{display:"flex",minHeight:"100vh",paddingTop:60}}>
                     <div className="articalList">
                         {this.state.articleList.map((item, i) => {
                             return (
@@ -59,7 +59,7 @@ export default class ArticalList extends Component {
                                             </span>
                                         </div>
                                         <div className="content_wrapper">
-                                            {marked(item.content).replace(HTMLtag, "")}
+                                            {marked(item.content).replace(HTMLtag, "").substr(0,300)}
                                         </div>
                                         <div
                                             style={{ borderBottom: "solid #EEEEEE 1px", margin: 10 }}
@@ -98,12 +98,12 @@ export default class ArticalList extends Component {
                         })}
                     </div>
 
-                    <div style={this.state.sidebarStyle} className="rightNav">
+                    <div className="rightNav">
                         <div className="sideTitle">
                             <Divider orientation="left">热门文章</Divider>
                             <ul>
-                                {this.state.articleList.slice(0, 5).map((item,index) =>
-                                    <li key = {index}>
+                                {this.state.articleList.slice(0, 5).map((item, index) =>
+                                    <li key={index}>
                                         <Link to={{ pathname: "/home/content", state: { article: item } }} state={item}>
                                             <a>{item.title}</a>
                                         </Link>

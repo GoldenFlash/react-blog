@@ -1,8 +1,11 @@
 .article-detail{
     background-color: #FFF;
-	height:100%;
+	min-height:100vh;
+	padding-top:60px;
+
+	// background-color: red;
 	display:flex;
-	position: relative;
+	// position: relative;
     .content_header{
 		padding:20px;
     	font-size: 20px;
@@ -31,9 +34,11 @@
 	    }
     }
 	.sider_left{
+		background-color: red;
 		width:250px;
-		position: absolute;
-		top:0;
+		border-right:solid #e8e8e8 1px;
+		// position: absolute;
+		// top:0;
 		right:22px;
 		height:100%;
 		.ant-anchor-ink{
