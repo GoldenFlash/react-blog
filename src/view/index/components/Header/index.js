@@ -5,6 +5,7 @@ import home_img from "../../../../assets/home.svg";
 // import lingdang_img from "../../../../assets/lingdang.svg";
 import search_img from "../../../../assets/search.svg";
 import archive_img from "../../../../assets/archive.svg";
+import archiveDark_img from "../../../../assets/archive-dark.svg";
 // import DropdownMenu from "../../../../components/Dropdown_menu";
 import "./index.scss"
 
@@ -17,9 +18,13 @@ export default class Header extends React.Component {
         
         super(props)
         this.state = {
+            userInfo:{},
             modalVisible: false,
-            login:this.checkLogin()
+            login:false
         }
+    }
+    componentDidMount(){
+        this.checkLogin()
     }
     checkLogin(){
         if (document.cookie) {
@@ -30,12 +35,14 @@ export default class Header extends React.Component {
                 var arr = item.split("=")
                 userInfo[arr[0].trim()] = arr[1]
             })
+            console.log("userInfo",userInfo) 
             window.userInfo = userInfo
-            return true
-            // this.setState({
-            //   userInfo: userInfo,
-            //   login: true
-            // })
+            this.setState({
+                userInfo: userInfo,
+                login: true
+            })
+            // return true
+           
         }
     }
     modalCancel = (isVisibal) => {
@@ -43,17 +50,19 @@ export default class Header extends React.Component {
             modalVisible: isVisibal
         })
     }
-    modalConfirm = (isVisibal) => {
+    modalConfirm = (isVisibal,userInfo) => {
         this.setState({
             modalVisible: isVisibal,
-            login:true
+            login:true,
+            userInfo:userInfo
         })
     }
     logOut=()=>{
         api.post("users/logout").then(res => {
             if(!res.err){
                 this.setState({
-                    login: false
+                    login: false,
+                    userInfo:{}
                 })
             }
         });
@@ -64,24 +73,22 @@ export default class Header extends React.Component {
                 <Menu.Item onClick={this.logOut}>
                     <span>退出登陆</span>
                 </Menu.Item>
-               
             </Menu>
         );
         return (
-            <header>
+            <header className="header">
                 <Login modalVisible={this.state.modalVisible} onOk={this.modalConfirm} onCancel={this.modalCancel}></Login>
                 <div className="titleBar">
                     <div className="titleBar_left">
                         <Link className="link" to="/home">
-                            <img alt=""
-                                style={{ width: "25px", height: "25px", marginRight: "10px" }}
-                                src={home_img}
-                            />
+                            <Icon type="home" size="large" style={{ color: "#333", marginRight: 5,fontSize:20}} />
+
                             <span style={{ fontSize: "20px" }}>博客</span>
                         </Link>
                     </div>
 
                     <div className="titleBar_middle">
+                       
                         <input
                             className="titleBar_input"
                             type="text"
@@ -93,33 +100,38 @@ export default class Header extends React.Component {
                                 style={{ width: "20px", height: "20px" }}
                             />
                         </div>
+                
                     </div>
 
                     <div style={{fontSize:13,flex: 1, display: "flex", alignItems: "center", justifyContent: "space-around" }}>
                         <div>
                             <Link className="link" to="/home">
-                                <Icon type="home" style={{ color: "#FFF", marginRight: 5 }} />
+                                <Icon type="home" style={{ color: "#333", marginRight: 5 }} />
                                 <span>首页</span>
                             </Link>
                         </div>
                         <div>
                             <Link className="link" to="/home/archive">
-                                <img style={{ width: "15px", height: "15px",marginRight:5}} src={archive_img} alt="" />
+                                <img style={{ width: "15px", height: "15px",marginRight:5}} src={archiveDark_img} alt="" />
                                 <span>归档</span>
                             </Link>
                         </div>
                         <div>
                             <Link className="link" to="/home">
-                                <Icon type="user" style={{ color: "#FFF", marginRight: 5 }} />
+                                <Icon type="user" style={{ color: "#333", marginRight: 5 }} />
                                 <span>关于</span>
                             </Link>
                         </div>
-                        <div>
-                            <Link className="link" to="/edite">
-                                <Icon type="edit" style={{ color: "#FFF", marginRight: 5}} />
-                                <span>写文章</span>
-                            </Link>
-                        </div>
+                        {
+                            (this.state.userInfo.auth==="0"||this.state.userInfo.auth==="1")&&
+                            <div>
+                                <Link className="link" to="/edite">
+                                    <Icon type="edit" style={{ color: "#333", marginRight: 5}} />
+                                    <span>写文章</span>
+                                </Link>
+                            </div>
+ 
+                        }
                         <div style={{marginRight:10}}>
                             {this.state.login?
                                 <Dropdown overlay={menu} placement="bottomCenter">
@@ -130,7 +142,7 @@ export default class Header extends React.Component {
                                         modalVisible: true
                                     })
                                 }}>
-                                    <span>登陆</span>
+                                    <span>登录</span>
                                 </div>
                             }
                         </div>
@@ -169,7 +181,7 @@ class Login extends React.Component {
                 errMeg: errMeg
             }, () => {
                 if(!res.err){
-                    this.props.onOk(false)
+                    this.props.onOk(false,res.data)
                 }else{
                     
                 }

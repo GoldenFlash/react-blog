@@ -47,7 +47,7 @@ export default class ArticalList extends Component {
         return (
 
             loading ? <Loading /> :
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex",overflow:"scroll",height:"100%"}}>
                     <div className="articalList">
                         {this.state.articleList.map((item, i) => {
                             return (

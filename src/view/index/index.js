@@ -10,7 +10,7 @@ import ArticleContent from '../article/article'
 import Archive from "../archive/index"
 import SideNav from "./components/sideNav/index"
 import Header from "./components/Header/index"
-
+import Tag from "../tag/tag"
 export default class Index extends Component {
   constructor(props) {
     super(props);
@@ -72,10 +72,11 @@ export default class Index extends Component {
 
               <SideNav latestArticle={latestArticle} tags={this.state.tags}></SideNav>
 
-              <article className="article-wrapper">
+              <article className="article-wrapper" id="scroll_html">
                 <Route exact path="/home" component={ArticleList}></Route>
                 <Route path="/home/content" component={ArticleContent}></Route>
                 <Route path="/home/archive" component={Archive}></Route>
+                <Route path="/home/tag" component={Tag}></Route>
               </article>
 
             </div>

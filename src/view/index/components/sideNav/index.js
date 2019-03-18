@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Divider } from "antd"
 import "./index.scss"
 function LeftNav(props) {
-    console.log(123213123,props)
     var labelsClass = [
         "ant-tag-magenta",
         "ant-tag-blue",
@@ -43,7 +42,7 @@ function LeftNav(props) {
                 <Divider orientation="left">标签</Divider>
                 <div className="lables ">
                     {tags.map((item, i) => {
-                        return <div key={i} className={`item ant-tag ${labelsClass[Math.ceil(Math.random() * 12)]}`}>{item.title}</div>
+                        return <Link to={{pathname:"/home/tag",state:{tag:item}}}  key={i} className={`item ant-tag ${i<12?labelsClass[i]:labelsClass[i-11]}`}>{item.title}</Link>
                     })}
                 </div>
             </div>
