@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Spin } from "antd";
+import { Spin,Divider } from "antd";
 import Loading from "../../components/Loading";
 // import marked from 'marked'
 import author_img from "../../assets/author.svg";
@@ -19,7 +19,12 @@ export default class Article extends Component {
       ...this.props.location.state
     };
   }
-
+  componentWillReceiveProps(nextprops){
+    console.log("nextPops",nextprops)
+    this.setState({
+      ...nextprops.location.state
+    })
+  }
   initmarkdownView = props => {
     var content = this.props.location.state.article.content;
     this.EditormdView = window.editormd.markdownToHTML("editormd-view", {
@@ -62,6 +67,9 @@ export default class Article extends Component {
           </div>
 
           <div className="sider_left">
+
+            <Divider orientation="left">总览</Divider>
+
             <Anchor
               getContainer={() =>
                 document.getElementById("article_scroll_container")
