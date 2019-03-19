@@ -10,23 +10,30 @@
     min-width: 1200px
 }
 .titleBar{
-    // background-color: #0E96C2;
     height:50px;
     width:1500px;
     display: flex;
     align-items: center;
-    // color:#FFF;
+    .menu{
+        font-size: 13px; 
+        flex: 1; 
+        display: flex; 
+        align-items: center; 
+        justify-content:center;
+        .ant-menu-horizontal{
+            border-bottom: none
+        }
+    }
     .link{
         color:#333;
         display: flex;
         align-items: center;
-        
     }
     .icon{
         color: "#333";
         margin-right: 5
     }
-    .titleBar_left, .titleBar_middle, .titleBar_login, .editeArtical{
+    .titleBar_left, .titleBar_middle, .titleBar_login{
         height:100%;
         display:flex;
         align-items:center;
@@ -34,7 +41,6 @@
     }
     .titleBar_left{
         width:280px;
-        // border:solid #e8e8e8 1px;
         display: flex;
         justify-content: center
         
@@ -65,23 +71,4 @@
              background-color:#e8e8e8;
         }
     }
-    .titleBar_login{
-        flex:1;
-        display:flex;
-        justify-content:flex-end;
-        text-align: right;
-        .menu_container{
-            height:100%;
-            width:80px;
-            display:flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-    .editeArtical{
-        flex:1;
-        display:flex;
-        cursor:pointer
-    }
-   
 }

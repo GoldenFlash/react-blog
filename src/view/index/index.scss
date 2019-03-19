@@ -21,7 +21,7 @@
     // display: flex;
     width:100%;
     // padding-top:60px;
-    min-height: 100vh;
+   
     margin:0 auto;
     // flex:1;
     // height: 100%;
@@ -31,7 +31,8 @@
 
 .article-wrapper{
     margin-left: 280px;
-    border-right: solid #e8e8e8 1px
+     min-height: 100vh;
+    border-right: solid #e8e8e8 1px;
     // background-color: aqua;
     
 }

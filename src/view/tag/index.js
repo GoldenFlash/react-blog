@@ -13,15 +13,19 @@ export default class Archive extends Component {
         }
     }
     componentDidMount() {
-        // console.log("archive.js")
         this.getArticlesList()
     }
-    getArticlesList=()=>{
+    componentWillReceiveProps(nextProps){
+        this.getArticlesList(nextProps)
+    }
+    getArticlesList = (nextProps)=>{
         this.setState({
             loading:true
         })
-        api.post("article/getHotArticle").then(res => {
-            console.log("getArticlesList", res);
+        var props = nextProps||this.props
+        let { tag } = props.location.state
+        api.post("article/getArticleBytags", { tag: tag.title}).then(res => {
+            console.log("getArticleBytags", res);
             if (res.data) {
                 this.setState({
                     articleList: res.data,
@@ -33,7 +37,7 @@ export default class Archive extends Component {
     render() {
         let {loading} = this.state
         return (
-            <div className="archive">  
+            <div className="tags">  
                 {
                 loading?<Loading/>:
                 <Timeline>

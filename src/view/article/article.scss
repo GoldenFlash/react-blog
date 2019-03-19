@@ -7,6 +7,7 @@
 	display:flex;
 	// position: relative;
     .content_header{
+		// position: relative;
 		padding:20px;
     	font-size: 20px;
     	font-weight: 700;
@@ -40,13 +41,14 @@
 		padding-left: 10px;
 		// position: absolute;
 		// top:0;
+		// // left:"100%";
 		right:22px;
 		height:100%;
-		.ant-anchor-ink{
-			&before{
-				background: #FFF
-			}
-		}
+		// .ant-anchor-ink{
+		// 	&before{
+		// 		background: #FFF
+		// 	}
+		// }
 	
 	}
 }

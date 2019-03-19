@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import marked from "marked";
 import { Divider, List, Menu, Spin } from "antd"
 import './list.scss'
-
+import Loading from "../../components/Loading"
 import author_img from "../../assets/author.svg";
 import time_img from "../../assets/time.svg";
 import comment_img from "../../assets/comment.svg";
@@ -19,7 +19,7 @@ export default class ArticalList extends Component {
         super(props)
         this.state = {
             articleList: [],
-            loading: true
+            loading: false
         }
     }
     componentDidMount() {
@@ -31,6 +31,9 @@ export default class ArticalList extends Component {
         });
     }
     getArticlesList() {
+        this.setState({
+            loading:true
+        })
         api.post("article/getHotArticle").then(res => {
             console.log("getArticlesList", res);
             if (res.data) {
@@ -115,13 +118,4 @@ export default class ArticalList extends Component {
                 </div>
         )
     }
-}
-
-function Loading(params) {
-
-    return (
-        < div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }} >
-            <Spin></Spin>
-        </div >
-    )
 }

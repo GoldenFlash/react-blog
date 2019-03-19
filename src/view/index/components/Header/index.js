@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Menu, Icon, Avatar, Modal, Input, Button, Dropdown, Alert} from "antd"
+import { Menu, Icon, Avatar, Modal, Input, Button, Dropdown, Alert } from "antd"
 import home_img from "../../../../assets/home.svg";
 // import lingdang_img from "../../../../assets/lingdang.svg";
 import search_img from "../../../../assets/search.svg";
@@ -15,18 +15,25 @@ import api from "../../../../api/api"
 const MenuItemGroup = Menu.ItemGroup;
 export default class Header extends React.Component {
     constructor(props) {
-        
+
         super(props)
         this.state = {
-            userInfo:{},
+            userInfo: {},
             modalVisible: false,
-            login:false
+            login: false,
+            menus: [
+                { path: "/home", title: "首页", type: "home" },
+                { path: "/home/archive", title: "归档", type: "snippets" },
+                { path: "/home/about", title: "关于", type: "user" },
+                { path: "/edite", title: "写文章", type: "edit", auth: "0" },
+            ]
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         this.checkLogin()
     }
-    checkLogin(){
+    checkLogin() {
+        console.log("userInfo", this.state.userInfo)
         if (document.cookie) {
             var userInfo = {}
             var cookies = document.cookie.split(";")
@@ -35,14 +42,12 @@ export default class Header extends React.Component {
                 var arr = item.split("=")
                 userInfo[arr[0].trim()] = arr[1]
             })
-            console.log("userInfo",userInfo) 
+            console.log("userInfo", userInfo)
             window.userInfo = userInfo
             this.setState({
                 userInfo: userInfo,
                 login: true
             })
-            // return true
-           
         }
     }
     modalCancel = (isVisibal) => {
@@ -50,22 +55,27 @@ export default class Header extends React.Component {
             modalVisible: isVisibal
         })
     }
-    modalConfirm = (isVisibal,userInfo) => {
+    modalConfirm = (isVisibal, userInfo) => {
         this.setState({
             modalVisible: isVisibal,
-            login:true,
-            userInfo:userInfo
+            login: true,
+            userInfo: userInfo
         })
     }
-    logOut=()=>{
+    logOut = () => {
         api.post("users/logout").then(res => {
-            if(!res.err){
+            if (!res.err) {
                 this.setState({
                     login: false,
-                    userInfo:{}
+                    userInfo: {}
                 })
             }
         });
+    }
+    onMenuClick = (e) => {
+        console.log(this)
+        console.log(e)
+        this.props.history.push(e.key)
     }
     render() {
         const menu = (
@@ -81,14 +91,14 @@ export default class Header extends React.Component {
                 <div className="titleBar">
                     <div className="titleBar_left">
                         <Link className="link" to="/home">
-                            <Icon type="home" size="large" style={{ color: "#333", marginRight: 5,fontSize:20}} />
+                            <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
 
                             <span style={{ fontSize: "20px" }}>博客</span>
                         </Link>
                     </div>
 
                     <div className="titleBar_middle">
-                       
+
                         <input
                             className="titleBar_input"
                             type="text"
@@ -100,44 +110,39 @@ export default class Header extends React.Component {
                                 style={{ width: "20px", height: "20px" }}
                             />
                         </div>
-                
+
                     </div>
 
-                    <div style={{fontSize:13,flex: 1, display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-                        <div>
-                            <Link className="link" to="/home">
-                                <Icon type="home" style={{ color: "#333", marginRight: 5 }} />
-                                <span>首页</span>
-                            </Link>
-                        </div>
-                        <div>
-                            <Link className="link" to="/home/archive">
-                                <img style={{ width: "15px", height: "15px",marginRight:5}} src={archiveDark_img} alt="" />
-                                <span>归档</span>
-                            </Link>
-                        </div>
-                        <div>
-                            <Link className="link" to="/home">
-                                <Icon type="user" style={{ color: "#333", marginRight: 5 }} />
-                                <span>关于</span>
-                            </Link>
-                        </div>
-                        {
-                            (this.state.userInfo.auth==="0"||this.state.userInfo.auth==="1")&&
-                            <div>
-                                <Link className="link" to="/edite">
-                                    <Icon type="edit" style={{ color: "#333", marginRight: 5}} />
-                                    <span>写文章</span>
-                                </Link>
-                            </div>
- 
-                        }
-                        <div style={{marginRight:10}}>
-                            {this.state.login?
+                    <div className="menu">
+
+                        <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
+                            {
+                                this.state.menus.map((item, i) => {
+                                    if (!item.auth) {
+                                        return (<Menu.Item key={item.path}>
+                                            <Icon type={item.type} style={{ marginRight: 5 }} />
+                                            <span>{item.title}</span>
+                                        </Menu.Item>)
+                                    } else if (item.auth && (item.auth === this.state.userInfo.auth)) {
+                                        console.log("auth", item.auth)
+                                        return (
+                                            <Menu.Item key={item.path}>
+                                                <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                <span>{item.title}</span>
+                                            </Menu.Item>
+                                        )
+                                    }
+                                })
+                            }
+
+                        </Menu>
+
+                        <div style={{ marginRight: 10, marginLeft: 30, fontSize: 14 }}>
+                            {this.state.login ?
                                 <Dropdown overlay={menu} placement="bottomCenter">
                                     <Avatar size="large" icon="user" style={{ backgroundColor: '#87d068' }} />
-                                </Dropdown>:
-                                <div style={{cursor:"pointer"}} onClick={() => {
+                                </Dropdown> :
+                                <div style={{ cursor: "pointer" }} onClick={() => {
                                     this.setState({
                                         modalVisible: true
                                     })
@@ -146,9 +151,9 @@ export default class Header extends React.Component {
                                 </div>
                             }
                         </div>
-                        
+
                     </div>
-                   
+
                 </div>
             </header>
         )
@@ -157,14 +162,14 @@ export default class Header extends React.Component {
 
 class Login extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = { 
-            loading:false,
-            
+        this.state = {
+            loading: false,
+
         }
     }
-  
+
     login = () => {
         this.setState({
             loading: true
@@ -173,25 +178,25 @@ class Login extends React.Component {
             account: this.userNameInput.state.value,
             passWord: this.password
         }).then(res => {
-            if(res.err){
+            if (res.err) {
                 var errMeg = res.message
             }
             this.setState({
                 loading: false,
                 errMeg: errMeg
             }, () => {
-                if(!res.err){
-                    this.props.onOk(false,res.data)
-                }else{
-                    
+                if (!res.err) {
+                    this.props.onOk(false, res.data)
+                } else {
+
                 }
             })
         })
     }
 
     render() {
-        let { onOk, onCancel, modalVisible} = this.props
-        
+        let { onOk, onCancel, modalVisible } = this.props
+
         return (
             <Modal
                 title="登陆"
@@ -207,10 +212,10 @@ class Login extends React.Component {
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         size="large"
                         placeholder="user name"
-                      
+
                         ref={node => {
                             this.userNameInput = node
-                            console.log("node",node)
+                            console.log("node", node)
                         }}
                     />
                 </div>
@@ -220,7 +225,7 @@ class Login extends React.Component {
                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         size="large"
                         placeholder="password"
-                        onChange={(e)=>{
+                        onChange={(e) => {
                             this.password = e.target.value
                         }}
                         ref={node => {
@@ -229,9 +234,9 @@ class Login extends React.Component {
                         }}
                     />
                 </div>
-                {this.state.errMeg&&<Alert style={{ marginTop: 20 }} closable message={this.state.errMeg} type="error" />}
+                {this.state.errMeg && <Alert style={{ marginTop: 20 }} closable message={this.state.errMeg} type="error" />}
                 <div style={{ marginTop: 20 }}>
-                    <Button loading = {this.state.loading} onClick={this.login} type="primary" block>登陆</Button>
+                    <Button loading={this.state.loading} onClick={this.login} type="primary" block>登陆</Button>
                 </div>
             </Modal>
         )

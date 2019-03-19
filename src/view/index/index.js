@@ -10,7 +10,7 @@ import ArticleContent from '../article/article'
 import Archive from "../archive/index"
 import SideNav from "./components/sideNav/index"
 import Header from "./components/Header/index"
-import Tag from "../tag/tag"
+import Tag from "../tag/index"
 export default class Index extends Component {
   constructor(props) {
     super(props);
@@ -34,13 +34,11 @@ export default class Index extends Component {
   componentDidMount() {
     this.getTags()
     this.getArticlesList()
-    
     console.log("componentDidMount");
   }
   toHome() {
     this.props.history.replace("/home")
   }
- 
   getArticlesList() {
     api.post("article/getHotArticle").then(res => {
       console.log("getArticlesList", res);
@@ -58,7 +56,6 @@ export default class Index extends Component {
       })
     })
   }
-
   render() {
     var latestArticle = this.state.articleList && this.state.articleList.slice(0, 3)
     return (
@@ -66,7 +63,7 @@ export default class Index extends Component {
           <div className="container">
 
             <div style={{height:60,width:"100%",position:"absolute",top:0,zIndex:10,backgroundColor:"#FFF"}}>
-              <Header></Header>
+              <Header { ...this.props}></Header>
             </div>
 
             <div className="content" >
