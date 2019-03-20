@@ -37,7 +37,7 @@ export default class Archive extends Component {
     render() {
         let {loading} = this.state
         return (
-            <div className="tags">  
+            <div className="tagArticle">  
                 {
                 loading?<Loading/>:
                 <Timeline>

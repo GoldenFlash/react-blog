@@ -43,10 +43,14 @@ export default class Header extends React.Component {
                 userInfo[arr[0].trim()] = arr[1]
             })
             console.log("userInfo", userInfo)
+            var login = false
+            if(userInfo.userId){
+                login = true
+            }
             window.userInfo = userInfo
             this.setState({
                 userInfo: userInfo,
-                login: true
+                login: login
             })
         }
     }

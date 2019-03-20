@@ -312,6 +312,7 @@ export default class Edite extends Component {
               style={{
                 width: "20px",
                 height: "20px",
+                marginRight:5
               }}
               src={page_img}
               alt=""
