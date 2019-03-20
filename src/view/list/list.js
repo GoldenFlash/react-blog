@@ -26,7 +26,7 @@ export default class ArticalList extends Component {
         this.getArticlesList()
     }
     viewArticle(item) {
-        this.props.history.push("/home/content", {
+        this.props.history.push("content", {
             article: item
         });
     }
@@ -107,7 +107,7 @@ export default class ArticalList extends Component {
                             <ul>
                                 {this.state.articleList.slice(0, 5).map((item, index) =>
                                     <li key={index}>
-                                        <Link to={{ pathname: "/home/content", state: { article: item } }} state={item}>
+                                        <Link to={{ pathname: "content", state: { article: item } }} state={item}>
                                             <a>{item.title}</a>
                                         </Link>
                                     </li>

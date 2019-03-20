@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 
 import api from "../../api/api";
 import "./index.scss";
@@ -71,10 +71,13 @@ export default class Index extends Component {
                   <SideNav latestArticle={latestArticle} tags={this.state.tags}></SideNav>
               </div>
               <article className="article-wrapper">
-                <Route exact path="/home" component={ArticleList}></Route>
-                <Route path="/home/content" component={ArticleContent}></Route>
-                <Route path="/home/archive" component={Archive}></Route>
-                <Route path="/home/tag" component={Tag}></Route>
+                
+                <Switch>
+                  <Route path="/content" component={ArticleContent}></Route>
+                  <Route path="/archive" component={Archive}></Route>
+                  <Route path="/tag" component={Tag}></Route>
+                  <Route path="/" component={ArticleList}></Route>
+                </Switch>
               </article>
 
             </div>

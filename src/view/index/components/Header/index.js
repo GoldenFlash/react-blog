@@ -22,9 +22,9 @@ export default class Header extends React.Component {
             modalVisible: false,
             login: false,
             menus: [
-                { path: "/home", title: "首页", type: "home" },
-                { path: "/home/archive", title: "归档", type: "snippets" },
-                { path: "/home/about", title: "关于", type: "user" },
+                { path: "/", title: "首页", type: "home" },
+                { path: "/archive", title: "归档", type: "snippets" },
+                { path: "/about", title: "关于", type: "user" },
                 { path: "/edite", title: "写文章", type: "edit", auth: "0" },
             ]
         }
@@ -94,7 +94,7 @@ export default class Header extends React.Component {
                 <Login modalVisible={this.state.modalVisible} onOk={this.modalConfirm} onCancel={this.modalCancel}></Login>
                 <div className="titleBar">
                     <div className="titleBar_left">
-                        <Link className="link" to="/home">
+                        <Link className="link" to="/">
                             <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
 
                             <span style={{ fontSize: "20px" }}>博客</span>

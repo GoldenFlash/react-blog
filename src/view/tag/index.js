@@ -4,6 +4,7 @@ import { Timeline} from "antd"
 import Loading from "../../components/Loading"
 import api from "../../api/api"
 import "./index.scss"
+import { relative } from 'path';
 export default class Archive extends Component {
     constructor(props) {
         super(props)
@@ -36,17 +37,21 @@ export default class Archive extends Component {
     }
     render() {
         let {loading} = this.state
+        let { tag } = this.props.location.state
         return (
             <div className="tagArticle">  
                 {
                 loading?<Loading/>:
                 <Timeline>
+                    <Timeline.Item style={{marginTop:20}} key={"key"}>
+                        <h1 style={{position:"relative",top:-5,fontSize:22}}>{tag.title}</h1>
+                    </Timeline.Item>
                     {
                         this.state.articleList.map((item,index)=>{
                             return(
                                 <Timeline.Item key={index}>
                                     <span style={{marginRight:10}}>{item.creatTime.slice(0,10)}</span>
-                                    <Link to={{ pathname: "/home/content", state: { article: item } }}>
+                                    <Link to={{ pathname: "content", state: { article: item } }}>
                                         <span>{item.title}</span>
                                     </Link>
                                 </Timeline.Item>

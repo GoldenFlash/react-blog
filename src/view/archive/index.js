@@ -42,7 +42,7 @@ export default class Archive extends Component {
                             return(
                                 <Timeline.Item key={index}>
                                     <span style={{marginRight:10}}>{item.creatTime.slice(0,10)}</span>
-                                    <Link to={{ pathname: "/home/content", state: { article: item } }}>
+                                    <Link to={{ pathname: "content", state: { article: item } }}>
                                         <span>{item.title}</span>
                                     </Link>
                                 </Timeline.Item>

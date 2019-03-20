@@ -7,6 +7,8 @@ import 'antd/dist/antd.css';
 import Index from './view/index/index.js'
 import Edite from './view/edite/edite'
 import Register from './view/register/register'
+import NotFound from "./components/404/index"
+// import { NOTFOUND } from 'dns';
 
 class App extends Component {
   render() {
@@ -15,10 +17,11 @@ class App extends Component {
         <Router basename="/blog">
           
           <Switch>
-              <Route  path="/home" component={Index}/>
-              <Route  path="/edite" component={Edite}/>
-              <Route  path="/register" component={Register}/>
-              <Redirect from="/" to="/home"></Redirect>
+            <Route path="/edite" component={Edite} />
+            <Route path="/" component={Index}></Route>
+            {/* <Redirect from="/" to="/home"></Redirect> */}
+            <Route path="*" component={NotFound} ></Route>
+             
           </Switch> 
         
         </Router> 
