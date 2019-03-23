@@ -83,15 +83,17 @@ export default class Edite extends Component {
     }
   }
   checkeCollection(collection) {
+    if(collection._id===this.state.checkedCollection._id){
+      return
+    }
+    this.getArticleList(collection._id);
     this.setState({
       checkedCollection: collection
     });
-    this.getArticleList(collection._id);
+    
   }
   checkArticle(checkedArticle) {
-    
-    // console.log("checkedArticle", checkedArticle);
-    if (this.state.checkedArticle._id===checkedArticle._id){
+        if (this.state.checkedArticle._id===checkedArticle._id){
       return
     }
     this.setState(
@@ -192,6 +194,10 @@ export default class Edite extends Component {
           this.setState({
             articleList: articleList,
             checkedArticle: articleList[0]
+          },()=>{
+              if (articleList.length=1){
+                this.initEditor();
+              }
           });
         }
       });
@@ -249,12 +255,13 @@ export default class Edite extends Component {
         }
       });
   }
-  updateTags = (newTags,article)=>{
-    console.log(newTags, article)
+  updateTags = (tag,article,type)=>{
+    console.log(tag, article)
     api.post("tags/updateTags",{
       id:article._id,
       collectionId:article.collectionId,
-      title: newTags
+      title: tag,
+      type:type
     })
   }
   renderPopoverContent() {
@@ -322,7 +329,15 @@ export default class Edite extends Component {
           <div className="tags">
             <span style={{ marginRight: 3 }}>标签：</span>
             <div style={{ flex: 1 }}>
-              { item.tags && <EditableTagGroup onConfirm={(newTags) => { this.updateTags(newTags, item) }} tags={item.tags}></EditableTagGroup>}
+           
+              <EditableTagGroup 
+                onConfirm={(newTags) => { this.updateTags(newTags, item,"add") }} 
+                onClose={(tag)=>{
+                  this.updateTags(tag, item, "delete")
+                }}
+                tags={item.tags||[]}
+              >
+              </EditableTagGroup>
             </div>  
           </div>
           

@@ -14,11 +14,16 @@ export default class EditableTagGroup extends React.Component {
       inputValue: '',
     };
   }
-  
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      tags: nextProps.tags
+    })
+  }
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter(tag => tag !== removedTag);
     console.log(tags);
+    this.props.onClose(removedTag)
     this.setState({ tags });
   }
 
@@ -55,7 +60,7 @@ export default class EditableTagGroup extends React.Component {
         {tags.map((tag, index) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
-            <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)} style={{ color: "#999", paddingLeft: 3, paddingRight: 3,height:20,lineHeight:"18px"}}>
+            <Tag key={tag} closable={true} afterClose={() => this.handleClose(tag)} style={{ color: "#999", paddingLeft: 3, paddingRight: 3,height:20,lineHeight:"18px"}}>
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </Tag>
           );
