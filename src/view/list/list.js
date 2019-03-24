@@ -49,7 +49,7 @@ export default class ArticalList extends Component {
                     <div className="articalList">
                         {this.state.articleList.map((item, i) => {
                             return (
-                                <Link key={i} to={{ pathname: `content/${item._id}`}}>
+                                <Link className="link" key={i} to={{ pathname: `content/${item._id}`}}>
                                 <div  className="artical">
                                         <div style={{ flex: 1 }}>
                                             <div>
