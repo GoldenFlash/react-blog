@@ -1,42 +1,55 @@
 import React, { Component } from "react";
-import { Spin,Divider } from "antd";
+import {Divider } from "antd";
 import Loading from "../../components/Loading";
-// import marked from 'marked'
 import author_img from "../../assets/author.svg";
 import time_img from "../../assets/time.svg";
 import comment_img from "../../assets/comment.svg";
 import { translateMarkdown } from "../../util/util";
 import "./article.scss";
 
-// import SiderLeft from "./conpoments/sideLeft/index"
 import Anchor from "./anchor";
+import api from "../../api/api";
 export default class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {
       content: "",
-      loading: false,
-      ...this.props.location.state
+      loading: true,
+      id: ""
     };
   }
+  componentDidMount(){
+    var id = this.props.match.params.id
+    this.getArticle(id)
+  }
   componentWillReceiveProps(nextprops){
-    console.log("nextPops",nextprops)
+    var id = nextprops.match.params.id
+    if(id === this.state.id){
+      return
+    }
+    this.getArticle(id)
+  }
+  getArticle=(id)=>{
     this.setState({
-      ...nextprops.location.state
+      loading: true,
+    })
+    api.post("article/getArticle", {
+      id: id
+    }).then(res => {
+      this.setState({
+        id:id,
+        article: res.data,
+        loading:false
+      })
     })
   }
-  initmarkdownView = props => {
-    var content = this.props.location.state.article.content;
-    this.EditormdView = window.editormd.markdownToHTML("editormd-view", {
-      markdown: content //+ "\r\n" + $("#append-test").text(),
-      //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-      //htmlDecode      : "style,script,iframe",  // you can filter tags decode
-    });
-  };
+
   render() {
     let { article, loading } = this.state;
-
-    let content = translateMarkdown(article.content);
+    let content
+    if(article){
+      content = translateMarkdown(article.content);
+    }
     return loading ? (
       <Loading />
     ) : (
@@ -64,7 +77,7 @@ export default class Article extends Component {
               className="markdown-body editormd-html-preview"
               dangerouslySetInnerHTML={{ __html: content }}
             />
-          </div>
+          </div> 
 
           <div className="sider_left">
 
@@ -75,7 +88,7 @@ export default class Article extends Component {
                 document.getElementById("article_scroll_container")
               }
               content={content}
-            />
+            /> 
           </div>
         </div>
       );

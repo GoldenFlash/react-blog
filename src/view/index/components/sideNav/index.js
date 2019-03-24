@@ -33,7 +33,9 @@ function LeftNav(props) {
                 <Divider orientation="left">最近文章</Divider>
                 <div className="wrapper">
                     {latestArticle.map((item, i) => {
-                        return <div key={i} className="latestArticle"><Link to={{ pathname: "content", state: { article: item } }}>{item.title}</Link></div>
+                        return (
+                            <div key={i} className="latestArticle"><Link to={{ pathname: `/content/${item._id}` }}>{item.title}</Link></div>
+                        )
                     })}
                 </div>
             </div>

@@ -1,16 +1,24 @@
 import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
+import loadable from '@loadable/component'
 
 import api from "../../api/api";
 import "./index.scss";
 
-import Loading from "../../components/Loading"
-import ArticleList from "../list/list"
-import ArticleContent from '../article/article'
-import Archive from "../archive/index"
 import SideNav from "./components/sideNav/index"
 import Header from "./components/Header/index"
-import Tag from "../tag/index"
+import Loading from "../../components/Loading"
+
+const ArticleList = loadable(() => import('../list/list'))
+const ArticleContent = loadable(() => import('../article/article'))
+const Archive = loadable(() => import('../archive/index'))
+const Tag = loadable(() => import('../tag/index'))
+
+// import ArticleList from "../list/list"
+// import ArticleContent from '../article/article'
+// import Archive from "../archive/index"
+
+// import Tag from "../tag/index"
 export default class Index extends Component {
   constructor(props) {
     super(props);
@@ -73,7 +81,7 @@ export default class Index extends Component {
               <article className="article-wrapper">
                 
                 <Switch>
-                  <Route path="/content" component={ArticleContent}></Route>
+                  <Route path="/content/:id" component={ArticleContent}></Route>
                   <Route path="/archive" component={Archive}></Route>
                   <Route path="/tag" component={Tag}></Route>
                   <Route path="/" component={ArticleList}></Route>

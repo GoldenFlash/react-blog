@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route,Switch ,withRouter,Redirect} from "react-router-dom";
+import loadable from '@loadable/component'
 
 import './App.css';
 import 'antd/dist/antd.css';
 
-import Index from './view/index/index.js'
-import Edite from './view/edite/edite'
-import Register from './view/register/register'
-import NotFound from "./components/404/index"
-// import { NOTFOUND } from 'dns';
+const Index = loadable(() => import('./view/index/index.js'))
+const Edite = loadable(() => import('./view/edite/edite'))
+const NotFound = loadable(() => import('./components/404/index'))
 
 class App extends Component {
   render() {
