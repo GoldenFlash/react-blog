@@ -13,7 +13,6 @@ export default class Archive extends Component {
         }
     }
     componentDidMount() {
-        // console.log("archive.js")
         this.getArticlesList()
     }
     getArticlesList=()=>{
@@ -42,7 +41,7 @@ export default class Archive extends Component {
                             return(
                                 <Timeline.Item key={index}>
                                     <span style={{marginRight:10}}>{item.creatTime.slice(0,10)}</span>
-                                    <Link to={{ pathname: "content", state: { article: item } }}>
+                                    <Link to={{ pathname: `/content/${item._id}` }}>
                                         <span>{item.title}</span>
                                     </Link>
                                 </Timeline.Item>

@@ -21,10 +21,19 @@ export default class ArticalList extends Component {
         }
     }
     componentDidMount() {
-        
+        console.log("props",this.props)
         this.getArticlesList()
     }
-   
+    navigate(item){
+         this.props.history.push(`/content/${item._id}`)
+        // this.props.history.push({
+        //     pathname:"/content",
+        //     state:{
+        //         id:item._id
+        //     }
+           
+        // })
+    }
     getArticlesList() {
         this.setState({
             loading: true
@@ -49,8 +58,8 @@ export default class ArticalList extends Component {
                     <div className="articalList">
                         {this.state.articleList.map((item, i) => {
                             return (
-                                <Link className="link" key={i} to={{ pathname: `content/${item._id}`}}>
-                                <div  className="artical">
+                                // <Link className="link" key={i} to={{ pathname: `/content/${item._id}`}}>
+                                <div onClick={this.navigate.bind(this,item)}  className="artical">
                                         <div style={{ flex: 1 }}>
                                             <div>
                                                 <span style={{ fontSize: "22px", fontWeight: "bold" }}>
@@ -93,7 +102,7 @@ export default class ArticalList extends Component {
                                         <div className="image" style={{ backgroundImage: `url(${item.image})` }} />
 
                                     </div>
-                                 </Link>
+                                //  </Link>
                             );
                         })}
                     </div>

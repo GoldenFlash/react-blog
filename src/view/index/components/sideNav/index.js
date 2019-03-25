@@ -44,7 +44,7 @@ function LeftNav(props) {
                 <Divider orientation="left">标签</Divider>
                 <div className="lables ">
                     {tags.map((item, i) => {
-                        return <Link to={{pathname:"tag",state:{tag:item}}}  key={i} className={`item ant-tag ${i<12?labelsClass[i]:labelsClass[i-11]}`}>{item.title}</Link>
+                        return <Link to={{pathname:"/tag",state:{tag:item}}}  key={i} className={`item ant-tag ${i<12?labelsClass[i]:labelsClass[i-11]}`}>{item.title}</Link>
                     })}
                 </div>
             </div>

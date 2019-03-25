@@ -2,18 +2,13 @@
     background-color: #FFF;
 	min-height:100vh;
 	padding-top:60px;
-
-	// background-color: red;
 	display:flex;
-	// position: relative;
     .content_header{
-		// position: relative;
 		padding:20px;
     	font-size: 20px;
     	font-weight: 700;
     	margin-left:10px;
     	border-bottom: solid #eee 1px;
-		
     	.title{
     		 margin-left: 15px;
     	}
@@ -35,20 +30,9 @@
 	    }
     }
 	.sider_left{
-		// background-color: red;
 		width:250px;
-		// border-right:solid #e8e8e8 1px;
 		padding-left: 10px;
-		// position: absolute;
-		// top:0;
-		// // left:"100%";
 		right:22px;
 		height:100%;
-		// .ant-anchor-ink{
-		// 	&before{
-		// 		background: #FFF
-		// 	}
-		// }
-	
 	}
 }
