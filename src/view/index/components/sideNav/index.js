@@ -34,7 +34,7 @@ function LeftNav(props) {
                 <div className="wrapper">
                     {latestArticle.map((item, i) => {
                         return (
-                            <div key={i} className="latestArticle"><Link to={{ pathname: `/content/${item._id}` }}>{item.title}</Link></div>
+                            <div key={i} className="latestArticle"><Link to={{ pathname: `/article/${item._id}` }}>{item.title}</Link></div>
                         )
                     })}
                 </div>

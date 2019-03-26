@@ -21,18 +21,10 @@ export default class ArticalList extends Component {
         }
     }
     componentDidMount() {
-        console.log("props",this.props)
         this.getArticlesList()
     }
     navigate(item){
-         this.props.history.push(`/content/${item._id}`)
-        // this.props.history.push({
-        //     pathname:"/content",
-        //     state:{
-        //         id:item._id
-        //     }
-           
-        // })
+        this.props.history.push(`/article/${item._id}`)
     }
     getArticlesList() {
         this.setState({
@@ -58,8 +50,8 @@ export default class ArticalList extends Component {
                     <div className="articalList">
                         {this.state.articleList.map((item, i) => {
                             return (
-                                // <Link className="link" key={i} to={{ pathname: `/content/${item._id}`}}>
-                                <div onClick={this.navigate.bind(this,item)}  className="artical">
+                    
+                                <div  key={i} onClick={this.navigate.bind(this,item)}  className="artical">
                                         <div style={{ flex: 1 }}>
                                             <div>
                                                 <span style={{ fontSize: "22px", fontWeight: "bold" }}>
@@ -102,7 +94,7 @@ export default class ArticalList extends Component {
                                         <div className="image" style={{ backgroundImage: `url(${item.image})` }} />
 
                                     </div>
-                                //  </Link>
+                                
                             );
                         })}
                     </div>
@@ -112,9 +104,9 @@ export default class ArticalList extends Component {
                             <Divider orientation="left">热门文章</Divider>
                             <ul>
                                 {this.state.articleList.slice(0, 5).map((item, index) =>
-                                    <li key={index}>
-                                        <Link to={{ pathname: `/content/${item._id}`}} >
-                                            <a>{item.title}</a>
+                                    <li key={index}> 
+                                        <Link to={{ pathname: `/article/${item._id}`}} >
+                                            {item.title}
                                         </Link>
                                     </li>
                                 )}

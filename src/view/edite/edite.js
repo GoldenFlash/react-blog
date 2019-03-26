@@ -39,7 +39,7 @@ export default class Edite extends Component {
   initEditor() {
     this.testEditor = window.editormd("editormd_container", {
       // path: "/blog/lib/editor.md-master/lib/",
-      path: "/blog/lib/editor.md-master/lib/",
+      path: "/lib/editor.md-master/lib/",
       width: "100%",
       height: "100%",
       syncScrolling: "single",
@@ -61,7 +61,7 @@ export default class Edite extends Component {
   }
   toHome() {
     console.log(this.props.history);
-    this.props.history.replace("/home");
+    this.props.history.replace("/");
   }
   showEditeMenu(e, item, index) {
     e.stopPropagation();

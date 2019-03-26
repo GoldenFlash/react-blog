@@ -19,7 +19,7 @@ export default class Article extends Component {
     };
   }
   componentDidMount() {
-     console.log("props23123",this.props)
+    //  console.log("props23123",this.props)
     var id = this.props.match.params.id;
     // var id = this.props.location.state.id
     this.getArticle(id);

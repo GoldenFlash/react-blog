@@ -12,17 +12,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Router basename="/blog">
-          {/* <ScrollToTop> */}
+        <Router>
+        
             <Switch>
                 <Route path="/edite" component={Edite} />
                 <Route path="/" component={Index}></Route>
-                {/* <Redirect from="/" to="/home"></Redirect> */}
                 <Route path="*" component={NotFound} ></Route>
             </Switch>
-          {/* </ScrollToTop> */}
-           
-        
+         
         </Router> 
       </div>
     );

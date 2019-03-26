@@ -4,7 +4,7 @@ import { Timeline} from "antd"
 import Loading from "../../components/Loading"
 import api from "../../api/api"
 import "./index.scss"
-import { relative } from 'path';
+
 export default class Archive extends Component {
     constructor(props) {
         super(props)
@@ -51,7 +51,7 @@ export default class Archive extends Component {
                             return(
                                 <Timeline.Item key={index}>
                                     <span style={{marginRight:10}}>{item.creatTime.slice(0,10)}</span>
-                                    <Link to={{ pathname: "content", state: { article: item } }}>
+                                    <Link to={{ pathname: `/article/${item._id}`}}>
                                         <span>{item.title}</span>
                                     </Link>
                                 </Timeline.Item>
