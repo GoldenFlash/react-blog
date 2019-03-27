@@ -20,6 +20,7 @@ export const login = (account,passWord)=>{
             }
             
             if (!res.err) {
+				localStorage.setItem("token",res.data.token)
                 console.log("res.data",res.data)
                	dispatch(action(res.data,true,"login"))
             }

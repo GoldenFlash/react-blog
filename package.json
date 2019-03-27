@@ -40,6 +40,7 @@
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
+    "jsonwebtoken": "^8.5.1",
     "marked": "^0.6.1",
     "mini-css-extract-plugin": "0.4.3",
     "node-sass": "^4.11.0",
@@ -84,7 +85,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://101.132.173.11:3000",
+  "proxy": "http://127.0.0.1:3000",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}",

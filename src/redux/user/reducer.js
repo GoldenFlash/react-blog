@@ -1,3 +1,5 @@
+var jwt = require('jsonwebtoken');
+
 let defaultUserState = {
 	userInfo:{
 		account: "",
@@ -6,6 +8,11 @@ let defaultUserState = {
 		userId: ""
 	},
 	isLogin:false
+}
+var token = localStorage.getItem("token")
+if(token){
+	var decoded = jwt.decode(token);
+	console.log("decoded", decoded)
 }
 if (document.cookie) {
     var userInfo = {}
