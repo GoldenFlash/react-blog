@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
+import {connect} from "react-redux"
 import { Menu, Icon, Avatar, Modal, Input, Button, Dropdown, Alert } from "antd"
 import home_img from "../../../../assets/home.svg";
 // import lingdang_img from "../../../../assets/lingdang.svg";
@@ -11,9 +12,10 @@ import "./index.scss"
 
 import api from "../../../../api/api"
 // import Password from "antd/lib/input/Password";
-
+import Login from "../login/index.js"
+import {logout as logoutAction} from "@/redux/user/action.js"
 const MenuItemGroup = Menu.ItemGroup;
-export default class Header extends React.Component {
+class Header extends React.Component {
     constructor(props) {
 
         super(props)
@@ -30,30 +32,9 @@ export default class Header extends React.Component {
         }
     }
     componentDidMount() {
-        this.checkLogin()
+        // this.checkLogin()
     }
-    checkLogin() {
-        console.log("userInfo", this.state.userInfo)
-        if (document.cookie) {
-            var userInfo = {}
-            var cookies = document.cookie.split(";")
-
-            cookies.forEach((item) => {
-                var arr = item.split("=")
-                userInfo[arr[0].trim()] = arr[1]
-            })
-            console.log("userInfo", userInfo)
-            var login = false
-            if(userInfo.userId){
-                login = true
-            }
-            window.userInfo = userInfo
-            this.setState({
-                userInfo: userInfo,
-                login: login
-            })
-        }
-    }
+   
     modalCancel = (isVisibal) => {
         this.setState({
             modalVisible: isVisibal
@@ -66,25 +47,17 @@ export default class Header extends React.Component {
             userInfo: userInfo
         })
     }
-    logOut = () => {
-        api.post("users/logout").then(res => {
-            if (!res.err) {
-                this.setState({
-                    login: false,
-                    userInfo: {}
-                })
-            }
-        });
+    logout = () => {
+        this.props.dispatch(logoutAction())
     }
     onMenuClick = (e) => {
-        console.log(this)
-        console.log(e)
         this.props.history.push(e.key)
     }
     render() {
+        let {isLogin,userInfo} = this.props
         const menu = (
             <Menu>
-                <Menu.Item onClick={this.logOut}>
+                <Menu.Item onClick={this.logout}>
                     <span>退出登陆</span>
                 </Menu.Item>
             </Menu>
@@ -127,7 +100,7 @@ export default class Header extends React.Component {
                                             <Icon type={item.type} style={{ marginRight: 5 }} />
                                             <span>{item.title}</span>
                                         </Menu.Item>)
-                                    } else if (item.auth && (item.auth === this.state.userInfo.auth)) {
+                                    } else if (item.auth && (item.auth === userInfo.auth)) {
                                         console.log("auth", item.auth)
                                         return (
                                             <Menu.Item key={item.path}>
@@ -142,7 +115,7 @@ export default class Header extends React.Component {
                         </Menu>
 
                         <div style={{ marginRight: 10, marginLeft: 30, fontSize: 14 }}>
-                            {this.state.login ?
+                            {isLogin ?
                                 <Dropdown overlay={menu} placement="bottomCenter">
                                     <Avatar size="large" icon="user" style={{ backgroundColor: '#87d068' }} />
                                 </Dropdown> :
@@ -164,85 +137,4 @@ export default class Header extends React.Component {
     }
 }
 
-class Login extends React.Component {
-
-    constructor(props) {
-        super(props)
-        this.state = {
-            loading: false,
-
-        }
-    }
-
-    login = () => {
-        this.setState({
-            loading: true
-        })
-        api.post("users/login", {
-            account: this.userNameInput.state.value,
-            passWord: this.password
-        }).then(res => {
-            if (res.err) {
-                var errMeg = res.message
-            }
-            this.setState({
-                loading: false,
-                errMeg: errMeg
-            }, () => {
-                if (!res.err) {
-                    this.props.onOk(false, res.data)
-                } else {
-
-                }
-            })
-        })
-    }
-
-    render() {
-        let { onOk, onCancel, modalVisible } = this.props
-
-        return (
-            <Modal
-                title="登陆"
-                centered
-                visible={modalVisible}
-                onOk={() => onOk(false)}
-                onCancel={() => onCancel(false)}
-                footer={null}
-            >
-                <div>
-                    <Input
-                        placeholder="Enter your username"
-                        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        size="large"
-                        placeholder="user name"
-
-                        ref={node => {
-                            this.userNameInput = node
-                            console.log("node", node)
-                        }}
-                    />
-                </div>
-                <div style={{ marginTop: 20 }}>
-                    <Input.Password
-                        placeholder="Enter your password"
-                        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                        size="large"
-                        placeholder="password"
-                        onChange={(e) => {
-                            this.password = e.target.value
-                        }}
-                        ref={node => {
-                            console.log("node", node)
-                            this.passwordInput = node
-                        }}
-                    />
-                </div>
-                {this.state.errMeg && <Alert style={{ marginTop: 20 }} closable message={this.state.errMeg} type="error" />}
-                <div style={{ marginTop: 20 }}>
-                    <Button loading={this.state.loading} onClick={this.login} type="primary" block>登陆</Button>
-                </div>
-            </Modal>
-        )
-    }
-}
+export default connect(state=>{return state.user})(Header)
