@@ -25,7 +25,9 @@ class ArticalList extends Component {
         this.getArticlesList(this.props.location.search)
     }
     componentWillReceiveProps(nextProps){
-        this.getArticlesList(nextProps.location.search)
+        if(nextProps.location.search!=this.props.location.search){
+            this.getArticlesList(nextProps.location.search)
+        }
     }
     navigate(item){
         this.props.history.push(`/article/${item._id}`)
