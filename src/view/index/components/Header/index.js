@@ -3,17 +3,16 @@ import { Link } from "react-router-dom"
 import {connect} from "react-redux"
 import { Menu, Icon, Avatar, Modal, Input, Button, Dropdown, Alert } from "antd"
 import home_img from "../../../../assets/home.svg";
-// import lingdang_img from "../../../../assets/lingdang.svg";
 import search_img from "../../../../assets/search.svg";
 import archive_img from "../../../../assets/archive.svg";
 import archiveDark_img from "../../../../assets/archive-dark.svg";
-// import DropdownMenu from "../../../../components/Dropdown_menu";
 import "./index.scss"
 
 import api from "../../../../api/api"
-// import Password from "antd/lib/input/Password";
 import Login from "../login/index.js"
 import {logout as logoutAction} from "@/redux/user/action.js"
+
+const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup;
 class Header extends React.Component {
     constructor(props) {
@@ -32,7 +31,6 @@ class Header extends React.Component {
         }
     }
     componentDidMount() {
-        // this.checkLogin()
     }
    
     modalCancel = (isVisibal) => {
@@ -66,13 +64,17 @@ class Header extends React.Component {
             <header className="header">
                 <Login modalVisible={this.state.modalVisible} onOk={this.modalConfirm} onCancel={this.modalCancel}></Login>
                 <div className="titleBar">
-                    <div className="titleBar_left">
-                        <Link className="link" to="/">
-                            <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
+               
+                    {
+                        this.props.windowWidth>850&&
+                        <div className="titleBar_left">
+                            <Link className="link" to="/">
+                                <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
 
-                            <span style={{ fontSize: "20px" }}>博客</span>
-                        </Link>
-                    </div>
+                                <span style={{ fontSize: "20px" }}>博客</span>
+                            </Link>
+                        </div>
+                    }
 
                     <div className="titleBar_middle">
 
@@ -91,16 +93,16 @@ class Header extends React.Component {
                     </div>
 
                     <div className="menu">
-
                         <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
                             {
-                                this.state.menus.map((item, i) => {
+                                this.props.windowWidth>850?
+                                 this.state.menus.map((item, i) => {
                                     if (!item.auth) {
                                         return (<Menu.Item key={item.path}>
-                                            <Icon type={item.type} style={{ marginRight: 5 }} />
-                                            <span>{item.title}</span>
-                                        </Menu.Item>)
-                                    } else if (item.auth && (item.auth === userInfo.auth)) {
+                                                <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                <span>{item.title}</span>
+                                            </Menu.Item>)
+                                    } else if (item.auth && (item.auth ===userInfo.auth)) {
                                         console.log("auth", item.auth)
                                         return (
                                             <Menu.Item key={item.path}>
@@ -109,8 +111,29 @@ class Header extends React.Component {
                                             </Menu.Item>
                                         )
                                     }
-                                })
+                                }):
+                                <SubMenu title={<Icon type="menu-fold" />}>
+                          
+                                    {this.state.menus.map((item, i) => {
+                                        if (!item.auth) {
+                                            return (<Menu.Item key={item.path}>
+                                                    <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                    <span>{item.title}</span>
+                                                </Menu.Item>)
+                                            } else if (item.auth && (item.auth ===userInfo.auth)) {
+                                                console.log("auth", item.auth)
+                                                return (
+                                                    <Menu.Item key={item.path}>
+                                                        <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                        <span>{item.title}</span>
+                                                    </Menu.Item>
+                                                )
+                                            }
+                                        })
+                                    }
+                                </SubMenu>
                             }
+                            
 
                         </Menu>
 
@@ -136,5 +159,28 @@ class Header extends React.Component {
         )
     }
 }
+function SelfMenu(props){
+    return(
+       props.menus.map((item, i) => {
+            if (!item.auth) {
+                return (<Menu.Item key={item.path}>
+                    <Icon type={item.type} style={{ marginRight: 5 }} />
+                    <span>{item.title}</span>
+                </Menu.Item>)
+            } else if (item.auth && (item.auth ===props.auth)) {
+                console.log("auth", item.auth)
+                return (
+                    <Menu.Item key={item.path}>
+                        <Icon type={item.type} style={{ marginRight: 5 }} />
+                        <span>{item.title}</span>
+                    </Menu.Item>
+                )
+            }
+        })
+                            
+    )
+}
 
-export default connect(state=>{return state.user})(Header)
+export default connect(
+    state=>({...state.user,windowWidth:state.common.windowWidth})
+)(Header)

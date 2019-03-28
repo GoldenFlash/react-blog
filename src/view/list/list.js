@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from "react-redux";
 import { Link } from "react-router-dom"
 import marked from "marked";
 import { Divider, List, Menu, Spin } from "antd"
@@ -12,7 +13,7 @@ import api from "../../api/api";
 
 const MenuItemGroup = Menu.ItemGroup;
 
-export default class ArticalList extends Component {
+class ArticalList extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -99,7 +100,8 @@ export default class ArticalList extends Component {
                         })}
                     </div>
 
-                    <div className="rightNav">
+                    {
+                        this.props.windowWidth>1100&&<div className="rightNav">
                         <div className="sideTitle">
                             <Divider orientation="left">热门文章</Divider>
                             <ul>
@@ -113,7 +115,9 @@ export default class ArticalList extends Component {
                             </ul>
                         </div>
                     </div>
+                    }
                 </div>
         )
     }
 }
+export default connect(state=>({windowWidth:state.common.windowWidth}))(ArticalList)  

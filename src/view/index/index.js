@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
+import {connect} from "react-redux"
 import loadable from "@loadable/component";
-
+import {windowWidth as windowAction} from "@/redux/common/action.js"
 import api from "../../api/api";
 import "./index.scss";
 
@@ -19,7 +20,7 @@ const Archive = loadable(() => import("../archive/index"));
 const Tag = loadable(() => import("../tag/index"));
 const NotFound = loadable(() => import("../../components/404/index"));
 
-export default class Index extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -27,6 +28,10 @@ export default class Index extends Component {
   componentDidMount() {
     this.getTags();
     this.getArticlesList();
+    this.props.dispatch(windowAction())
+    window.onresize = ()=>{
+       this.props.dispatch(windowAction())
+    }
   }
   toHome() {
     this.props.history.replace("/home");
@@ -66,10 +71,12 @@ export default class Index extends Component {
         </div>
 
         <div className="content">
-          <div style={{ position: "absolute", top: 0 }}>
-            <SideNav latestArticle={latestArticle} tags={this.state.tags} />
-          </div>
-          <article className="article-wrapper">
+          {
+            this.props.windowWidth>850&&<div style={{ position: "absolute", top: 0 }}>
+              <SideNav latestArticle={latestArticle} tags={this.state.tags} />
+            </div>
+          }
+          <article className="article-wrapper" style={{marginLeft:this.props.windowWidth>850?280:0}}>
             <ScrollToTop>
               <Switch>
                 <Route exact path="/article/:id" component={ArticleContent} />
@@ -87,3 +94,5 @@ export default class Index extends Component {
     );
   }
 }
+
+export default connect(state=>({windowWidth:state.common.windowWidth}))(Index)

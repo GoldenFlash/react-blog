@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from "react-redux"
 import { Divider } from "antd";
 import Loading from "../../components/Loading";
 import author_img from "../../assets/author.svg";
@@ -9,7 +10,7 @@ import "./article.scss";
 
 import Anchor from "./anchor";
 import api from "../../api/api";
-export default class Article extends Component {
+ class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,11 +82,15 @@ export default class Article extends Component {
           ></div>
         </div>
 
-        <div className="sider_left">
-          <Divider orientation="left">总览</Divider>
-          <Anchor content={content} />
-        </div>
+        {
+          this.props.windowWidth>1100&&
+          <div className="sider_left">
+            <Divider orientation="left">总览</Divider>
+            <Anchor content={content} />
+          </div>
+        }
       </div>
     );
   }
 }
+export default connect(state=>({windowWidth:state.common.windowWidth}))(Article)
