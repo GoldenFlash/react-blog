@@ -14,9 +14,6 @@ class Login extends React.Component {
             loading: false,
         }
     }
-    componentWillReceiveProps(nextProps){
-        console.log("nextProps",nextProps)
-    }
 
     login = () => {
         this.setState({

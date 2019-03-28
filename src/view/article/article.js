@@ -20,14 +20,11 @@ import api from "../../api/api";
     };
   }
   componentDidMount() {
-    //  console.log("props23123",this.props)
     var id = this.props.match.params.id;
-    // var id = this.props.location.state.id
     this.getArticle(id);
   }
   componentWillReceiveProps(nextprops) {
     var id = nextprops.match.params.id;
-    //  var id = this.props.location.state.id
     if (id === this.state.id) {
       return;
     }

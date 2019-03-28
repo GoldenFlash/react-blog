@@ -5,3 +5,10 @@ export const windowWidth = ()=>{
 		windowWidth
 	}
 }
+
+export const searchStr = (text)=>{
+	return {
+		type:"search",
+		text
+	}
+}

@@ -1,5 +1,6 @@
 let defaultSate = {
-	windowWidth:0
+	windowWidth:0,
+	keyWord:""
 }
 const commomReducer = (state=defaultSate,action)=>{
 	switch(action.type){
@@ -7,6 +8,11 @@ const commomReducer = (state=defaultSate,action)=>{
 			return{
 				...state,
 				windowWidth:action.windowWidth
+			}
+		case "search":
+			return{
+				...state,
+				keyWord:action.text
 			}
 		default:
 			return state

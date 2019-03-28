@@ -22,16 +22,20 @@ class ArticalList extends Component {
         }
     }
     componentDidMount() {
-        this.getArticlesList()
+        this.getArticlesList(this.props.location.search)
+    }
+    componentWillReceiveProps(nextProps){
+        this.getArticlesList(nextProps.location.search)
     }
     navigate(item){
         this.props.history.push(`/article/${item._id}`)
     }
-    getArticlesList() {
+    getArticlesList(search) {
         this.setState({
             loading: true
         })
-        api.post("article/getHotArticle").then(res => {
+       
+        api.get(`article/getHotArticle${search}`).then(res => {
             console.log("getArticlesList", res);
             if (res.data) {
                 this.setState({
@@ -42,14 +46,15 @@ class ArticalList extends Component {
         });
     }
     render() {
-        let { loading } = this.state
+        let { loading,articleList,searchList } = this.state
+        var list = searchList||articleList
         var HTMLtag = new RegExp("<.+?>", "g");
         return (
 
             loading ? <Loading /> :
                 <div style={{ display: "flex", minHeight: "100vh", paddingTop: 60 }}>
                     <div className="articalList">
-                        {this.state.articleList.map((item, i) => {
+                        {list.map((item, i) => {
                             return (
                     
                                 <div  key={i} onClick={this.navigate.bind(this,item)}  className="artical">
@@ -120,4 +125,4 @@ class ArticalList extends Component {
         )
     }
 }
-export default connect(state=>({windowWidth:state.common.windowWidth}))(ArticalList)  
+export default connect(state=>({windowWidth:state.common.windowWidth,searchStr:state.common.searchStr}))(ArticalList)  

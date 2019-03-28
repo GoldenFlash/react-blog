@@ -10,7 +10,6 @@ import ScrollToTop from "../../components/ScrollToTop";
 import SideNav from "./components/sideNav/index";
 import Header from "./components/Header/index";
 import Loading from "../../components/Loading";
-// import ArticleContent from "../article/article";
 
 const ArticleList = loadable(() => import("../list/list"));
 const ArticleContent = loadable(() => import("../article/article"), {
@@ -37,7 +36,7 @@ class Index extends Component {
     this.props.history.replace("/home");
   }
   getArticlesList() {
-    api.post("article/getHotArticle").then(res => {
+    api.get("article/getHotArticle").then(res => {
       if (res.data) {
         this.setState({
           articleList: res.data
@@ -81,7 +80,7 @@ class Index extends Component {
               <Switch>
                 <Route exact path="/article/:id" component={ArticleContent} />
                 <Route exact path="/archive" component={Archive} />
-                <Route exact path="/tag" component={Tag} />
+                <Route exact path="/tag/:tag" component={Tag} />
                 <Route exact path="/" component={ArticleList} />
                 <Route path="*" component={NotFound} />
               </Switch>

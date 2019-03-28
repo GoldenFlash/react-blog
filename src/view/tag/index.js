@@ -24,8 +24,9 @@ export default class Archive extends Component {
             loading:true
         })
         var props = nextProps||this.props
-        let { tag } = props.location.state
-        api.post("article/getArticleBytags", { tag: tag.title}).then(res => {
+        var tag = props.match.params.tag;
+
+        api.get(`article/getArticleBytags?tag=${tag}`).then(res => {
             console.log("getArticleBytags", res);
             if (res.data) {
                 this.setState({
@@ -37,14 +38,14 @@ export default class Archive extends Component {
     }
     render() {
         let {loading} = this.state
-        let { tag } = this.props.location.state
+        var tag = this.props.match.params.tag;
         return (
             <div className="tagArticle">  
                 {
                 loading?<Loading/>:
                 <Timeline>
                     <Timeline.Item style={{marginTop:20}} key={"key"}>
-                        <h1 style={{position:"relative",top:-5,fontSize:22}}>{tag.title}</h1>
+                        <h1 style={{position:"relative",top:-5,fontSize:22}}>{tag}</h1>
                     </Timeline.Item>
                     {
                         this.state.articleList.map((item,index)=>{

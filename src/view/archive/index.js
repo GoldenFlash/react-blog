@@ -19,8 +19,7 @@ export default class Archive extends Component {
         this.setState({
             loading:true
         })
-        api.post("article/getHotArticle").then(res => {
-            console.log("getArticlesList", res);
+        api.get("article/getHotArticle").then(res => {
             if (res.data) {
                 this.setState({
                     articleList: res.data,

@@ -6,18 +6,21 @@
 // import cache from "./cache";
 // import config from "./config";
 import axios from 'axios'
-// function objToString(obj) {
-//   let arr = [];
-//   for (let item in obj) {
-//     let str = `${item}=${obj[item]}`;
-//     arr.push(str);
-//   }
-//   return arr.join("&");
-// }
+function objToString(obj) {
+  let arr = [];
+  for (let item in obj) {
+    let str = `${item}=${obj[item]}`;
+    arr.push(str);
+  }
+  return arr.join("&");
+}
 
-let request = function(url, data = {}, method = "get", key, time) {
+let request = function(url, data = {}, method = "GET", key, time) {
   return new Promise((resolve, reject) => {
     let requestObj = {};
+    // if(method === "GET"){
+    //   url =url+"?"+objToString(data)
+    // }
     requestObj = {
       method: method,
       url:url,

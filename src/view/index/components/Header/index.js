@@ -11,6 +11,7 @@ import "./index.scss"
 import api from "../../../../api/api"
 import Login from "../login/index.js"
 import {logout as logoutAction} from "@/redux/user/action.js"
+import {searchStr as searchAction} from "@/redux/common/action.js"
 
 const SubMenu = Menu.SubMenu
 const MenuItemGroup = Menu.ItemGroup;
@@ -51,6 +52,11 @@ class Header extends React.Component {
     onMenuClick = (e) => {
         this.props.history.push(e.key)
     }
+    onSearch=()=>{
+        var keyWord = this.keyWord
+        this.props.history.push(`/?keyWord=${keyWord}`)
+        
+    }
     render() {
         let {isLogin,userInfo} = this.props
         const menu = (
@@ -82,8 +88,19 @@ class Header extends React.Component {
                             className="titleBar_input"
                             type="text"
                             placeholder="输入关键词搜索..."
+                            onKeyDown={(e)=>{
+                                if(e.keyCode===13){
+                                    this.onSearch()
+                                }
+                                console.log("onkeypress",e.keyCode)
+                            }}
+                            onInput={(e)=>{
+                                console.log(e.target.value)
+                                this.keyWord=e.target.value
+                            }}
+                            
                         />
-                        <div className="titleBar_search">
+                        <div onClick={this.onSearch} className="titleBar_search">
                             <img alt=""
                                 src={search_img}
                                 style={{ width: "20px", height: "20px" }}
