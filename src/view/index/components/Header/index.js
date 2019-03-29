@@ -54,7 +54,7 @@ class Header extends React.Component {
         }
     }
     render() {
-        let {isLogin,userInfo} = this.props
+        let { isLogin, userInfo, windowWidth} = this.props
         const menu = (
             <Menu>
                 <Menu.Item onClick={this.logout}>
@@ -68,7 +68,7 @@ class Header extends React.Component {
                 <div className="titleBar">
                
                     {
-                        this.props.windowWidth>850&&
+                        windowWidth>850&&
                         <div className="titleBar_left">
                             <Link className="link" to="/">
                                 <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
@@ -77,7 +77,28 @@ class Header extends React.Component {
                             </Link>
                         </div>
                     }
-
+                    {windowWidth < 580 &&
+                        <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
+                            <SubMenu title={<Icon type="menu-fold" />}>
+                                {this.state.menus.map((item, i) => {
+                                    if (!item.auth) {
+                                        return (<Menu.Item key={item.path}>
+                                            <Icon type={item.type} style={{ marginRight: 5 }} />
+                                            <span>{item.title}</span>
+                                        </Menu.Item>)
+                                    } else if (item.auth && (item.auth === userInfo.auth)) {
+                                        console.log("auth", item.auth)
+                                        return (
+                                            <Menu.Item key={item.path}>
+                                                <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                <span>{item.title}</span>
+                                            </Menu.Item>
+                                        )
+                                    }
+                                })}
+                            </SubMenu>
+                        </Menu>
+                    }
                     <div className="titleBar_middle">
 
                         <input
@@ -105,52 +126,53 @@ class Header extends React.Component {
 
                     </div>
 
-                    <div className="menu">
-                        <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
-                            {
-                                this.props.windowWidth>850?
-                                 this.state.menus.map((item, i) => {
-                                    if (!item.auth) {
-                                        return (<Menu.Item key={item.path}>
-                                                <Icon type={item.type} style={{ marginRight: 5 }} />
-                                                <span>{item.title}</span>
-                                            </Menu.Item>)
-                                    } else if (item.auth && (item.auth ===userInfo.auth)) {
-                                        console.log("auth", item.auth)
-                                        return (
-                                            <Menu.Item key={item.path}>
-                                                <Icon type={item.type} style={{ marginRight: 5 }} />
-                                                <span>{item.title}</span>
-                                            </Menu.Item>
-                                        )
-                                    }
-                                }):
-                                <SubMenu title={<Icon type="menu-fold" />}>
-                          
-                                    {this.state.menus.map((item, i) => {
+                    
+                    <div className="menu" style={windowWidth > 580?{flex:1}:null}>
+                        {windowWidth > 580 &&
+                            <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
+                                {
+                                    this.props.windowWidth>850?
+                                    this.state.menus.map((item, i) => {
                                         if (!item.auth) {
                                             return (<Menu.Item key={item.path}>
                                                     <Icon type={item.type} style={{ marginRight: 5 }} />
                                                     <span>{item.title}</span>
                                                 </Menu.Item>)
-                                            } else if (item.auth && (item.auth ===userInfo.auth)) {
-                                                console.log("auth", item.auth)
-                                                return (
-                                                    <Menu.Item key={item.path}>
+                                        } else if (item.auth && (item.auth ===userInfo.auth)) {
+                                            console.log("auth", item.auth)
+                                            return (
+                                                <Menu.Item key={item.path}>
+                                                    <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                    <span>{item.title}</span>
+                                                </Menu.Item>
+                                            )
+                                        }
+                                    }):
+                                    <SubMenu title={<Icon type="menu-fold" />}>
+                            
+                                        {this.state.menus.map((item, i) => {
+                                            if (!item.auth) {
+                                                return (<Menu.Item key={item.path}>
                                                         <Icon type={item.type} style={{ marginRight: 5 }} />
                                                         <span>{item.title}</span>
-                                                    </Menu.Item>
-                                                )
-                                            }
-                                        })
-                                    }
-                                </SubMenu>
-                            }
-                            
+                                                    </Menu.Item>)
+                                                } else if (item.auth && (item.auth ===userInfo.auth)) {
+                                                    console.log("auth", item.auth)
+                                                    return (
+                                                        <Menu.Item key={item.path}>
+                                                            <Icon type={item.type} style={{ marginRight: 5 }} />
+                                                            <span>{item.title}</span>
+                                                        </Menu.Item>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </SubMenu>
+                                }
+                            </Menu>
+                        }
 
-                        </Menu>
-
-                        <div style={{ marginRight: 10, marginLeft: 30, fontSize: 14 }}>
+                        <div style={{ marginRight: 20, marginLeft: 30, fontSize: 14 }}>
                             {isLogin ?
                                 <Dropdown overlay={menu} placement="bottomCenter">
                                     <Avatar size="large" icon="user" style={{ backgroundColor: '#87d068' }} />
