@@ -1,20 +1,15 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import {connect} from "react-redux"
-import { Menu, Icon, Avatar, Modal, Input, Button, Dropdown, Alert } from "antd"
-import home_img from "../../../../assets/home.svg";
+import { Menu, Icon, Avatar,Dropdown } from "antd"
 import search_img from "../../../../assets/search.svg";
-import archive_img from "../../../../assets/archive.svg";
-import archiveDark_img from "../../../../assets/archive-dark.svg";
+
 import "./index.scss"
 
-import api from "../../../../api/api"
 import Login from "../login/index.js"
 import {logout as logoutAction} from "@/redux/user/action.js"
-import {searchStr as searchAction} from "@/redux/common/action.js"
 
 const SubMenu = Menu.SubMenu
-const MenuItemGroup = Menu.ItemGroup;
 class Header extends React.Component {
     constructor(props) {
 

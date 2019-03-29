@@ -11,7 +11,6 @@ import comment_img from "../../assets/comment.svg";
 import view_img from "../../assets/view.svg";
 import api from "../../api/api";
 
-const MenuItemGroup = Menu.ItemGroup;
 
 class ArticalList extends Component {
     constructor(props) {

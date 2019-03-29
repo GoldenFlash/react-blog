@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import thunkMiddleware from 'redux-thunk';
-import { BrowserRouter as Router, Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import loadable from '@loadable/component';
 
 import './App.css';
@@ -10,7 +10,10 @@ import { createStore,applyMiddleware  } from "redux"
 import { Provider } from "react-redux"
 import reducers from "@/redux/reducers"
 
+// import Index from "./view/index/index.js"
+
 const Index = loadable(() => import('./view/index/index.js'))
+// const Index = loadable(() => import('./view/index/index.js'))
 const Edite = loadable(() => import('./view/edite/edite'))
 const NotFound = loadable(() => import('./components/404/index'))
 
