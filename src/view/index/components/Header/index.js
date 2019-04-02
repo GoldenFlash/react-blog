@@ -23,17 +23,19 @@ class Header extends React.Component {
             userInfo: {},
             modalVisible: false,
             login: false,
-            menus: [
-                { path: "/", title: "首页", type: "home" },
-                { path: "/archive", title: "归档", type: "snippets" },
-                { path: "/about", title: "关于", type: "user" },
-                { path: "/edite", title: "写文章", type: "edit", auth: "0" },
-            ]
+            menus : [
+        { path: "/", title: "首页", type: "home" },
+        { path: "/archive", title: "归档", type: "snippets" },
+        { path: "/about", title: "关于", type: "user" },
+        { path: "/edite", title: "写文章", type: "edit", auth: "0" },
+    ]
         }
     }
     componentDidMount() {
     }
-   
+    onMenuClick = (e) => {
+        this.props.history.push(e.key)
+    }
     modalCancel = (isVisibal) => {
         this.setState({
             modalVisible: isVisibal
@@ -49,9 +51,7 @@ class Header extends React.Component {
     logout = () => {
         this.props.dispatch(logoutAction())
     }
-    onMenuClick = (e) => {
-        this.props.history.push(e.key)
-    }
+    
     onSearch=()=>{
         var keyWord = this.keyWord
         if(keyWord){
@@ -77,7 +77,6 @@ class Header extends React.Component {
                         <div className="titleBar_left">
                             <Link className="link" to="/">
                                 <Icon type="home" size="large" style={{ color: "#333", marginRight: 5, fontSize: 20 }} />
-
                                 <span style={{ fontSize: "20px" }}>博客</span>
                             </Link>
                         </div>
@@ -114,12 +113,12 @@ class Header extends React.Component {
                         <Menu selectable={false} onClick={this.onMenuClick} mode="horizontal" defaultSelectedKeys={["0"]}>
                             {
                                 this.props.windowWidth>850?
-                                 this.state.menus.map((item, i) => {
+                                this.state.menus.map((item, i) => {
                                     if (!item.auth) {
                                         return (<Menu.Item key={item.path}>
-                                                <Icon type={item.type} style={{ marginRight: 5 }} />
-                                                <span>{item.title}</span>
-                                            </Menu.Item>)
+                                            <Icon type={item.type} style={{ marginRight: 5 }} />
+                                            <span>{item.title}</span>
+                                        </Menu.Item>)
                                     } else if (item.auth && (item.auth ===userInfo.auth)) {
                                         console.log("auth", item.auth)
                                         return (
@@ -129,9 +128,13 @@ class Header extends React.Component {
                                             </Menu.Item>
                                         )
                                     }
-                                }):
+                                })
+                                    
+                                // <SelfMenu auth={userInfo.auth}></SelfMenu>
+                                :
+                                
                                 <SubMenu title={<Icon type="menu-fold" />}>
-                          
+                                    <SelfMenu auth={userInfo.auth}></SelfMenu>
                                     {this.state.menus.map((item, i) => {
                                         if (!item.auth) {
                                             return (<Menu.Item key={item.path}>
@@ -178,23 +181,34 @@ class Header extends React.Component {
     }
 }
 function SelfMenu(props){
+   var menus = [
+        { path: "/", title: "首页", type: "home" },
+        { path: "/archive", title: "归档", type: "snippets" },
+        { path: "/about", title: "关于", type: "user" },
+        { path: "/edite", title: "写文章", type: "edit", auth: "0" },
+    ]
+    
     return(
-       props.menus.map((item, i) => {
-            if (!item.auth) {
-                return (<Menu.Item key={item.path}>
-                    <Icon type={item.type} style={{ marginRight: 5 }} />
-                    <span>{item.title}</span>
-                </Menu.Item>)
-            } else if (item.auth && (item.auth ===props.auth)) {
-                console.log("auth", item.auth)
-                return (
-                    <Menu.Item key={item.path}>
+      <>
+         {
+            menus.map((item, i) => {
+                if (!item.auth) {
+                    return (<Menu.Item key={item.path}>
                         <Icon type={item.type} style={{ marginRight: 5 }} />
                         <span>{item.title}</span>
-                    </Menu.Item>
-                )
-            }
-        })
+                    </Menu.Item>)
+                } else if (item.auth && (item.auth ===props.auth)) {
+                    console.log("auth", item.auth)
+                    return (
+                        <Menu.Item key={item.path}>
+                            <Icon type={item.type} style={{ marginRight: 5 }} />
+                            <span>{item.title}</span>
+                        </Menu.Item>
+                    )
+                }
+            })
+        }
+      </>
                             
     )
 }
