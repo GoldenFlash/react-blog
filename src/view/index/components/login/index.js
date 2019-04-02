@@ -1,7 +1,6 @@
 import React from "react"
 import {connect} from "react-redux"
 import { Modal, Input, Button,Icon,Alert} from "antd"
-import api from "../../../../api/api"
 import {login as loginAction} from "@/redux/user/action.js"
 
 
