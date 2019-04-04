@@ -1,16 +1,16 @@
-.article-detail{
-    background-color: #FFF;
+.article-Wrapper{
+  background-color: #FFF;
 	min-height:100vh;
 	padding-top:60px;
 	display:flex;
     .content_header{
-		padding:20px;
+		padding:30px;
     	font-size: 20px;
     	font-weight: 700;
     	margin-left:10px;
     	border-bottom: solid #eee 1px;
     	.title{
-    		 margin-left: 15px;
+    		 margin-left: 10px;
     	}
     	.articleInfo{
 	        display: flex;
@@ -22,8 +22,8 @@
 	            font-size: 12px;
 	            margin-left: 15px;
 	            img{
-	                width: 15px; 
-	                height: 15px; 
+	                width: 15px;
+	                height: 15px;
 	                margin-right: 5px;
 	            }
 	        }

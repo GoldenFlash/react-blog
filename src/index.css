@@ -1,5 +1,5 @@
 /* @import "./styles/reset.css"; */
-@import "./styles/markdown.scss";
+/* @import "./styles/markdown.less"; */
 body {
   margin: 0;
   padding: 0;
@@ -14,4 +14,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-

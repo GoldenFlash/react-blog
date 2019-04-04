@@ -53,10 +53,11 @@ import api from "../../api/api";
     if (article) {
       content = translateMarkdown(article.content);
     }
+    // markdown-body editormd-html-preview
     return loading ? (
       <Loading />
     ) : (
-      <div className="article-detail">
+      <div className="article-Wrapper">
         <div style={{ borderRight: "solid #e8e8e8 1px", flex: 1 }}>
           <div className="content_header">
             <div className="">{article.title}</div>
@@ -75,7 +76,8 @@ import api from "../../api/api";
               </div>
             </div>
           </div>
-          <div className="markdown-body editormd-html-preview"  dangerouslySetInnerHTML={{ __html: content }}
+
+          <div className="article-detail" style={{paddingLeft:40,paddingRight:40}}  dangerouslySetInnerHTML={{ __html: content }}
           ></div>
         </div>
 

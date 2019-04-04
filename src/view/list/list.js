@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom"
 import marked from "marked";
+import { translateMarkdown } from "../../util/util";
 import { Divider, List, Menu, Spin } from "antd"
 import './list.scss'
 import Loading from "../../components/Loading"
@@ -54,10 +55,15 @@ class ArticalList extends Component {
         return (
 
             loading ? <Loading /> :
+            list.length>0?
                 <div style={{ display: "flex", minHeight: "100vh", paddingTop: 60 }}>
                     <div className="articalList">
                         {list.map((item, i) => {
+                          let content = translateMarkdown(item.content.substr(0, 300))
                             return (
+
+
+                              // {marked(item.content).replace(HTMLtag, "").substr(0, 300)}
 
                                 <div key={i} onClick={this.navigate.bind(this, item)} className="artical">
                                     <div style={{ flex: 1 }}>
@@ -66,8 +72,8 @@ class ArticalList extends Component {
                                                 {item.title}
                                             </span>
                                         </div>
-                                        <div className="content_wrapper">
-                                            {marked(item.content).replace(HTMLtag, "").substr(0, 300)}
+                                        <div className="content_wrapper  article-detail" dangerouslySetInnerHTML={{ __html:content  }}>
+
                                         </div>
                                         <div
                                             style={{ borderBottom: "solid #EEEEEE 1px", margin: 10 }}
@@ -94,7 +100,7 @@ class ArticalList extends Component {
                                             <div className="item">
                                                 <img alt=""
                                                     src={view_img}
-                                                />                                            
+                                                />
                                                 <span>{item.view}</span>
                                             </div>
                                         </div>
@@ -126,8 +132,8 @@ class ArticalList extends Component {
                             </div>
                         </div>
                     }
-                </div>
+                </div>:<div>数据为空</div>
         )
     }
 }
-export default connect(state => ({ windowWidth: state.common.windowWidth, searchStr: state.common.searchStr }))(ArticalList)  
+export default connect(state => ({ windowWidth: state.common.windowWidth, searchStr: state.common.searchStr }))(ArticalList)
