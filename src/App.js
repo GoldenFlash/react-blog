@@ -15,7 +15,7 @@ import reducers from "@/redux/reducers"
 
 const Index = loadable(() => import('./view/index/index.js'))
 // const Index = loadable(() => import('./view/index/index.js'))
-const Edite = loadable(() => import('./view/edite/edite'))
+const Edite = loadable(() => import('./view/manage/index'))
 const NotFound = loadable(() => import('./components/404/index'))
 
 var store = createStore(
