@@ -1,6 +1,37 @@
 import marked from 'marked'
 import hljs from 'highlight.js'
 // 将marked转为html
+marked.Renderer.prototype.code=function(code, infostring, escaped) {
+  console.log("code1",code)
+  var lang = (infostring || '').match(/\S*/)[0];
+
+  if (this.options.highlight) {
+    var out = this.options.highlight(code, lang);
+    if (out != null && out !== code) {
+      escaped = true;
+      code = out;
+    }
+  }
+  var codelist = code.split(/\n/g)
+  console.log("codelist",codelist)
+  var htmlStr = ""
+  codelist.forEach((item)=>{
+    if(item){
+      htmlStr+='<li><code>'
+    + (escaped ? item : escape(item, true))
+    + '</code></li>'
+    }
+  })
+  if (!lang) {
+    return '<pre><ol>' +htmlStr + '</ol></pre>';
+  }
+
+  return '<pre><0l> class="'
+    + this.options.langPrefix
+    + escape(lang, true)
+    + '">'  + htmlStr + '</ol></pre>\n';
+};
+
 const translateMarkdown = plainText => {
   return marked(plainText, {
     renderer: new marked.Renderer(),
@@ -11,6 +42,7 @@ const translateMarkdown = plainText => {
     breaks: true,
     smartLists: true,
     smartypants: true,
+    langPrefix:true,
     highlight: function(code) {
       return hljs.highlightAuto(code).value
     }
