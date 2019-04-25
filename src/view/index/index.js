@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import {connect} from "react-redux"
-import loadable from "@loadable/component";
+// import loadable from "@loadable/component";
 import {windowWidth as windowAction} from "@/redux/common/action.js"
 import api from "../../api/api";
 import "./index.scss";
@@ -11,13 +11,19 @@ import SideNav from "./components/sideNav/index";
 import Header from "./components/Header/index";
 import Loading from "../../components/Loading";
 
-const ArticleList = loadable(() => import("../list/list"));
-const ArticleContent = loadable(() => import("../article/article"), {
-  fallback: Loading,
-});
-const Archive = loadable(() => import("../archive/index"));
-const Tag = loadable(() => import("../tag/index"));
-const NotFound = loadable(() => import("../../components/404/index"));
+import ArticleList from "../list/list";
+import ArticleContent from "../article/article";
+import Archive from "../archive/index";
+import Tag from "../tag/index";
+import NotFound from "../../components/404/index";
+
+// const ArticleList = loadable(() => import("../list/list"));
+// const ArticleContent = loadable(() => import("../article/article"), {
+//   fallback: Loading,
+// });
+// const Archive = loadable(() => import("../archive/index"));
+// const Tag = loadable(() => import("../tag/index"));
+// const NotFound = loadable(() => import("../../components/404/index"));
 
 class Index extends Component {
   constructor(props) {
