@@ -53,7 +53,6 @@ class ArticalList extends Component {
         var list = searchList || articleList
         var HTMLtag = new RegExp("<.+?>", "g");
         return (
-
             loading ? <Loading /> :
             list.length>0?
                 <div style={{ display: "flex", minHeight: "100vh", paddingTop: 60 }}>
@@ -61,10 +60,7 @@ class ArticalList extends Component {
                         {list.map((item, i) => {
                         //   let content = translateMarkdown(item.content.substr(0, 300))
                             return (
-
-
                               // {marked(item.content).replace(HTMLtag, "").substr(0, 300)}
-
                                 <div key={i} onClick={this.navigate.bind(this, item)} className="artical">
                                     <div style={{ flex: 1 }}>
                                         <div>
