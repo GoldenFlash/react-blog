@@ -24,14 +24,14 @@
             // height:200px;
             // margin-top:10px;
             height:90px;
-            // line-height: 30px;
-
-            // text-overflow: ellipsis;
-            // display: -webkit-box;
-            // -webkit-line-clamp: 3;
-            // -webkit-box-orient: vertical;
-            // color:#98a6ad;
-            // font-size: 13px
+            line-height: 30px;
+            // width:1000px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            color:#98a6ad;
+            font-size: 13px;
             overflow : hidden;
         }
         .articleInfo{

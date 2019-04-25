@@ -59,7 +59,7 @@ class ArticalList extends Component {
                 <div style={{ display: "flex", minHeight: "100vh", paddingTop: 60 }}>
                     <div className="articalList">
                         {list.map((item, i) => {
-                          let content = translateMarkdown(item.content.substr(0, 300))
+                        //   let content = translateMarkdown(item.content.substr(0, 300))
                             return (
 
 
@@ -72,8 +72,8 @@ class ArticalList extends Component {
                                                 {item.title}
                                             </span>
                                         </div>
-                                        <div className="content_wrapper  article-detail" dangerouslySetInnerHTML={{ __html:content  }}>
-
+                                        <div className="content_wrapper">
+                                            {marked(item.content).replace(HTMLtag, "").substr(0, 300)}
                                         </div>
                                         <div
                                             style={{ borderBottom: "solid #EEEEEE 1px", margin: 10 }}

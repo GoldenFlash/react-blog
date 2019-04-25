@@ -1,7 +1,8 @@
 import marked from 'marked'
 import hljs from 'highlight.js'
+var render = new marked.Renderer()
 // 将marked转为html
-marked.Renderer.prototype.code=function(code, infostring, escaped) {
+render.code=function(code, infostring, escaped) {
   console.log("code1",code)
   var lang = (infostring || '').match(/\S*/)[0];
 
@@ -34,7 +35,7 @@ marked.Renderer.prototype.code=function(code, infostring, escaped) {
 
 const translateMarkdown = plainText => {
   return marked(plainText, {
-    renderer: new marked.Renderer(),
+    renderer: render,
     gfm: true,
     pedantic: false,
     sanitize: false,
