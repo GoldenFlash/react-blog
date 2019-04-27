@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import "./index.scss"
 import { Layout, Menu, Icon, Button, Popconfirm, Dropdown, Modal, Input,Spin } from 'antd';
+import { Route, Switch } from "react-router-dom";
+
 import api from "../../api/api.js"
 import Loading from "../../components/Loading"
+import Edite from "./edite/edite"
 const { Header, Sider, Content } = Layout;
 
 export default class SiderDemo extends React.Component {
@@ -166,6 +169,9 @@ export default class SiderDemo extends React.Component {
             });
     }
     checkArticle(article) {
+        this.props.history.push({
+            pathname:`/edite/${article._id}`
+        })
         this.setState({
             checkedArticle: article
         })
@@ -245,8 +251,10 @@ export default class SiderDemo extends React.Component {
                             {/* <Spin size="large" /> */}
                         </Loading>:
                         <div className="item_wrapper">
+                        {/* <Menu> */}
                             {this.state.articleList.map((item, index) => {
                                 return (
+                                    // <Menu.Item>
                                     <div onClick={this.checkArticle.bind(this, item)} key={index} className={`article_item ${this.state.checkedArticle._id === item._id ? "checked" : "a"}`}>
                                         <Icon type="file" />
                                         <span>{item.title}</span>
@@ -256,8 +264,10 @@ export default class SiderDemo extends React.Component {
                                             </Popconfirm>
                                         </div>
                                     </div>
+                                    // </Menu.Item>
                                 )
                             })}
+                        {/* </Menu> */}
                         </div>}
 
                     </Sider>
@@ -270,11 +280,11 @@ export default class SiderDemo extends React.Component {
                         />
                     </Header> */}
                     <Content style={{
-                        padding: 24, background: '#fff', minHeight: 280,
-                        height: "100%"
+                       background: '#fff', minHeight: 280,
+                        height: "100vh",overflowY:"scroll"
                     }}
                     >
-                        Content
+                        <Route path="/edite/:id" component={Edite}></Route>
                     </Content>
                 </Layout>
             </Layout>

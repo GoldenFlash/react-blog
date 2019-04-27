@@ -3,7 +3,7 @@ import hljs from 'highlight.js'
 var render = new marked.Renderer()
 // 将marked转为html
 render.code=function(code, infostring, escaped) {
-  console.log("code1",code)
+  // console.log("code1",code)
   var lang = (infostring || '').match(/\S*/)[0];
 
   if (this.options.highlight) {
@@ -14,7 +14,7 @@ render.code=function(code, infostring, escaped) {
     }
   }
   var codelist = code.split(/\n/g)
-  console.log("codelist",codelist)
+  // console.log("codelist",codelist)
   var htmlStr = ""
   codelist.forEach((item)=>{
     if(item){
