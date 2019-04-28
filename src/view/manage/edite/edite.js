@@ -149,7 +149,7 @@ export default class Edite extends PureComponent {
                         <Button onClick={this.publishArticle.bind(this)} style={{ marginLeft: 10 }}> 发布</Button>
                     </div>
                 </div>}
-                <div style={{ flex: 1, overflow: "hidden" }}>
+                <div style={{ flex: 1, overflow: "hidden", display: content||content==""?"block":"none" }}>
                     {this.state.loading && <Loading></Loading>}
                     <div id="editormd_container" style={{ width: "100%" }}>
                         <textarea onChange={()=>{}} style={{ display: "none" }} value={content || ""}></textarea>
