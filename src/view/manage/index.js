@@ -285,6 +285,13 @@ export default class SiderDemo extends React.Component {
                         </div>}
 
                     </Sider>
+                    {/* <div style={{position:"absolute",top:0}}>
+                        <Icon
+                            className="trigger"
+                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                            onClick={this.toggle}
+                            />
+                    </div> */}
 
                     {/* <Header style={{ background: '#fff', padding: 0 }}>
                         <Icon
