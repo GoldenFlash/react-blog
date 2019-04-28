@@ -7,7 +7,7 @@ import api from "../../api/api.js"
 import Loading from "../../components/Loading"
 import Edite from "./edite/edite"
 const { Header, Sider, Content } = Layout;
-
+const ref = React.createRef();
 export default class SiderDemo extends React.Component {
     constructor(props) {
         super(props)
@@ -26,6 +26,7 @@ export default class SiderDemo extends React.Component {
     }
     componentDidMount() {
         this.getCollections()
+        console.log("ref",ref)
     }
     onTitleChange=(text)=>{
         console.log("text",text)
@@ -176,6 +177,9 @@ export default class SiderDemo extends React.Component {
         }).then((res) => {
             var articleList = this.state.articleList
             articleList.splice(index, 1)
+            // if (!articleList.length){
+            //     ref.current.removeEditor()
+            // }
             this.setState({
                 checkedArticle:articleList[index]||articleList[index-1]||{},
                 articleList: articleList
@@ -329,7 +333,7 @@ export default class SiderDemo extends React.Component {
                         height: "100vh",overflow:"hidden"
                     }}
                     >
-                        <Edite article = {this.state.checkedArticle} onTitleChange = {this.onTitleChange} />
+                        <Edite ref={ref} article = {this.state.checkedArticle} onTitleChange = {this.onTitleChange} />
                         {/* <Route  path="/edite/:id"  component={props => <Edite {...props} onTitleChange = {this.onTitleChange} />}></Route> */}
                     </Content>
                 </Layout>

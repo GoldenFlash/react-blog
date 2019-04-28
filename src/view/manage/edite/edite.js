@@ -20,7 +20,13 @@ export default class Edite extends PureComponent {
     }
    
     componentWillReceiveProps(nextProps) {
-       
+        if (nextProps.article._id !== this.props.article._id) {
+            // console.log("0000000", nextProps.article)
+            this.setState({
+                title: nextProps.article.title
+            })
+            this.initEditor(nextProps.article)
+        }
     }
     // shouldComponentUpdate(nextProps,nextState){
     //     console.log("nextProps222", nextProps,this.props)
@@ -30,12 +36,11 @@ export default class Edite extends PureComponent {
     //     return false
     // }
     componentWillUpdate(nextProps,nextState){
-        if(nextProps.article._id!==this.props.article._id){
-            this.setState({
-                title:nextProps.article.title
-            })
-            this.initEditor(nextProps.article)
-        }  
+        
+    }
+    removeEditor(){
+        this.editor.editor.remove()
+        this.editor = ""
     }
     onInput = (e) => {
         var text = e.target.value
@@ -48,17 +53,14 @@ export default class Edite extends PureComponent {
         });
     }
     initEditor = (article) => {
-        if(!article.content&&article.content!="" && this.testEditor){
-            this.testEditor.editor.remove()
-        }
-        this.testEditor = window.editormd("editormd_container", {
+        this.editor = window.editormd("editormd_container", {
             // path: "/blog/lib/editor.md-master/lib/",
             path: "/lib/editor.md-master/lib/",
             width: "100%",
             height: "100%",
             syncScrolling: "single",
             saveHTMLToTextarea: true
-        });
+        }); 
     }
     getArticle(id) {
         this.setState({
@@ -136,6 +138,7 @@ export default class Edite extends PureComponent {
            
                 {(content||content==="")&&<div className="title">
                     <input
+                        onChange={()=>{}}
                         onInput={this.onInput}
                         className="title_input"
                         value={this.state.title}
@@ -149,8 +152,7 @@ export default class Edite extends PureComponent {
                 <div style={{ flex: 1, overflow: "hidden" }}>
                     {this.state.loading && <Loading></Loading>}
                     <div id="editormd_container" style={{ width: "100%" }}>
-                       
-                        <textarea style={{ display: "none" }} value={content||""}></textarea>
+                        <textarea onChange={()=>{}} style={{ display: "none" }} value={content || ""}></textarea>
                     </div>
                 </div>
             </div>
