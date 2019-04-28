@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 // import SimpleMDE from "easymde"
 // import 'simplemde/src/css/simplemde.css'
 // import 'simplemde/dist/simplemde.min.css'
 // import MdEditor from 'react-markdown-editor-lite'
 import Loading from "../../../components/Loading"
-import { message, Button } from "antd"
+import { message, Button,Empty} from "antd"
 // import { translateMarkdown } from "@/util/util"
 import api from "@/api/api.js"
 import "./edite.scss"
-export default class Edite extends Component {
+export default class Edite extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
@@ -16,7 +16,7 @@ export default class Edite extends Component {
         }
     }
     componentDidMount() {
-        this.initEditor()
+        this.initEditor(this.props.article)
     }
    
     componentWillReceiveProps(nextProps) {
@@ -34,7 +34,7 @@ export default class Edite extends Component {
             this.setState({
                 title:nextProps.article.title
             })
-            this.initEditor()
+            this.initEditor(nextProps.article)
         }  
     }
     onInput = (e) => {
@@ -47,7 +47,10 @@ export default class Edite extends Component {
             title: text
         });
     }
-    initEditor = () => {
+    initEditor = (article) => {
+        if(!article.content&&article.content!="" && this.testEditor){
+            this.testEditor.editor.remove()
+        }
         this.testEditor = window.editormd("editormd_container", {
             // path: "/blog/lib/editor.md-master/lib/",
             path: "/lib/editor.md-master/lib/",
@@ -126,28 +129,32 @@ export default class Edite extends Component {
     }
     render() {
         var content = this.props.article.content
+        console.log("11232313",this.props)
         return (
-            <div className="wrapper">
-                <div className="title">
+           
+           <div className="wrapper">
+           
+                {(content||content==="")&&<div className="title">
                     <input
                         onInput={this.onInput}
                         className="title_input"
-                        value={this.state.title||this.props.article.title}
+                        value={this.state.title}
                         type="text"
                     />
                     <div className="publish">
                         <Button onClick={this.saveArticle.bind(this)}>保存</Button>
                         <Button onClick={this.publishArticle.bind(this)} style={{ marginLeft: 10 }}> 发布</Button>
                     </div>
-                </div>
+                </div>}
                 <div style={{ flex: 1, overflow: "hidden" }}>
                     {this.state.loading && <Loading></Loading>}
                     <div id="editormd_container" style={{ width: "100%" }}>
                        
-                        <textarea style={{ display: "none" }} value={content}></textarea>
+                        <textarea style={{ display: "none" }} value={content||""}></textarea>
                     </div>
                 </div>
             </div>
+            // :<Empty></Empty>    
         )
     }
 }

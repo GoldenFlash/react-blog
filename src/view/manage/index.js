@@ -55,6 +55,7 @@ export default class SiderDemo extends React.Component {
             this.addNewCollections(title)
         }
         if(this.state.modelType==="edite"){
+            this.editeCollection()
             this.setState({
                 visible:false,
                
@@ -125,6 +126,20 @@ export default class SiderDemo extends React.Component {
                 }
             });
     }
+    editeCollection(){
+        var collection = this.state.checkedCollection
+        api.post("article/editeCollection",{
+            id: collection._id,
+            title:this.collectionTitle
+        }).then(res=>{
+            var collections = this.state.collections;
+            var index = this.state.checkedCollection_index
+            collections[index].title = this.collectionTitle
+            this.setState({
+                collections:collections
+            })
+        })
+    }
     checkCollection(item,index){
         if (this.state.checkedCollection._id === item._id) return
         this.setState({
@@ -139,10 +154,17 @@ export default class SiderDemo extends React.Component {
         api
             .post("article/getArticleList", { collectionId: item._id })
             .then(res => {
+                // if(!res.data.length){
+                //     this.setState({
+                //         articleList: res.data,
+                //         loading:false
+                //     })
+                //     return
+                // } 
                 this.setState({
                     articleList: res.data,
-                    checkedArticle:res.data[0],
-                    checkArticle_index:0,
+                    checkedArticle:res.data[0]||{},
+                    checkArticle_index:0||"",
                     loading:false
                 });
             });
@@ -155,6 +177,7 @@ export default class SiderDemo extends React.Component {
             var articleList = this.state.articleList
             articleList.splice(index, 1)
             this.setState({
+                checkedArticle:articleList[index]||articleList[index-1]||{},
                 articleList: articleList
             })
         })
@@ -174,6 +197,7 @@ export default class SiderDemo extends React.Component {
             .then(res => {
                 if (res.data) {
                     articleList.push(res.data);
+                    console.log("articleList",articleList)
                     this.setState({
                         articleList: articleList,
                     });
