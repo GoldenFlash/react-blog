@@ -19,12 +19,22 @@ export default class SiderDemo extends React.Component {
             collectionSelectKey:['0'],
             articleList: [],
             checkedArticle: {},
+            checkArticle_index:"",
             modelTitle: "",
             modelType:""
         }
     }
     componentDidMount() {
         this.getCollections()
+    }
+    onTitleChange=(text)=>{
+        console.log("text",text)
+        var articleList = this.state.articleList
+        var index = this.state.checkArticle_index
+        articleList[index].title = text
+        this.setState({
+            articleList:articleList
+        })
     }
     showModal(modelTitle,modelType) {
         this.setState({
@@ -131,6 +141,8 @@ export default class SiderDemo extends React.Component {
             .then(res => {
                 this.setState({
                     articleList: res.data,
+                    checkedArticle:res.data[0],
+                    checkArticle_index:0,
                     loading:false
                 });
             });
@@ -168,11 +180,13 @@ export default class SiderDemo extends React.Component {
                 }
             });
     }
-    checkArticle(article) {
-        this.props.history.push({
-            pathname:`/edite/${article._id}`
-        })
+    checkArticle(article,index) {
+        if(this.state.checkedArticle._id===article._id) return
+        // this.props.history.push({
+        //     pathname:`/edite/${article._id}`
+        // })
         this.setState({
+            checkArticle_index:index,
             checkedArticle: article
         })
     }
@@ -255,7 +269,7 @@ export default class SiderDemo extends React.Component {
                             {this.state.articleList.map((item, index) => {
                                 return (
                                     // <Menu.Item>
-                                    <div onClick={this.checkArticle.bind(this, item)} key={index} className={`article_item ${this.state.checkedArticle._id === item._id ? "checked" : "a"}`}>
+                                    <div onClick={this.checkArticle.bind(this, item,index)} key={index} className={`article_item ${this.state.checkedArticle._id === item._id ? "checked" : ""}`}>
                                         <Icon type="file" />
                                         <span>{item.title}</span>
                                         <div className="delete">
@@ -281,10 +295,11 @@ export default class SiderDemo extends React.Component {
                     </Header> */}
                     <Content style={{
                        background: '#fff', minHeight: 280,
-                        height: "100vh",overflowY:"scroll"
+                        height: "100vh",overflow:"hidden"
                     }}
                     >
-                        <Route path="/edite/:id" component={Edite}></Route>
+                        <Edite article = {this.state.checkedArticle} onTitleChange = {this.onTitleChange} />
+                        {/* <Route  path="/edite/:id"  component={props => <Edite {...props} onTitleChange = {this.onTitleChange} />}></Route> */}
                     </Content>
                 </Layout>
             </Layout>
