@@ -18,23 +18,14 @@ export default class Edite extends PureComponent {
     componentDidMount() {
         this.initEditor(this.props.article)
     }
-   
     componentWillReceiveProps(nextProps) {
         if (nextProps.article._id !== this.props.article._id) {
-            // console.log("0000000", nextProps.article)
             this.setState({
                 title: nextProps.article.title
             })
             this.initEditor(nextProps.article)
         }
     }
-    // shouldComponentUpdate(nextProps,nextState){
-    //     console.log("nextProps222", nextProps,this.props)
-    //     if(nextProps.article._id!==this.props.article._id){
-    //         return true
-    //     }
-    //     return false
-    // }
     componentWillUpdate(nextProps,nextState){
         
     }
@@ -43,18 +34,13 @@ export default class Edite extends PureComponent {
         this.editor = ""
     }
     onInput = (e) => {
-        var text = e.target.value
-        console.log(e.target.value);
-       
-        // var checkedArticle = this.state.checkedArticle;
-        // checkedArticle.title = e.target.value;
+        var text = e.target.value    
         this.setState({
             title: text
         });
     }
     initEditor = (article) => {
         this.editor = window.editormd("editormd_container", {
-            // path: "/blog/lib/editor.md-master/lib/",
             path: "/lib/editor.md-master/lib/",
             width: "100%",
             height: "100%",
@@ -72,9 +58,6 @@ export default class Edite extends PureComponent {
                 id: id
             })
             .then(res => {
-                console.log("res", res)
-                // this.testEditor.value= res.data.content
-              
                 this.setState({
                     id: id,
                     article: res.data,
