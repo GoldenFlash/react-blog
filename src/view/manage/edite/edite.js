@@ -29,10 +29,7 @@ export default class Edite extends PureComponent {
     componentWillUpdate(nextProps,nextState){
         
     }
-    removeEditor(){
-        this.editor.editor.remove()
-        this.editor = ""
-    }
+  
     onInput = (e) => {
         var text = e.target.value    
         this.setState({
@@ -52,7 +49,7 @@ export default class Edite extends PureComponent {
         this.setState({
             loading: true
         });
-        this.testEditor = ""
+        // this.testEditor = ""
         api
             .post("article/getArticle", {
                 id: id
@@ -69,7 +66,7 @@ export default class Edite extends PureComponent {
     };
     saveArticle() {
         var article = this.props.article;
-        var content = this.testEditor.getMarkdown();
+        var content = this.editor.getMarkdown();
         var title = this.state.title
         if(this.props.onTitleChange){
             this.props.onTitleChange(title)
@@ -92,7 +89,7 @@ export default class Edite extends PureComponent {
     }
     publishArticle() {
         var article = this.props.article;
-        var content = this.testEditor.getMarkdown();
+        var content = this.editor.getMarkdown();
         var title = this.state.title
         if(this.props.onTitleChange){
             this.props.onTitleChange(title)
