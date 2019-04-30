@@ -12,6 +12,20 @@ export default class EditableTagGroup extends React.Component {
       tags: this.props.tags||[],
       inputVisible: false,
       inputValue: '',
+      labelsClass: [
+        "ant-tag-magenta",
+        "ant-tag-blue",
+        "ant-tag-red",
+        "ant-tag-volcano",
+        "ant-tag-orange",
+        "ant-tag-gold",
+        "ant-tag-lime",
+        "ant-tag-green",
+        "ant-tag-cyan",
+        "ant-tag-geekblue",
+        "ant-tag-purple",
+        "ant-tag-lime"
+      ]
     };
   }
   componentWillReceiveProps(nextProps){
@@ -54,13 +68,13 @@ export default class EditableTagGroup extends React.Component {
   saveInputRef = input => this.input = input
 
   render() {
-    const { tags, inputVisible, inputValue } = this.state;
+    const { tags, inputVisible, inputValue,labelsClass } = this.state;
     return (
       <div>
-        {tags.map((tag, index) => {
+        {tags.map((tag, i) => {
           const isLongTag = tag.length > 20;
           const tagElem = (
-            <Tag key={tag} closable={true} afterClose={() => this.handleClose(tag)} style={{ color: "#999", paddingLeft: 3, paddingRight: 3,height:20,lineHeight:"18px"}}>
+            <Tag className={`item ant-tag ${i<12?labelsClass[i]:labelsClass[i-11]}`} key={tag} closable={true} afterClose={() => this.handleClose(tag)} style={{ color: "#999", paddingLeft: 3, paddingRight: 3,height:20,lineHeight:"18px"}}>
               {isLongTag ? `${tag.slice(0, 20)}...` : tag}
             </Tag>
           );
