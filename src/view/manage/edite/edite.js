@@ -3,8 +3,10 @@ import React, { PureComponent } from 'react';
 // import 'simplemde/src/css/simplemde.css'
 // import 'simplemde/dist/simplemde.min.css'
 // import MdEditor from 'react-markdown-editor-lite'
-import Loading from "../../../components/Loading"
-import { message, Button,Empty} from "antd"
+import Loading from "@/components/Loading"
+import { message, Button, Empty } from "antd"
+import EditableTagGroup from "@/components/editableTags"
+
 // import { translateMarkdown } from "@/util/util"
 import api from "@/api/api.js"
 import "./edite.scss"
@@ -12,83 +14,69 @@ export default class Edite extends PureComponent {
     constructor(props) {
         super(props)
         this.state = {
-            article: this.props.article||{}
+            article: this.props.article || {},
+           
         }
     }
     componentDidMount() {
         this.initEditor(this.props.article)
     }
-   
     componentWillReceiveProps(nextProps) {
         if (nextProps.article._id !== this.props.article._id) {
-            // console.log("0000000", nextProps.article)
             this.setState({
                 title: nextProps.article.title
             })
             this.initEditor(nextProps.article)
         }
     }
-    // shouldComponentUpdate(nextProps,nextState){
-    //     console.log("nextProps222", nextProps,this.props)
-    //     if(nextProps.article._id!==this.props.article._id){
-    //         return true
-    //     }
-    //     return false
-    // }
-    componentWillUpdate(nextProps,nextState){
-        
-    }
-    removeEditor(){
-        this.editor.editor.remove()
-        this.editor = ""
+    componentWillUpdate(nextProps, nextState) {
+
     }
     onInput = (e) => {
         var text = e.target.value
-        console.log(e.target.value);
-       
-        // var checkedArticle = this.state.checkedArticle;
-        // checkedArticle.title = e.target.value;
         this.setState({
             title: text
         });
     }
     initEditor = (article) => {
         this.editor = window.editormd("editormd_container", {
-            // path: "/blog/lib/editor.md-master/lib/",
             path: "/lib/editor.md-master/lib/",
             width: "100%",
             height: "100%",
             syncScrolling: "single",
-            saveHTMLToTextarea: true
-        }); 
+            saveHTMLToTextarea: true,
+            toolbarIcons: function () {
+                // Or return editormd.toolbarModes[name]; // full, simple, mini
+                // Using "||" set icons align right.
+                // return ["undo", "redo", "|", "bold", "hr", "|", "preview", "watch", "|", "fullscreen", "info", "testIcon", "testIcon2", "file", "faicon"]
+                return window.editormd.toolbarModes["simple"]
+            },
+        });
     }
     getArticle(id) {
         this.setState({
             loading: true
         });
-        this.testEditor = ""
+        // this.testEditor = ""
         api
             .post("article/getArticle", {
                 id: id
             })
             .then(res => {
-                console.log("res", res)
-                // this.testEditor.value= res.data.content
-              
                 this.setState({
                     id: id,
                     article: res.data,
                     loading: false
-                },()=>{
+                }, () => {
                     this.initEditor()
                 });
             });
     };
     saveArticle() {
         var article = this.props.article;
-        var content = this.testEditor.getMarkdown();
+        var content = this.editor.getMarkdown();
         var title = this.state.title
-        if(this.props.onTitleChange){
+        if (this.props.onTitleChange) {
             this.props.onTitleChange(title)
         }
         api
@@ -109,16 +97,16 @@ export default class Edite extends PureComponent {
     }
     publishArticle() {
         var article = this.props.article;
-        var content = this.testEditor.getMarkdown();
+        var content = this.editor.getMarkdown();
         var title = this.state.title
-        if(this.props.onTitleChange){
+        if (this.props.onTitleChange) {
             this.props.onTitleChange(title)
         }
         api
             .post("article/publishArticle", {
                 id: article._id,
                 collectionId: article.collectionId,
-                title:title,
+                title: title,
                 content: content
             })
             .then(res => {
@@ -129,34 +117,58 @@ export default class Edite extends PureComponent {
                 }
             });
     }
+    updateTags = (tag, type) => {
+        
+        var article = this.props.article
+        console.log(tag, article)
+        api.post("tags/updateTags", {
+            id: article._id,
+            collectionId: article.collectionId,
+            title: tag,
+            type: type
+        })
+    }
     render() {
         var content = this.props.article.content
-        console.log("11232313",this.props)
         return (
-           
-           <div className="wrapper">
-           
-                {(content||content==="")&&<div className="title">
-                    <input
-                        onChange={()=>{}}
-                        onInput={this.onInput}
-                        className="title_input"
-                        value={this.state.title}
-                        type="text"
-                    />
-                    <div className="publish">
-                        <Button onClick={this.saveArticle.bind(this)}>保存</Button>
-                        <Button onClick={this.publishArticle.bind(this)} style={{ marginLeft: 10 }}> 发布</Button>
+            <div className="wrapper">
+                {(content || content === "") &&
+                    <div className="header">
+                        <div className="title">
+                            <input
+                                onChange={() => { }}
+                                onInput={this.onInput}
+                                className="title_input"
+                                value={this.state.title}
+                                type="text"
+                            />
+                            <div className="publish">
+                                <Button  type="primary" onClick={this.saveArticle.bind(this)}>保存</Button>
+                                <Button style={{backgroundColor:"red"}} onClick={this.publishArticle.bind(this)} style={{ marginLeft: 10 }}> 发布</Button>
+                            </div>
+                        </div>
+                        <div className="tags">
+                            <span style={{ marginRight: 3 }}>标签：</span>
+                            <div style={{ flex: 1 }}>
+                                <EditableTagGroup
+                                    onConfirm={(newTags) => { this.updateTags(newTags, "add") }}
+                                    onClose={(tag) => {
+                                        this.updateTags(tag, "delete")
+                                    }}
+                                    tags={this.props.article.tags || []}
+                                >
+                                </EditableTagGroup>
+                            </div>
+                        </div>
                     </div>
-                </div>}
-                <div style={{ flex: 1, overflow: "hidden", display: content||content==""?"block":"none" }}>
+                }
+                <div style={{ flex: 1, overflow: "hidden", display: content || content == "" ? "block" : "none" }}>
                     {this.state.loading && <Loading></Loading>}
                     <div id="editormd_container" style={{ width: "100%" }}>
-                        <textarea onChange={()=>{}} style={{ display: "none" }} value={content || ""}></textarea>
+                        <textarea onChange={() => { }} style={{ display: "none" }} value={content || ""}></textarea>
                     </div>
                 </div>
             </div>
-            // :<Empty></Empty>    
         )
     }
 }

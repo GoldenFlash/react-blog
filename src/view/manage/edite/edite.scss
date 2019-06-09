@@ -13,8 +13,11 @@
     align-items: center;
     box-sizing: border-box;
     .title_input {
-      border:none;
-      border-left: solid #dddddd 1px;
+      // border:none;
+      border:solid #EEE 1px;
+      border-left: none;
+      border-top: none;
+      // border-left: solid #dddddd 1px;
       flex: 1;
       height: 50px;
       font-size: 28px;
@@ -27,4 +30,13 @@
       align-items: center;
       margin: 0 20px;
     }
-  }
+}
+.header{
+  border-left: solid #dddddd 1px;
+}
+.tags{
+  display: flex;
+  align-items: center;
+  margin:10px 20px;
+  height:25px;
+}

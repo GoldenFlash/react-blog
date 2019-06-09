@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import "./index.scss"
-import { Layout, Menu, Icon, Button, Popconfirm, Dropdown, Modal, Input,Spin } from 'antd';
-import { Route, Switch } from "react-router-dom";
-
+import { Layout, Menu, Icon, Button, Popconfirm, Dropdown, Modal, Input } from 'antd';
 import api from "../../api/api.js"
 import Loading from "../../components/Loading"
 import Edite from "./edite/edite"
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 const ref = React.createRef();
-export default class SiderDemo extends React.Component {
+export default class SiderDemo extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -155,13 +153,6 @@ export default class SiderDemo extends React.Component {
         api
             .post("article/getArticleList", { collectionId: item._id })
             .then(res => {
-                // if(!res.data.length){
-                //     this.setState({
-                //         articleList: res.data,
-                //         loading:false
-                //     })
-                //     return
-                // } 
                 this.setState({
                     articleList: res.data,
                     checkedArticle:res.data[0]||{},
@@ -177,9 +168,6 @@ export default class SiderDemo extends React.Component {
         }).then((res) => {
             var articleList = this.state.articleList
             articleList.splice(index, 1)
-            // if (!articleList.length){
-            //     ref.current.removeEditor()
-            // }
             this.setState({
                 checkedArticle:articleList[index]||articleList[index-1]||{},
                 articleList: articleList
@@ -210,9 +198,6 @@ export default class SiderDemo extends React.Component {
     }
     checkArticle(article,index) {
         if(this.state.checkedArticle._id===article._id) return
-        // this.props.history.push({
-        //     pathname:`/edite/${article._id}`
-        // })
         this.setState({
             checkArticle_index:index,
             checkedArticle: article
@@ -229,7 +214,6 @@ export default class SiderDemo extends React.Component {
                     <Icon type="delete" />
                     <span>删除文集</span>
                 </Menu.Item>
-
             </Menu>
         );
         return (
@@ -243,7 +227,6 @@ export default class SiderDemo extends React.Component {
                     <Input onChange={(e)=>{this.collectionTitle = e.target.value}} placeholder="请输入文集名" />
                 </Modal>
                 <Sider
-
                     style={{}}
                 >
                     <div className="logo">
@@ -289,14 +272,10 @@ export default class SiderDemo extends React.Component {
                             <span>新建文章</span>
                         </div>
                         {this.state.loading?
-                        <Loading>
-                            {/* <Spin size="large" /> */}
-                        </Loading>:
+                        <Loading/>:
                         <div className="item_wrapper">
-                        {/* <Menu> */}
                             {this.state.articleList.map((item, index) => {
                                 return (
-                                    // <Menu.Item>
                                     <div onClick={this.checkArticle.bind(this, item,index)} key={index} className={`article_item ${this.state.checkedArticle._id === item._id ? "checked" : ""}`}>
                                         <Icon type="file" />
                                         <span>{item.title}</span>
@@ -306,35 +285,17 @@ export default class SiderDemo extends React.Component {
                                             </Popconfirm>
                                         </div>
                                     </div>
-                                    // </Menu.Item>
                                 )
                             })}
-                        {/* </Menu> */}
                         </div>}
 
                     </Sider>
-                    {/* <div style={{position:"absolute",top:0}}>
-                        <Icon
-                            className="trigger"
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                            />
-                    </div> */}
-
-                    {/* <Header style={{ background: '#fff', padding: 0 }}>
-                        <Icon
-                            className="trigger"
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                        />
-                    </Header> */}
                     <Content style={{
                        background: '#fff', minHeight: 280,
                         height: "100vh",overflow:"hidden"
                     }}
                     >
                         <Edite ref={ref} article = {this.state.checkedArticle} onTitleChange = {this.onTitleChange} />
-                        {/* <Route  path="/edite/:id"  component={props => <Edite {...props} onTitleChange = {this.onTitleChange} />}></Route> */}
                     </Content>
                 </Layout>
             </Layout>

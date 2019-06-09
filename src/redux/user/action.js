@@ -23,9 +23,7 @@ export const login = (account,passWord)=>{
 				localStorage.setItem("token",res.data.token)
                 console.log("res.data",res.data)
                	dispatch(action(res.data,true,"login"))
-            }
-            return res
-            
+            }  
         })
 
 	}
