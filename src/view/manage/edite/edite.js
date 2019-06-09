@@ -131,10 +131,10 @@ export default class Edite extends PureComponent {
     render() {
         var content = this.props.article.content
         return (
-            <div className="wrapper">
+            <div className="edite_wrapper">
                 {(content || content === "") &&
-                    <div className="header">
-                        <div className="title">
+                    <div className="e_header">
+                        <div className="e_title">
                             <input
                                 onChange={() => { }}
                                 onInput={this.onInput}
@@ -147,7 +147,7 @@ export default class Edite extends PureComponent {
                                 <Button style={{backgroundColor:"red"}} onClick={this.publishArticle.bind(this)} style={{ marginLeft: 10 }}> 发布</Button>
                             </div>
                         </div>
-                        <div className="tags">
+                        <div className="e_tags">
                             <span style={{ marginRight: 3 }}>标签：</span>
                             <div style={{ flex: 1 }}>
                                 <EditableTagGroup
