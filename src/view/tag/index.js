@@ -4,7 +4,7 @@ import { Timeline} from "antd"
 import Loading from "../../components/Loading"
 import api from "../../api/api"
 import "./index.scss"
-
+import SideNav from "../sideNav/index"
 export default class Archive extends Component {
     constructor(props) {
         super(props)
@@ -27,7 +27,6 @@ export default class Archive extends Component {
         var tag = props.match.params.tag;
 
         api.get(`article/getArticleBytags?tag=${tag}`).then(res => {
-            console.log("getArticleBytags", res);
             if (res.data) {
                 this.setState({
                     articleList: res.data,
@@ -41,6 +40,7 @@ export default class Archive extends Component {
         var tag = this.props.match.params.tag;
         return (
             <div className="tagArticle">  
+                <div className="tagArticle_timeline">
                 {
                 loading?<Loading/>:
                 <Timeline>
@@ -61,6 +61,8 @@ export default class Archive extends Component {
                     }
                     
                 </Timeline>}
+                </div>
+                <SideNav></SideNav>
             </div>
         );
     }

@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import thunkMiddleware from 'redux-thunk';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import loadable from '@loadable/component';
-
-import './App.css';
-import 'antd/dist/antd.css';
-
 
 import { createStore,applyMiddleware  } from "redux"
 import { Provider } from "react-redux"
 import reducers from "@/redux/reducers"
+
+import './App.css';
+import 'antd/dist/antd.css';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 // import Index from "./view/index/index.js"
 
@@ -32,7 +34,9 @@ class App extends Component {
               <Router>
                   <Switch>
                       <Route path="/edite" component={Edite} />
-                      <Route path="/" component={Index}></Route>
+                      {/* <Redirect from ="/" to='/list' /> / */}
+                      <Route path="/"  component={Index}></Route>
+
                       <Route path="*" component={NotFound} ></Route>
                   </Switch>
               </Router> 

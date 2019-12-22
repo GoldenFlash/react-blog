@@ -4,8 +4,8 @@ import { withRouter } from "react-router-dom";
 class ScrollToTop extends Component {
  
   componentDidUpdate(prevProps) {
-    console.log("prevProps", prevProps);
-    console.log("window",document.body.clientWidth);
+    // console.log("prevProps", prevProps);
+    // console.log("window",document.body.clientWidth);
     
     if (this.props.location.pathname !== prevProps.location.pathname) {
         var dom = document.getElementById("container")

@@ -1,0 +1,74 @@
+.articalList{
+    flex: 1;
+    padding:20px;
+    // border-right:solid #e8e8e8 1px;
+
+    .link{
+        text-decoration:none;
+        color:#666666
+    }
+    .artical{
+        height:200px;
+        background-color: #fff;
+        margin-bottom: 20px;
+        display: flex;
+        border-radius:6px;
+        padding:10px 20px;
+        transition:linear 0.1s;
+        align-items: center;
+        box-shadow: 1px 3px 5px 2px rgba(0,0,0,0.1);
+        // background-color: #effbff;
+        // &:hover{
+        //     transition:linear 0.1s;
+        //     box-shadow: 1px 3px 5px 2px rgba(0,0,0,0.1);
+        //     background-color: #effbff;
+        // }
+        .content_wrapper{
+            height:90px;
+            line-height: 30px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            color:#98a6ad;
+            font-size: 13px;
+            overflow : hidden;
+        }
+        .articleInfo{
+            display: flex;
+            align-items: center;
+            color:#98a6ad;
+            .item{
+                display:flex;
+                align-items:center;
+                font-size: 12px;
+                margin-left: 15px;
+                img{
+                    width: 15px;
+                    height: 15px;
+                    margin-right: 5px;
+                }
+            }
+        }
+        .image{
+            width:160px;
+            height:160px;
+            margin-left: 40px;
+            background-size:cover;
+        }
+    }
+}
+.rightNav{
+    width:280px;
+    padding-left:10px;
+    height:100%;
+    // position:absolute;
+    // top:0;
+    // right:0;
+    // padding-top:60px;
+    .sideTitle{
+        ul>li {
+            margin: 5px 0
+        }
+    }
+}

@@ -1,35 +1,34 @@
 .leftNav{
-    width:280px;
-    // padding-bottom: 10px;
-    padding-top:60px;
-    // background-color:#DDE6E9;
-    height:100vh;
+    // right: 10px;
+    width:320px;
+    padding-top:20px;
+    // height:100vh;
     background-color:#FFF;
-    border:solid #e8e8e8 1px;
-    border-top:none;
-    overflow-y: scroll;
-    overflow-x: visible;
-    // -ms-overflow-style: none;
-    // overflow: -moz-scrollbars-none; 
-    &::-webkit-scrollbar {  
-        width:0 !important;   /* remove scrollbar space */
-        background: transparent;  /* optional: just make scrollbar invisible */
-    }
-    .wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .hotArticle{
         color: #8590a6;
         margin-top:10px;
-        .latestArticle{
-            width:100%;
+      
+        .article{
+            // width:100%;
             padding: 5px 30px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
-            font-size: 12px;
+            // font-size: 12px;
             cursor: pointer;
             &:hover {
                 background-color: rgba($color: #ffffff, $alpha: 0.5);
             }
+        };
+        .timeLine{
+            padding: 5px 30px;
+            display: flex;
+            align-items: center;
         }
+        
     };
     .lables{
         color: #8590a6;
@@ -43,6 +42,7 @@
             margin:2px 5px;
             cursor: pointer;
         }
-    }
+    };
+  
     
 }

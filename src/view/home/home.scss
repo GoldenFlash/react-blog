@@ -2,6 +2,7 @@
     flex: 1;
     padding:20px;
     border-right:solid #e8e8e8 1px;
+
     .link{
         text-decoration:none;
         color:#666666
@@ -21,11 +22,8 @@
             background-color: #effbff;
         }
         .content_wrapper{
-            // height:200px;
-            // margin-top:10px;
             height:90px;
             line-height: 30px;
-            // width:1000px;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: 3;

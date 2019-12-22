@@ -1,14 +1,20 @@
 .article-Wrapper{
   background-color: #FFF;
 	min-height:100vh;
-	padding-top:60px;
+	// padding-top:60px;
 	display:flex;
+	.content_left{
+		border-right:solid #e8e8e8 1px;
+		flex: 1;
+		overflow: scroll;
+	}
     .content_header{
 		padding:30px;
     	font-size: 20px;
     	font-weight: 700;
     	margin-left:10px;
-    	border-bottom: solid #eee 1px;
+		border-bottom: solid #eee 1px;
+	
     	.title{
     		 margin-left: 10px;
     	}
@@ -31,7 +37,7 @@
     }
 	.sider_left{
 		width:250px;
-		padding-left: 10px;
+		// padding-left: 10px;
 		right:22px;
 		height:100%;
 	}

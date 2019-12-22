@@ -7,7 +7,6 @@ import {login as loginAction} from "@/redux/user/action.js"
 class Login extends React.Component {
 
     constructor(props) {
-        console.log("1111props",props)
         super(props)
         this.state = {
             loading: false,

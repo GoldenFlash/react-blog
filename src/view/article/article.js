@@ -58,7 +58,7 @@ import api from "../../api/api";
       <Loading />
     ) : (
       <div className="article-Wrapper">
-        <div style={{ borderRight: "solid #e8e8e8 1px", flex: 1 }}>
+        <div className="content_left">
           <div className="content_header">
             <div className="">{article.title}</div>
             <div className="articleInfo">
@@ -81,13 +81,10 @@ import api from "../../api/api";
           ></div>
         </div>
 
-        {
-          this.props.windowWidth>1100&&
           <div className="sider_left">
             <Divider orientation="left">总览</Divider>
             <Anchor content={content} />
           </div>
-        }
       </div>
     );
   }

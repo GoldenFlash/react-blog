@@ -50,7 +50,7 @@ class Header extends React.Component {
     onSearch=()=>{
         var keyWord = this.keyWord
         if(keyWord){
-            this.props.history.push(`/?keyWord=${keyWord}`)
+            this.props.history.push(`/search/${keyWord}`)
         }
     }
     render() {
