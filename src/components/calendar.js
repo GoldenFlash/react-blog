@@ -47,15 +47,15 @@ export default function CustomCanlendar(params) {
                     }
                     return (
                         <div style={{ padding: 10 }}>
-                            <div style={{ marginBottom: '10px' }}>Custom header </div>
-                            <Row type="flex" justify="space-between">
+                            {/* <div style={{ marginBottom: '10px' }}>Custom header </div> */}
+                            <Row type="flex">
                                 {/* <Col>
                                     <Group size="small" onChange={e => onTypeChange(e.target.value)} value={type}>
                                         <Button value="月">月</Button>
                                         <Button value="年">年</Button>
                                     </Group>
                                 </Col> */}
-                                {/* <Col>
+                                <Col>
                                     <Select
                                         size="small"
                                         dropdownMatchSelectWidth={false}
@@ -68,8 +68,8 @@ export default function CustomCanlendar(params) {
                                     >
                                         {options}
                                     </Select>
-                                </Col> */}
-                                {/* <Col>
+                                </Col>
+                                <Col style={{marginLeft:20}}>
                                     <Select
                                         size="small"
                                         dropdownMatchSelectWidth={false}
@@ -82,7 +82,7 @@ export default function CustomCanlendar(params) {
                                     >
                                         {monthOptions}
                                     </Select>
-                                </Col> */}
+                                </Col>
                             </Row>
                         </div>
                     );

@@ -10,6 +10,7 @@
         "@babel/plugin-syntax-json-strings": "^7.2.0",
         "@babel/plugin-transform-react-jsx": "^7.3.0",
         "@babel/plugin-transform-react-jsx-self": "^7.2.0",
+        "@babel/preset-react": "^7.7.4",
         "@loadable/component": "^5.7.0",
         "@svgr/webpack": "2.4.1",
         "antd": "^3.12.4",
@@ -90,7 +91,7 @@
         "not ie <= 11",
         "not op_mini all"
     ],
-    "proxy": "http://127.0.0.1:3000",
+    "proxy": "http://101.132.173.11:3000",
     "jest": {
         "collectCoverageFrom": [
             "src/**/*.{js,jsx,ts,tsx}",
