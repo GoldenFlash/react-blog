@@ -15,10 +15,13 @@ export default class Edite extends PureComponent {
         super(props)
         this.state = {
             article: this.props.article || {},
-           
         }
     }
     componentDidMount() {
+        this.setState({
+            title: this.props.article.title
+        })
+        
         this.initEditor(this.props.article)
     }
     componentWillReceiveProps(nextProps) {
@@ -53,32 +56,18 @@ export default class Edite extends PureComponent {
             },
         });
     }
-    getArticle(id) {
-        this.setState({
-            loading: true
-        });
-        // this.testEditor = ""
-        api
-            .post("article/getArticle", {
-                id: id
-            })
-            .then(res => {
-                this.setState({
-                    id: id,
-                    article: res.data,
-                    loading: false
-                }, () => {
-                    this.initEditor()
-                });
-            });
-    };
+  
     saveArticle() {
         var article = this.props.article;
         var content = this.editor.getMarkdown();
         var title = this.state.title
+        if (!title){
+            message.error("标题不能为空");
+        }
         if (this.props.onTitleChange) {
             this.props.onTitleChange(title)
         }
+
         api
             .post("article/saveArticle", {
                 id: article._id,

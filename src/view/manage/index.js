@@ -16,7 +16,7 @@ export default class SiderDemo extends Component {
             checkedCollection_index:"",
             collectionSelectKey:['0'],
             articleList: [],
-            checkedArticle: {},
+            checkedArticle:"",
             checkArticle_index:"",
             modelTitle: "",
             modelType:""
@@ -27,7 +27,6 @@ export default class SiderDemo extends Component {
         console.log("ref",ref)
     }
     onTitleChange=(text)=>{
-        console.log("text",text)
         var articleList = this.state.articleList
         var index = this.state.checkArticle_index
         articleList[index].title = text
@@ -153,10 +152,11 @@ export default class SiderDemo extends Component {
         api
             .post("article/getArticleList", { collectionId: item._id })
             .then(res => {
+                console.log("getArticleList",res)
                 this.setState({
                     articleList: res.data,
-                    checkedArticle:res.data[0]||{},
-                    checkArticle_index:0||"",
+                    checkedArticle:res.data[0],
+                    checkArticle_index:0,
                     loading:false
                 });
             });
@@ -169,7 +169,7 @@ export default class SiderDemo extends Component {
             var articleList = this.state.articleList
             articleList.splice(index, 1)
             this.setState({
-                checkedArticle:articleList[index]||articleList[index-1]||{},
+                checkedArticle:articleList[index]||articleList[index-1],
                 articleList: articleList
             })
         })
@@ -295,7 +295,9 @@ export default class SiderDemo extends Component {
                         height: "100vh",overflow:"hidden"
                     }}
                     >
-                        <Edite ref={ref} article = {this.state.checkedArticle} onTitleChange = {this.onTitleChange} />
+                        {   this.state.checkedArticle&&
+                            <Edite ref={ref} article={this.state.checkedArticle} onTitleChange={this.onTitleChange} />
+                        }
                     </Content>
                 </Layout>
             </Layout>
