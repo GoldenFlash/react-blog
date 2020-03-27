@@ -9,7 +9,7 @@
 	- react: "^16.7.0",
 	- react-router": "^4.3.1",
 	- axios 
-	- editor.md
+	- editor.md   
 
 - 后台
 	- express
